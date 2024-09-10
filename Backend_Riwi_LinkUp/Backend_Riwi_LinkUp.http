@@ -1,0 +1,6 @@
+@Backend_Riwi_LinkUp_HostAddress = http://localhost:5298
+
+GET {{Backend_Riwi_LinkUp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
