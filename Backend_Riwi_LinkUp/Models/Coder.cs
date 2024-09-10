@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +16,7 @@ namespace Backend_Riwi_LinkUp.Models
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
-        
+
         [Required]
         public DateTime Birthday { get; set; }
 
@@ -38,6 +40,5 @@ namespace Backend_Riwi_LinkUp.Models
         public ICollection<CoderSoftSkill> CoderSoftSkills { get; set; }
         public ICollection<CoderLanguageLevel> CoderLanguageLevels { get; set; }
         public ICollection<CoderTechnicalSkillLevel> CoderTechnicalSkillLevels { get; set; }
-    }
     }
 }
