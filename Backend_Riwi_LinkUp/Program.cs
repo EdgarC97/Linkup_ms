@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
+using Backend_Riwi_LinkUp.Data;
 using DotNetEnv;
-using linkup_ms.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
