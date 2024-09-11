@@ -17,7 +17,8 @@ namespace Backend_Riwi_LinkUp.Models
         public bool IsConfirmed { get; set; }
         [Required]
         [MinLength(6)]
-        public string Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime CreatedAt { get; set; }
         [Required]
