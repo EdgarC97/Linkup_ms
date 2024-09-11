@@ -26,9 +26,6 @@ namespace Backend_Riwi_LinkUp.Models
         [StringLength(255)]
         public string UrlImage { get; set; }
 
-        [StringLength(255)]
-        public string ClanName { get; set; }
-
         [Required]
         public int GenderId { get; set; }
         public Gender Gender { get; set; }
@@ -36,7 +33,7 @@ namespace Backend_Riwi_LinkUp.Models
         [Required]
         public int ClanId { get; set; }
         public Clan Clan { get; set; }
-
+        
         public ICollection<CoderSoftSkill> CoderSoftSkills { get; set; }
         public ICollection<CoderLanguageLevel> CoderLanguageLevels { get; set; }
         public ICollection<CoderTechnicalSkillLevel> CoderTechnicalSkillLevels { get; set; }
