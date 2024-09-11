@@ -3,6 +3,7 @@ using System;
 using Backend_Riwi_LinkUp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend_Riwi_LinkUp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240911014329_AddingSeeders")]
+    partial class AddingSeeders
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,58 +223,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasIndex("LanguageLevelId");
 
                     b.ToTable("CoderLanguageLevels");
-
-                    b.HasData(
-                        new
-                        {
-                            CoderId = 1,
-                            LanguageLevelId = 1
-                        },
-                        new
-                        {
-                            CoderId = 2,
-                            LanguageLevelId = 3
-                        },
-                        new
-                        {
-                            CoderId = 3,
-                            LanguageLevelId = 2
-                        },
-                        new
-                        {
-                            CoderId = 4,
-                            LanguageLevelId = 4
-                        },
-                        new
-                        {
-                            CoderId = 5,
-                            LanguageLevelId = 5
-                        },
-                        new
-                        {
-                            CoderId = 6,
-                            LanguageLevelId = 2
-                        },
-                        new
-                        {
-                            CoderId = 7,
-                            LanguageLevelId = 3
-                        },
-                        new
-                        {
-                            CoderId = 8,
-                            LanguageLevelId = 4
-                        },
-                        new
-                        {
-                            CoderId = 9,
-                            LanguageLevelId = 6
-                        },
-                        new
-                        {
-                            CoderId = 10,
-                            LanguageLevelId = 3
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderSoftSkill", b =>
@@ -293,68 +244,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasIndex("SoftSkillId");
 
                     b.ToTable("CoderSoftSkills");
-
-                    b.HasData(
-                        new
-                        {
-                            CoderId = 1,
-                            SoftSkillId = 1,
-                            Id = 1
-                        },
-                        new
-                        {
-                            CoderId = 2,
-                            SoftSkillId = 2,
-                            Id = 2
-                        },
-                        new
-                        {
-                            CoderId = 3,
-                            SoftSkillId = 3,
-                            Id = 3
-                        },
-                        new
-                        {
-                            CoderId = 4,
-                            SoftSkillId = 4,
-                            Id = 4
-                        },
-                        new
-                        {
-                            CoderId = 5,
-                            SoftSkillId = 5,
-                            Id = 5
-                        },
-                        new
-                        {
-                            CoderId = 6,
-                            SoftSkillId = 6,
-                            Id = 6
-                        },
-                        new
-                        {
-                            CoderId = 7,
-                            SoftSkillId = 7,
-                            Id = 7
-                        },
-                        new
-                        {
-                            CoderId = 8,
-                            SoftSkillId = 8,
-                            Id = 8
-                        },
-                        new
-                        {
-                            CoderId = 9,
-                            SoftSkillId = 9,
-                            Id = 9
-                        },
-                        new
-                        {
-                            CoderId = 10,
-                            SoftSkillId = 10,
-                            Id = 10
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkillLevel", b =>
@@ -370,58 +259,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasIndex("TechnicalSkillLevelId");
 
                     b.ToTable("CoderTechnicalSkillLevels");
-
-                    b.HasData(
-                        new
-                        {
-                            CoderId = 1,
-                            TechnicalSkillLevelId = 1
-                        },
-                        new
-                        {
-                            CoderId = 2,
-                            TechnicalSkillLevelId = 3
-                        },
-                        new
-                        {
-                            CoderId = 3,
-                            TechnicalSkillLevelId = 2
-                        },
-                        new
-                        {
-                            CoderId = 4,
-                            TechnicalSkillLevelId = 1
-                        },
-                        new
-                        {
-                            CoderId = 5,
-                            TechnicalSkillLevelId = 3
-                        },
-                        new
-                        {
-                            CoderId = 6,
-                            TechnicalSkillLevelId = 2
-                        },
-                        new
-                        {
-                            CoderId = 7,
-                            TechnicalSkillLevelId = 3
-                        },
-                        new
-                        {
-                            CoderId = 8,
-                            TechnicalSkillLevelId = 1
-                        },
-                        new
-                        {
-                            CoderId = 9,
-                            TechnicalSkillLevelId = 1
-                        },
-                        new
-                        {
-                            CoderId = 10,
-                            TechnicalSkillLevelId = 3
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Gender", b =>
@@ -515,44 +352,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasIndex("LanguageId");
 
                     b.ToTable("LanguageLevels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            LanguageId = 1,
-                            Name = "a1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            LanguageId = 2,
-                            Name = "a2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            LanguageId = 3,
-                            Name = "b1"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            LanguageId = 2,
-                            Name = "b2"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            LanguageId = 3,
-                            Name = "c1"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            LanguageId = 1,
-                            Name = "c2"
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Sector", b =>
@@ -761,26 +560,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasIndex("TechnicalSkillId");
 
                     b.ToTable("TechnicalSkillLevels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "junior",
-                            TechnicalSkillId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "semi-senior",
-                            TechnicalSkillId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "senior",
-                            TechnicalSkillId = 3
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.User", b =>
