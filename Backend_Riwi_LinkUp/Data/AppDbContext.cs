@@ -31,21 +31,21 @@ namespace Backend_Riwi_LinkUp.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //Seed initial data   
-            // RoleSeeder.Seed(modelBuilder);
-            // SectorSeeder.Seed(modelBuilder);
-            // UserSeeder.Seed(modelBuilder);
-            // GenderSeeder.Seed(modelBuilder);
-            // ClanSeeder.Seed(modelBuilder);
-            // CoderSeeder.Seed(modelBuilder);
-            // SoftSkillSeeder.Seed(modelBuilder);
-            // LanguageSeeder.Seed(modelBuilder);
-            // TechnicalSkillSeeder.Seed(modelBuilder); 
-            // LanguageLevelSeeder.Seed(modelBuilder);
-            // CoderSoftSkillSeeder.Seed(modelBuilder);
-            // TechnicalSkillLevelSeeder.Seed(modelBuilder);
-            // CoderLanguageLevelSeeder.Seed(modelBuilder);
-            // CoderTechnicalSkillLevelSeeder.Seed(modelBuilder);
+            // Seed initial data   
+            RoleSeeder.Seed(modelBuilder);
+            SectorSeeder.Seed(modelBuilder);
+            UserSeeder.Seed(modelBuilder);
+            GenderSeeder.Seed(modelBuilder);
+            ClanSeeder.Seed(modelBuilder);
+            CoderSeeder.Seed(modelBuilder);
+            SoftSkillSeeder.Seed(modelBuilder);
+            LanguageSeeder.Seed(modelBuilder);
+            TechnicalSkillSeeder.Seed(modelBuilder); 
+            LanguageLevelSeeder.Seed(modelBuilder);
+            CoderSoftSkillSeeder.Seed(modelBuilder);
+            TechnicalSkillLevelSeeder.Seed(modelBuilder);
+            CoderLanguageLevelSeeder.Seed(modelBuilder);
+            CoderTechnicalSkillLevelSeeder.Seed(modelBuilder);
 
             // Configure many-to-many relationship for CoderSoftSkill
             modelBuilder.Entity<CoderSoftSkill>()

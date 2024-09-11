@@ -497,6 +497,10 @@ namespace Backend_Riwi_LinkUp.Migrations
                 name: "Password",
                 table: "Users");
 
+            migrationBuilder.DropColumn(
+                name: "ClanName",
+                table: "Coders");
+
             migrationBuilder.AddColumn<byte[]>(
                 name: "PasswordHash",
                 table: "Users",
@@ -528,6 +532,13 @@ namespace Backend_Riwi_LinkUp.Migrations
                 type: "text",
                 nullable: false,
                 defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "ClanName",
+                table: "Coders",
+                type: "character varying(255)",
+                maxLength: 255,
+                nullable: true);
 
             migrationBuilder.InsertData(
                 table: "Clan",
