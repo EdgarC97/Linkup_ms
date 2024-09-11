@@ -81,8 +81,6 @@ namespace Backend_Riwi_LinkUp.Controllers.v1
             
         }
 
-
-
         private async Task<bool> UserExists(string email)
         {
             return await _context.Users.AnyAsync(x => x.Email == email.ToLower());
