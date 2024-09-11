@@ -34,7 +34,7 @@ namespace Backend_Riwi_LinkUp.Controllers
         {
             return await _context.Coders
                 .Where(c => c.CoderTechnicalSkillLevels
-                    .Any(cts => cts.TechnicalSkillLevel.TechnicalSkill.Name == "nextJs"))
+                    .Any(cts => new[] { "javaScript", "nextJs" }.Contains(cts.TechnicalSkillLevel.TechnicalSkill.Name)))
                 .CountAsync();
         }
 

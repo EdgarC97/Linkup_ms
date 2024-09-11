@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend_Riwi_LinkUp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240911163620_UpdatingProperties")]
+    [Migration("20240911170502_UpdatingProperties")]
     partial class UpdatingProperties
     {
         /// <inheritdoc />
@@ -56,10 +56,6 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     b.Property<int>("ClanId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("ClanName")
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
