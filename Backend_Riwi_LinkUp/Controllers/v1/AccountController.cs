@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Riwi_LinkUp.Controllers.v1
 {
+    [ApiController]
+    [Route("api/v1/[controller]")]
     public class AccountController : ControllerBase
     {
         private readonly ITokenService _tokenService;
@@ -55,6 +57,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v1
             };
         }
 
+        [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginUserDto loginUserDto)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == loginUserDto.Email.ToLower());
