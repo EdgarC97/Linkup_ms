@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend_Riwi_LinkUp.Controllers
+namespace Backend_Riwi_LinkUp.ControllersV1
 {
     [ApiController]
     [Route("api/v1/[controller]")]
@@ -28,6 +28,7 @@ namespace Backend_Riwi_LinkUp.Controllers
         {
             var coders = await _context.Coders
                 .Include(c => c.Gender)
+                .Include(c => c.Clan)
                 .Include(c => c.CoderSoftSkills)
                     .ThenInclude(css => css.SoftSkill)
                 .Include(c => c.CoderLanguageLevels)
@@ -36,12 +37,15 @@ namespace Backend_Riwi_LinkUp.Controllers
                 .Include(c => c.CoderTechnicalSkillLevels)
                     .ThenInclude(ctsl => ctsl.TechnicalSkillLevel)
                         .ThenInclude(tsl => tsl.TechnicalSkill)
-                .Select(c => new CoderDto
+                .Select(c => new CoderDtoV1
                 {
                     Id = c.Id,
                     Name = c.Name,
                     GenderName = c.Gender.Name,
-                    ClanName = c.ClanName,
+                    ClanName = c.Clan.Name,
+                    Birthday = c.Birthday,
+                    Description = c.Description,
+                    UrlImage = c.UrlImage,
                     SoftSkills = c.CoderSoftSkills.Select(css => css.SoftSkill.Name).ToList(),
                     LanguageLevels = c.CoderLanguageLevels.Select(cll => new LanguageLevelDto
                     {
@@ -65,6 +69,7 @@ namespace Backend_Riwi_LinkUp.Controllers
         {
             var coder = await _context.Coders
                 .Include(c => c.Gender)
+                .Include(c => c.Clan)
                 .Include(c => c.CoderSoftSkills)
                     .ThenInclude(css => css.SoftSkill)
                 .Include(c => c.CoderLanguageLevels)
@@ -80,12 +85,15 @@ namespace Backend_Riwi_LinkUp.Controllers
                 return NotFound();
             }
 
-            var coderDto = new CoderDto
+            var coderDto = new CoderDtoV1
             {
                 Id = coder.Id,
                 Name = coder.Name,
-                ClanName = coder.ClanName,
                 GenderName = coder.Gender.Name,
+                ClanName = coder.Clan.Name,
+                Birthday = coder.Birthday,
+                Description = coder.Description,
+                UrlImage = coder.UrlImage,
                 SoftSkills = coder.CoderSoftSkills.Select(css => css.SoftSkill.Name).ToList(),
                 LanguageLevels = coder.CoderLanguageLevels.Select(cll => new LanguageLevelDto
                 {
@@ -146,7 +154,7 @@ namespace Backend_Riwi_LinkUp.Controllers
             existingCoder.Birthday = coderDto.Birthday;
             existingCoder.Description = coderDto.Description.ToLower();
             existingCoder.UrlImage = coderDto.UrlImage.ToLower();
-            existingCoder.ClanName = coderDto.ClanName.ToLower();
+            existingCoder.Clan.Name = coderDto.ClanName.ToLower();
             existingCoder.GenderId = coderDto.GenderId;
 
             // Clear existing relationships
@@ -228,7 +236,7 @@ namespace Backend_Riwi_LinkUp.Controllers
                 Birthday = coder.Birthday,
                 Description = coder.Description,
                 UrlImage = coder.UrlImage,
-                ClanName = coder.ClanName,
+                ClanName = coder.Clan.Name,
                 GenderId = coder.GenderId,
                 SoftSkillIds = coder.CoderSoftSkills.Select(css => css.SoftSkillId).ToList(),
                 Languages = coder.CoderLanguageLevels.Select(cll => new LanguageWithLevelDto
@@ -255,7 +263,7 @@ namespace Backend_Riwi_LinkUp.Controllers
             coder.Birthday = coderPatchDto.Birthday ?? coder.Birthday;
             coder.Description = coderPatchDto.Description?.ToLower() ?? coder.Description;
             coder.UrlImage = coderPatchDto.UrlImage?.ToLower() ?? coder.UrlImage;
-            coder.ClanName = coderPatchDto.ClanName?.ToLower() ?? coder.ClanName;
+            coder.Clan.Name = coderPatchDto.ClanName?.ToLower() ?? coder.Clan.Name;
             coder.GenderId = coderPatchDto.GenderId ?? coder.GenderId;
 
             // Update relationships
