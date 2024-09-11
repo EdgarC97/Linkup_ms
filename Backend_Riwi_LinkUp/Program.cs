@@ -37,7 +37,7 @@ builder.Services.AddControllers()
 // Configura Swagger para manejar JSON Patch
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Coders API", Version = "v1" });
 
     // Configura Swagger para usar NewtonsoftJson
     c.OperationFilter<SwaggerJsonPatchOperationFilter>();
