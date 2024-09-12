@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
 using Backend_Riwi_LinkUp.Data;
 using Backend_Riwi_LinkUp.Extensions;
+using Backend_Riwi_LinkUp.Interfaces;
+using Backend_Riwi_LinkUp.Services;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -55,7 +57,7 @@ builder.Services.AddSwaggerGen(c =>
     // Configura Swagger para usar NewtonsoftJson
     c.OperationFilter<SwaggerJsonPatchOperationFilter>();
 });
-
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddIdentityServices(builder.Configuration);
 
