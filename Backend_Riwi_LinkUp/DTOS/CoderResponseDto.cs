@@ -12,7 +12,7 @@ namespace Backend_Riwi_LinkUp.DTOS
         public DateTime Birthday { get; set; }
         public string Description { get; set; }
         public string UrlImage { get; set; }
-        public string ClanName { get; set; }
+        public int ClanId { get; set; }
         public int GenderId { get; set; }
         public string GenderName { get; set; }
         public List<string> SoftSkills { get; set; }
