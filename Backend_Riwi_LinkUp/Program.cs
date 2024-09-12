@@ -40,7 +40,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.WithOrigins("http://127.0.0.1:3000", "http://localhost:3000")
+            builder.WithOrigins("http://127.0.0.1:3000", "http://localhost:3000", "https://tu-app-railway.up.railway.app")
                    .AllowAnyHeader()
                    .AllowAnyMethod()
                    .AllowCredentials();
@@ -76,8 +76,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.Run();
+var port = builder.Configuration["PORT"] ?? "5298";
+app.Run($"http://0.0.0.0:{port}");
 
 // Clase auxiliar para configurar Swagger para JSON Patch
 public class SwaggerJsonPatchOperationFilter : IOperationFilter
