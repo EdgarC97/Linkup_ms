@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend_Riwi_LinkUp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240913045510_UpdatingTables")]
+    [Migration("20240913113445_UpdatingTables")]
     partial class UpdatingTables
     {
         /// <inheritdoc />
@@ -40,7 +40,7 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clan");
+                    b.ToTable("Clans");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Coder", b =>
