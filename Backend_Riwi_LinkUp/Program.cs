@@ -78,8 +78,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-var port = builder.Configuration["PORT"] ?? "5298";
-app.Run($"http://0.0.0.0:{port}");
+
+// Use the PORT environment variable provided by Railway
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Urls.Add($"http://0.0.0.0:{port}");
 
 // Clase auxiliar para configurar Swagger para JSON Patch
 public class SwaggerJsonPatchOperationFilter : IOperationFilter
