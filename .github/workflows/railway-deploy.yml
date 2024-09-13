@@ -21,10 +21,10 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           railway up --detach
-          railway run --service my-app -- docker build -t my-app .
-          railway run --service my-app -- docker push railway.app/my-app
+          railway run --service ${{ secrets.RAILWAY_SERVICE_NAME }} -- docker build -t ${{ secrets.RAILWAY_SERVICE_NAME }} .
+          railway run --service ${{ secrets.RAILWAY_SERVICE_NAME }} -- docker push ${{ secrets.RAILWAY_REGISTRY }}/${{ secrets.RAILWAY_SERVICE_NAME }}
 
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway up --service my-app
+        run: railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
