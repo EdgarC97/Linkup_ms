@@ -8,7 +8,11 @@ namespace Backend_Riwi_LinkUp.DTOS
     public class LanguageLevelDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+
+        public string LevelName { get; set; }
         public string LanguageName { get; set; }
     }
 }
+
+
+

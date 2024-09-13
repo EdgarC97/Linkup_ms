@@ -11,6 +11,7 @@ namespace Backend_Riwi_LinkUp.DTOS
         public string Name { get; set; }
         public DateTime Birthday { get; set; }
         public string UrlImage { get; set; }
+        public string Description { get; set; }
 
     }
 }
