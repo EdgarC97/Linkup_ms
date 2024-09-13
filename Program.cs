@@ -21,13 +21,10 @@ var DefaultConnection = $"Host={dbHost};Database={dbDatabaseName};Username={dbUs
 
 
 var builder = WebApplication.CreateBuilder(args);
-// Configurar database para usar desarrollo
-// builder.Services.AddDbContext<AppDbContext>(options =>
-//     options.UseNpgsql(DefaultConnection));
 
-// Configurar servicios para usar PostgreSQL
+// Configurar database para usar desarrollo
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(DefaultConnection));
 
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
@@ -64,11 +61,8 @@ builder.Services.AddIdentityServices(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // app.UseHttpsRedirection();
 
