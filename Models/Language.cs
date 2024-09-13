@@ -17,6 +17,6 @@ namespace Backend_Riwi_LinkUp.Models
         [StringLength(50)]
         public string Name { get; set; }
         
-        public ICollection<LanguageLevel> LanguageLevels { get; set; }
+        public ICollection<CoderLanguage> CoderLanguages { get; set; }
     }
 }

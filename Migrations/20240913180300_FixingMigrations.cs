@@ -7,13 +7,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend_Riwi_LinkUp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialTablesCreated : Migration
+    public partial class FixingMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Clan",
+                name: "Clans",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -22,7 +22,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clan", x => x.Id);
+                    table.PrimaryKey("PK_Clans", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,6 +36,19 @@ namespace Backend_Riwi_LinkUp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LanguageLevels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LanguageLevels", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,6 +91,19 @@ namespace Backend_Riwi_LinkUp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TechnicalSkillLevels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TechnicalSkillLevels", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TechnicalSkills",
                 columns: table => new
                 {
@@ -113,7 +139,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     Birthday = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     UrlImage = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
-                    ClanName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     GenderId = table.Column<int>(type: "integer", nullable: false),
                     ClanId = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -121,55 +146,15 @@ namespace Backend_Riwi_LinkUp.Migrations
                 {
                     table.PrimaryKey("PK_Coders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Coders_Clan_ClanId",
+                        name: "FK_Coders_Clans_ClanId",
                         column: x => x.ClanId,
-                        principalTable: "Clan",
+                        principalTable: "Clans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Coders_Genders_GenderId",
                         column: x => x.GenderId,
                         principalTable: "Genders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LanguageLevels",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    LanguageId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LanguageLevels", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LanguageLevels_Languages_LanguageId",
-                        column: x => x.LanguageId,
-                        principalTable: "Languages",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TechnicalSkillLevels",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    TechnicalSkillId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TechnicalSkillLevels", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TechnicalSkillLevels_TechnicalSkills_TechnicalSkillId",
-                        column: x => x.TechnicalSkillId,
-                        principalTable: "TechnicalSkills",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -183,7 +168,8 @@ namespace Backend_Riwi_LinkUp.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     IsConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     SectorId = table.Column<int>(type: "integer", nullable: false),
@@ -204,6 +190,39 @@ namespace Backend_Riwi_LinkUp.Migrations
                         principalTable: "UserRole",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CoderLanguages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CoderId = table.Column<int>(type: "integer", nullable: false),
+                    LanguageId = table.Column<int>(type: "integer", nullable: false),
+                    LanguageLevelId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoderLanguages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CoderLanguages_Coders_CoderId",
+                        column: x => x.CoderId,
+                        principalTable: "Coders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CoderLanguages_LanguageLevels_LanguageLevelId",
+                        column: x => x.LanguageLevelId,
+                        principalTable: "LanguageLevels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CoderLanguages_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -233,56 +252,51 @@ namespace Backend_Riwi_LinkUp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CoderLanguageLevels",
+                name: "CoderTechnicalSkills",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CoderId = table.Column<int>(type: "integer", nullable: false),
-                    LanguageLevelId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CoderLanguageLevels", x => new { x.CoderId, x.LanguageLevelId });
-                    table.ForeignKey(
-                        name: "FK_CoderLanguageLevels_Coders_CoderId",
-                        column: x => x.CoderId,
-                        principalTable: "Coders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CoderLanguageLevels_LanguageLevels_LanguageLevelId",
-                        column: x => x.LanguageLevelId,
-                        principalTable: "LanguageLevels",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CoderTechnicalSkillLevels",
-                columns: table => new
-                {
-                    CoderId = table.Column<int>(type: "integer", nullable: false),
+                    TechnicalSkillId = table.Column<int>(type: "integer", nullable: false),
                     TechnicalSkillLevelId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoderTechnicalSkillLevels", x => new { x.CoderId, x.TechnicalSkillLevelId });
+                    table.PrimaryKey("PK_CoderTechnicalSkills", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CoderTechnicalSkillLevels_Coders_CoderId",
+                        name: "FK_CoderTechnicalSkills_Coders_CoderId",
                         column: x => x.CoderId,
                         principalTable: "Coders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CoderTechnicalSkillLevels_TechnicalSkillLevels_TechnicalSki~",
+                        name: "FK_CoderTechnicalSkills_TechnicalSkillLevels_TechnicalSkillLev~",
                         column: x => x.TechnicalSkillLevelId,
                         principalTable: "TechnicalSkillLevels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CoderTechnicalSkills_TechnicalSkills_TechnicalSkillId",
+                        column: x => x.TechnicalSkillId,
+                        principalTable: "TechnicalSkills",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoderLanguageLevels_LanguageLevelId",
-                table: "CoderLanguageLevels",
+                name: "IX_CoderLanguages_CoderId",
+                table: "CoderLanguages",
+                column: "CoderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CoderLanguages_LanguageId",
+                table: "CoderLanguages",
+                column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CoderLanguages_LanguageLevelId",
+                table: "CoderLanguages",
                 column: "LanguageLevelId");
 
             migrationBuilder.CreateIndex(
@@ -301,19 +315,19 @@ namespace Backend_Riwi_LinkUp.Migrations
                 column: "SoftSkillId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CoderTechnicalSkillLevels_TechnicalSkillLevelId",
-                table: "CoderTechnicalSkillLevels",
-                column: "TechnicalSkillLevelId");
+                name: "IX_CoderTechnicalSkills_CoderId",
+                table: "CoderTechnicalSkills",
+                column: "CoderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LanguageLevels_LanguageId",
-                table: "LanguageLevels",
-                column: "LanguageId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TechnicalSkillLevels_TechnicalSkillId",
-                table: "TechnicalSkillLevels",
+                name: "IX_CoderTechnicalSkills_TechnicalSkillId",
+                table: "CoderTechnicalSkills",
                 column: "TechnicalSkillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CoderTechnicalSkills_TechnicalSkillLevelId",
+                table: "CoderTechnicalSkills",
+                column: "TechnicalSkillLevelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
@@ -330,19 +344,22 @@ namespace Backend_Riwi_LinkUp.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CoderLanguageLevels");
+                name: "CoderLanguages");
 
             migrationBuilder.DropTable(
                 name: "CoderSoftSkills");
 
             migrationBuilder.DropTable(
-                name: "CoderTechnicalSkillLevels");
+                name: "CoderTechnicalSkills");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
                 name: "LanguageLevels");
+
+            migrationBuilder.DropTable(
+                name: "Languages");
 
             migrationBuilder.DropTable(
                 name: "SoftSkills");
@@ -354,22 +371,19 @@ namespace Backend_Riwi_LinkUp.Migrations
                 name: "TechnicalSkillLevels");
 
             migrationBuilder.DropTable(
+                name: "TechnicalSkills");
+
+            migrationBuilder.DropTable(
                 name: "Sector");
 
             migrationBuilder.DropTable(
                 name: "UserRole");
 
             migrationBuilder.DropTable(
-                name: "Languages");
-
-            migrationBuilder.DropTable(
-                name: "Clan");
+                name: "Clans");
 
             migrationBuilder.DropTable(
                 name: "Genders");
-
-            migrationBuilder.DropTable(
-                name: "TechnicalSkills");
         }
     }
 }

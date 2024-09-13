@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend_Riwi_LinkUp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240911172310_UpdatingSeedersV2")]
-    partial class UpdatingSeedersV2
+    [Migration("20240913180421_AddingSeeders")]
+    partial class AddingSeeders
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,7 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clan");
+                    b.ToTable("Clans");
 
                     b.HasData(
                         new
@@ -110,7 +110,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                             Birthday = new DateTime(1992, 5, 22, 1, 17, 51, 0, DateTimeKind.Utc),
                             ClanId = 1,
                             Description = "especialista en front-end",
-                            GenderId = 2,
+                            GenderId = 1,
                             Name = "edgar cardona",
                             UrlImage = "https://media.licdn.com/dms/image/v2/D4E03AQH22ztGRhoM2g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1677008729241?e=1731542400&v=beta&t=89RVHJpVnq8_m5ObsEU3CEs0KVrBraYI4gGWdIEuXEM"
                         },
@@ -206,69 +206,109 @@ namespace Backend_Riwi_LinkUp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguageLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguage", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("CoderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LanguageId")
                         .HasColumnType("integer");
 
                     b.Property<int>("LanguageLevelId")
                         .HasColumnType("integer");
 
-                    b.HasKey("CoderId", "LanguageLevelId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CoderId");
+
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex("LanguageLevelId");
 
-                    b.ToTable("CoderLanguageLevels");
+                    b.ToTable("CoderLanguages");
 
                     b.HasData(
                         new
                         {
+                            Id = 1,
                             CoderId = 1,
+                            LanguageId = 1,
+                            LanguageLevelId = 4
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CoderId = 1,
+                            LanguageId = 3,
                             LanguageLevelId = 1
                         },
                         new
                         {
+                            Id = 3,
                             CoderId = 2,
+                            LanguageId = 1,
                             LanguageLevelId = 3
                         },
                         new
                         {
+                            Id = 4,
                             CoderId = 3,
+                            LanguageId = 2,
                             LanguageLevelId = 2
                         },
                         new
                         {
+                            Id = 5,
                             CoderId = 4,
+                            LanguageId = 5,
                             LanguageLevelId = 4
                         },
                         new
                         {
+                            Id = 6,
                             CoderId = 5,
+                            LanguageId = 3,
                             LanguageLevelId = 5
                         },
                         new
                         {
+                            Id = 7,
                             CoderId = 6,
+                            LanguageId = 2,
                             LanguageLevelId = 2
                         },
                         new
                         {
+                            Id = 8,
                             CoderId = 7,
+                            LanguageId = 1,
                             LanguageLevelId = 3
                         },
                         new
                         {
+                            Id = 9,
                             CoderId = 8,
+                            LanguageId = 5,
                             LanguageLevelId = 4
                         },
                         new
                         {
+                            Id = 10,
                             CoderId = 9,
+                            LanguageId = 1,
                             LanguageLevelId = 6
                         },
                         new
                         {
+                            Id = 11,
                             CoderId = 10,
+                            LanguageId = 2,
                             LanguageLevelId = 3
                         });
                 });
@@ -302,124 +342,170 @@ namespace Backend_Riwi_LinkUp.Migrations
                         },
                         new
                         {
+                            CoderId = 1,
+                            SoftSkillId = 3,
+                            Id = 2
+                        },
+                        new
+                        {
                             CoderId = 2,
                             SoftSkillId = 2,
-                            Id = 2
+                            Id = 3
                         },
                         new
                         {
                             CoderId = 3,
                             SoftSkillId = 3,
-                            Id = 3
+                            Id = 4
                         },
                         new
                         {
                             CoderId = 4,
                             SoftSkillId = 4,
-                            Id = 4
+                            Id = 5
                         },
                         new
                         {
                             CoderId = 5,
                             SoftSkillId = 5,
-                            Id = 5
+                            Id = 6
                         },
                         new
                         {
                             CoderId = 6,
                             SoftSkillId = 6,
-                            Id = 6
+                            Id = 7
                         },
                         new
                         {
                             CoderId = 7,
                             SoftSkillId = 7,
-                            Id = 7
+                            Id = 8
                         },
                         new
                         {
                             CoderId = 8,
                             SoftSkillId = 8,
-                            Id = 8
+                            Id = 9
                         },
                         new
                         {
                             CoderId = 9,
                             SoftSkillId = 9,
-                            Id = 9
+                            Id = 10
                         },
                         new
                         {
                             CoderId = 10,
                             SoftSkillId = 10,
-                            Id = 10
+                            Id = 11
                         });
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkillLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkill", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("CoderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TechnicalSkillId")
                         .HasColumnType("integer");
 
                     b.Property<int>("TechnicalSkillLevelId")
                         .HasColumnType("integer");
 
-                    b.HasKey("CoderId", "TechnicalSkillLevelId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CoderId");
+
+                    b.HasIndex("TechnicalSkillId");
 
                     b.HasIndex("TechnicalSkillLevelId");
 
-                    b.ToTable("CoderTechnicalSkillLevels");
+                    b.ToTable("CoderTechnicalSkills");
 
                     b.HasData(
                         new
                         {
+                            Id = 1,
                             CoderId = 1,
+                            TechnicalSkillId = 1,
                             TechnicalSkillLevelId = 1
                         },
                         new
                         {
+                            Id = 2,
+                            CoderId = 1,
+                            TechnicalSkillId = 4,
+                            TechnicalSkillLevelId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
                             CoderId = 2,
-                            TechnicalSkillLevelId = 3
+                            TechnicalSkillId = 2,
+                            TechnicalSkillLevelId = 1
                         },
                         new
                         {
+                            Id = 4,
                             CoderId = 3,
-                            TechnicalSkillLevelId = 2
+                            TechnicalSkillId = 1,
+                            TechnicalSkillLevelId = 1
                         },
                         new
                         {
+                            Id = 5,
                             CoderId = 4,
+                            TechnicalSkillId = 6,
                             TechnicalSkillLevelId = 1
                         },
                         new
                         {
+                            Id = 6,
                             CoderId = 5,
-                            TechnicalSkillLevelId = 3
+                            TechnicalSkillId = 4,
+                            TechnicalSkillLevelId = 1
                         },
                         new
                         {
+                            Id = 7,
                             CoderId = 6,
-                            TechnicalSkillLevelId = 2
+                            TechnicalSkillId = 3,
+                            TechnicalSkillLevelId = 1
                         },
                         new
                         {
+                            Id = 8,
                             CoderId = 7,
-                            TechnicalSkillLevelId = 3
+                            TechnicalSkillId = 1,
+                            TechnicalSkillLevelId = 1
                         },
                         new
                         {
+                            Id = 9,
                             CoderId = 8,
+                            TechnicalSkillId = 5,
                             TechnicalSkillLevelId = 1
                         },
                         new
                         {
+                            Id = 10,
                             CoderId = 9,
+                            TechnicalSkillId = 1,
                             TechnicalSkillLevelId = 1
                         },
                         new
                         {
+                            Id = 11,
                             CoderId = 10,
-                            TechnicalSkillLevelId = 3
+                            TechnicalSkillId = 3,
+                            TechnicalSkillLevelId = 1
                         });
                 });
 
@@ -484,12 +570,22 @@ namespace Backend_Riwi_LinkUp.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "español"
+                            Name = "portugues"
                         },
                         new
                         {
                             Id = 3,
                             Name = "francés"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "aleman"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "chino"
                         });
                 });
 
@@ -501,9 +597,6 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -511,45 +604,37 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LanguageId");
-
                     b.ToTable("LanguageLevels");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            LanguageId = 1,
                             Name = "a1"
                         },
                         new
                         {
                             Id = 2,
-                            LanguageId = 2,
                             Name = "a2"
                         },
                         new
                         {
                             Id = 3,
-                            LanguageId = 3,
                             Name = "b1"
                         },
                         new
                         {
                             Id = 4,
-                            LanguageId = 2,
                             Name = "b2"
                         },
                         new
                         {
                             Id = 5,
-                            LanguageId = 3,
                             Name = "c1"
                         },
                         new
                         {
                             Id = 6,
-                            LanguageId = 1,
                             Name = "c2"
                         });
                 });
@@ -710,32 +795,12 @@ namespace Backend_Riwi_LinkUp.Migrations
                         new
                         {
                             Id = 5,
-                            Name = "sql"
-                        },
-                        new
-                        {
-                            Id = 6,
                             Name = "nextJs"
                         },
                         new
                         {
-                            Id = 7,
+                            Id = 6,
                             Name = "nodeJs"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "docker"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "aws"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "machine learning"
                         });
                 });
 
@@ -752,12 +817,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int>("TechnicalSkillId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TechnicalSkillId");
 
                     b.ToTable("TechnicalSkillLevels");
 
@@ -765,20 +825,17 @@ namespace Backend_Riwi_LinkUp.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "junior",
-                            TechnicalSkillId = 1
+                            Name = "junior"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "semi-senior",
-                            TechnicalSkillId = 2
+                            Name = "semi-senior"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "senior",
-                            TechnicalSkillId = 3
+                            Name = "senior"
                         });
                 });
 
@@ -832,12 +889,12 @@ namespace Backend_Riwi_LinkUp.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 2, 15, 1, 17, 51, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2024, 3, 15, 1, 17, 51, 0, DateTimeKind.Utc),
                             Email = "jackeline.cardona@example.com",
                             IsConfirmed = true,
                             Name = "jackeline cardona",
-                            PasswordHash = new byte[] { 18, 69, 46, 212, 58, 113, 133, 5, 112, 189, 85, 33, 22, 105, 160, 122, 208, 60, 64, 221, 226, 245, 121, 179, 108, 223, 251, 176, 23, 187, 7, 180, 186, 102, 151, 133, 241, 98, 144, 14, 84, 255, 204, 164, 61, 13, 45, 148, 48, 233, 184, 45, 133, 243, 235, 220, 123, 80, 255, 76, 136, 48, 167, 193 },
-                            PasswordSalt = new byte[] { 84, 114, 201, 231, 43, 117, 236, 122, 191, 26, 60, 185, 50, 188, 206, 180, 150, 80, 118, 178, 151, 10, 151, 17, 131, 42, 142, 201, 108, 193, 80, 47, 195, 126, 129, 191, 45, 62, 141, 105, 36, 107, 107, 151, 174, 122, 78, 142, 92, 136, 9, 136, 138, 204, 90, 26, 208, 182, 61, 171, 67, 5, 179, 75, 184, 86, 92, 171, 157, 10, 229, 67, 246, 74, 165, 116, 169, 75, 6, 157, 163, 69, 9, 97, 177, 245, 102, 7, 142, 222, 136, 126, 70, 67, 194, 153, 94, 144, 174, 198, 20, 222, 209, 121, 189, 142, 229, 41, 199, 189, 247, 49, 24, 52, 19, 72, 232, 53, 236, 245, 207, 91, 121, 190, 100, 183, 72, 4 },
+                            PasswordHash = new byte[] { 215, 178, 33, 67, 55, 118, 221, 132, 76, 118, 3, 45, 60, 206, 116, 3, 74, 213, 78, 250, 112, 101, 98, 62, 222, 153, 35, 53, 79, 191, 8, 2, 183, 21, 138, 149, 121, 42, 165, 79, 250, 250, 10, 135, 166, 201, 137, 101, 26, 116, 116, 174, 78, 51, 3, 187, 144, 213, 37, 92, 53, 172, 38, 103 },
+                            PasswordSalt = new byte[] { 17, 78, 181, 229, 50, 76, 75, 216, 143, 170, 4, 120, 235, 102, 221, 31, 17, 173, 48, 148, 19, 129, 236, 14, 80, 125, 214, 138, 107, 79, 254, 22, 220, 107, 205, 224, 251, 68, 246, 92, 22, 30, 68, 144, 199, 42, 49, 65, 195, 195, 131, 51, 38, 48, 168, 170, 222, 172, 221, 206, 39, 118, 144, 234, 125, 18, 143, 201, 140, 171, 183, 150, 2, 131, 11, 27, 83, 145, 42, 245, 243, 236, 132, 219, 89, 208, 34, 137, 130, 23, 64, 39, 55, 138, 239, 213, 118, 113, 222, 79, 48, 153, 166, 14, 45, 184, 217, 231, 241, 224, 99, 2, 183, 155, 132, 196, 246, 42, 20, 81, 61, 253, 108, 192, 69, 122, 182, 219 },
                             PhoneNumber = "1234567890",
                             RoleId = 1,
                             SectorId = 1
@@ -849,8 +906,8 @@ namespace Backend_Riwi_LinkUp.Migrations
                             Email = "jane.smith@example.com",
                             IsConfirmed = true,
                             Name = "jane smith",
-                            PasswordHash = new byte[] { 183, 194, 242, 170, 86, 34, 252, 212, 170, 149, 196, 245, 63, 171, 217, 171, 144, 8, 109, 224, 118, 41, 219, 35, 157, 129, 226, 88, 207, 242, 171, 215, 112, 199, 223, 126, 9, 47, 30, 26, 187, 174, 62, 203, 226, 100, 157, 30, 1, 185, 226, 190, 194, 254, 97, 178, 142, 127, 57, 211, 133, 69, 221, 73 },
-                            PasswordSalt = new byte[] { 170, 39, 19, 216, 240, 152, 52, 12, 158, 28, 246, 22, 150, 174, 189, 118, 1, 176, 225, 66, 216, 142, 31, 229, 93, 110, 43, 18, 170, 98, 45, 46, 234, 4, 209, 107, 235, 198, 145, 66, 163, 140, 136, 95, 50, 130, 154, 9, 170, 83, 121, 100, 140, 240, 236, 75, 201, 216, 220, 179, 171, 48, 114, 163, 216, 86, 108, 188, 85, 197, 31, 49, 123, 123, 47, 103, 65, 236, 212, 206, 253, 88, 86, 109, 148, 169, 215, 94, 51, 137, 2, 80, 56, 89, 199, 125, 13, 140, 78, 16, 67, 144, 199, 152, 86, 243, 67, 36, 5, 231, 173, 126, 226, 82, 157, 26, 149, 61, 116, 177, 207, 27, 6, 8, 90, 2, 136, 243 },
+                            PasswordHash = new byte[] { 246, 49, 139, 134, 0, 30, 196, 175, 123, 27, 76, 22, 238, 192, 88, 173, 230, 39, 49, 65, 245, 120, 138, 125, 92, 178, 2, 225, 184, 185, 46, 66, 174, 11, 85, 191, 109, 41, 215, 4, 189, 185, 85, 178, 209, 210, 136, 83, 174, 158, 229, 2, 160, 176, 60, 145, 251, 215, 221, 205, 123, 27, 170, 94 },
+                            PasswordSalt = new byte[] { 235, 83, 208, 204, 179, 238, 99, 248, 193, 199, 91, 8, 25, 215, 246, 169, 196, 0, 58, 247, 56, 94, 208, 134, 58, 245, 223, 166, 241, 251, 99, 19, 255, 217, 6, 146, 125, 110, 122, 235, 130, 236, 219, 6, 88, 6, 194, 159, 191, 85, 82, 223, 27, 82, 9, 107, 6, 179, 227, 35, 209, 161, 74, 165, 212, 20, 54, 2, 140, 74, 176, 61, 19, 143, 204, 112, 167, 48, 129, 83, 107, 181, 11, 105, 50, 248, 98, 12, 231, 34, 179, 58, 229, 103, 252, 173, 172, 227, 233, 246, 27, 229, 2, 124, 152, 155, 204, 7, 215, 52, 254, 83, 43, 224, 221, 59, 91, 112, 171, 74, 105, 191, 134, 218, 241, 185, 234, 112 },
                             PhoneNumber = "2345678901",
                             RoleId = 2,
                             SectorId = 2
@@ -862,8 +919,8 @@ namespace Backend_Riwi_LinkUp.Migrations
                             Email = "alice.johnson@example.com",
                             IsConfirmed = true,
                             Name = "alice johnson",
-                            PasswordHash = new byte[] { 35, 106, 225, 187, 59, 13, 86, 188, 96, 248, 152, 96, 238, 40, 86, 161, 222, 255, 248, 226, 239, 230, 49, 136, 137, 33, 32, 115, 96, 212, 252, 189, 112, 17, 105, 17, 211, 225, 235, 141, 171, 71, 129, 116, 31, 148, 6, 118, 185, 9, 201, 150, 135, 206, 177, 60, 232, 155, 31, 61, 66, 137, 87, 169 },
-                            PasswordSalt = new byte[] { 56, 77, 159, 74, 184, 55, 224, 241, 138, 94, 254, 71, 255, 52, 213, 221, 114, 93, 212, 54, 0, 61, 219, 225, 42, 72, 240, 180, 39, 238, 0, 111, 245, 210, 178, 6, 30, 4, 181, 235, 115, 97, 175, 41, 215, 51, 177, 24, 123, 231, 104, 117, 68, 32, 147, 125, 199, 189, 36, 84, 177, 88, 14, 54, 144, 3, 120, 59, 12, 36, 115, 252, 104, 197, 70, 56, 57, 217, 101, 63, 110, 119, 168, 181, 244, 34, 188, 0, 152, 127, 245, 222, 43, 143, 127, 149, 226, 196, 235, 10, 113, 140, 77, 109, 99, 69, 14, 180, 231, 1, 226, 244, 121, 14, 144, 106, 105, 96, 99, 235, 89, 146, 44, 38, 70, 250, 215, 3 },
+                            PasswordHash = new byte[] { 185, 149, 55, 54, 45, 83, 203, 121, 74, 48, 245, 30, 133, 166, 69, 85, 97, 180, 90, 251, 42, 52, 111, 233, 195, 40, 103, 185, 7, 55, 249, 225, 101, 174, 205, 193, 122, 188, 147, 169, 150, 132, 125, 44, 128, 164, 139, 141, 253, 180, 48, 52, 31, 39, 129, 245, 233, 249, 139, 201, 179, 191, 75, 91 },
+                            PasswordSalt = new byte[] { 56, 112, 13, 123, 156, 144, 60, 65, 31, 161, 12, 143, 104, 58, 133, 59, 148, 222, 216, 205, 95, 51, 88, 160, 104, 120, 27, 86, 216, 93, 255, 171, 174, 184, 113, 240, 15, 219, 132, 206, 77, 125, 245, 147, 19, 178, 219, 61, 143, 243, 90, 91, 140, 17, 44, 113, 55, 71, 123, 232, 140, 162, 221, 161, 175, 15, 100, 162, 222, 19, 175, 62, 224, 107, 164, 176, 111, 44, 165, 38, 241, 112, 50, 76, 228, 73, 110, 182, 77, 183, 111, 8, 86, 244, 232, 23, 53, 186, 209, 0, 154, 72, 77, 75, 81, 103, 234, 51, 141, 135, 109, 29, 237, 85, 50, 36, 30, 114, 80, 86, 99, 15, 211, 154, 73, 86, 168, 134 },
                             PhoneNumber = "3456789012",
                             RoleId = 2,
                             SectorId = 4
@@ -875,8 +932,8 @@ namespace Backend_Riwi_LinkUp.Migrations
                             Email = "bob.williams@example.com",
                             IsConfirmed = true,
                             Name = "bob williams",
-                            PasswordHash = new byte[] { 32, 33, 35, 236, 47, 127, 44, 5, 228, 227, 65, 245, 133, 131, 47, 11, 94, 35, 47, 254, 62, 230, 4, 77, 176, 141, 19, 62, 88, 114, 22, 109, 88, 123, 97, 49, 148, 150, 230, 95, 250, 37, 136, 179, 223, 241, 27, 64, 163, 70, 170, 160, 167, 154, 24, 250, 119, 210, 7, 0, 74, 127, 73, 69 },
-                            PasswordSalt = new byte[] { 60, 159, 28, 98, 92, 181, 101, 34, 146, 128, 148, 146, 250, 84, 57, 41, 84, 207, 13, 239, 31, 232, 178, 80, 125, 42, 180, 23, 184, 116, 58, 161, 43, 161, 64, 41, 189, 28, 126, 170, 205, 12, 143, 111, 112, 78, 196, 72, 59, 24, 129, 68, 230, 83, 182, 156, 229, 135, 211, 233, 90, 120, 171, 166, 134, 84, 124, 61, 189, 136, 189, 54, 2, 226, 43, 52, 17, 143, 245, 98, 238, 22, 211, 226, 13, 126, 52, 84, 2, 179, 131, 218, 21, 199, 146, 208, 100, 235, 251, 18, 38, 41, 157, 237, 179, 212, 4, 88, 150, 136, 115, 172, 161, 240, 174, 134, 17, 125, 165, 145, 70, 122, 210, 60, 161, 26, 88, 39 },
+                            PasswordHash = new byte[] { 35, 214, 56, 188, 17, 248, 177, 220, 238, 252, 40, 173, 215, 103, 169, 135, 111, 39, 198, 17, 28, 205, 137, 205, 99, 196, 5, 228, 235, 161, 200, 170, 192, 224, 189, 99, 189, 48, 212, 242, 73, 153, 241, 92, 36, 201, 81, 17, 180, 242, 8, 5, 57, 215, 118, 35, 125, 38, 251, 242, 56, 184, 210, 45 },
+                            PasswordSalt = new byte[] { 81, 205, 164, 150, 149, 188, 81, 145, 207, 110, 183, 18, 58, 234, 225, 1, 230, 192, 177, 32, 176, 228, 92, 248, 208, 3, 67, 4, 76, 220, 232, 224, 209, 127, 148, 154, 68, 178, 241, 167, 192, 136, 97, 74, 63, 239, 73, 247, 86, 27, 209, 132, 223, 203, 205, 192, 190, 2, 135, 192, 171, 227, 104, 171, 168, 91, 29, 211, 87, 136, 8, 245, 136, 117, 255, 196, 114, 194, 164, 199, 212, 99, 211, 187, 213, 250, 139, 232, 176, 245, 125, 161, 189, 126, 119, 64, 137, 254, 17, 139, 144, 53, 88, 63, 133, 34, 45, 29, 77, 113, 8, 87, 133, 1, 236, 131, 202, 82, 140, 193, 88, 187, 51, 20, 231, 136, 48, 11 },
                             PhoneNumber = "4567890123",
                             RoleId = 2,
                             SectorId = 3
@@ -884,12 +941,12 @@ namespace Backend_Riwi_LinkUp.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2024, 6, 25, 1, 17, 51, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2024, 5, 25, 1, 17, 51, 0, DateTimeKind.Utc),
                             Email = "charlie.brown@example.com",
                             IsConfirmed = true,
                             Name = "charlie brown",
-                            PasswordHash = new byte[] { 32, 65, 0, 43, 58, 167, 124, 106, 82, 232, 21, 117, 235, 186, 214, 206, 169, 67, 136, 79, 155, 4, 78, 190, 32, 97, 113, 194, 25, 35, 51, 90, 108, 109, 96, 254, 60, 72, 5, 177, 86, 134, 47, 61, 220, 104, 221, 113, 24, 25, 59, 3, 199, 223, 246, 118, 204, 98, 255, 194, 21, 168, 131, 235 },
-                            PasswordSalt = new byte[] { 12, 15, 216, 93, 233, 19, 201, 127, 62, 143, 97, 34, 170, 250, 0, 202, 51, 126, 4, 222, 71, 189, 184, 167, 229, 116, 66, 119, 161, 216, 216, 246, 109, 18, 84, 143, 208, 81, 16, 235, 87, 61, 33, 127, 18, 231, 76, 187, 6, 66, 143, 245, 108, 221, 86, 85, 183, 60, 25, 14, 63, 56, 42, 223, 181, 103, 13, 3, 175, 60, 183, 135, 189, 199, 251, 167, 64, 166, 158, 27, 137, 40, 63, 59, 191, 61, 200, 207, 100, 96, 20, 182, 62, 1, 243, 100, 45, 29, 151, 229, 86, 56, 39, 39, 157, 216, 25, 255, 87, 109, 170, 69, 100, 175, 55, 191, 188, 210, 11, 131, 146, 237, 203, 82, 5, 142, 241, 207 },
+                            PasswordHash = new byte[] { 110, 70, 176, 166, 66, 1, 110, 147, 219, 26, 102, 13, 231, 196, 73, 45, 91, 247, 84, 99, 201, 51, 9, 84, 20, 91, 230, 233, 72, 194, 219, 182, 236, 136, 175, 188, 69, 56, 52, 25, 207, 228, 84, 54, 252, 79, 105, 122, 62, 186, 67, 180, 122, 52, 209, 83, 31, 5, 184, 113, 132, 208, 248, 192 },
+                            PasswordSalt = new byte[] { 149, 119, 95, 107, 142, 74, 159, 130, 161, 11, 237, 129, 39, 214, 39, 167, 169, 249, 4, 74, 88, 64, 223, 213, 74, 255, 218, 128, 245, 107, 145, 133, 229, 171, 102, 94, 70, 202, 42, 93, 112, 31, 59, 255, 223, 176, 192, 179, 231, 161, 140, 174, 197, 13, 167, 231, 60, 146, 251, 98, 28, 174, 95, 114, 36, 71, 250, 232, 235, 19, 21, 38, 221, 73, 0, 42, 179, 132, 95, 180, 82, 190, 51, 205, 8, 133, 228, 43, 143, 185, 177, 153, 132, 146, 42, 82, 37, 225, 215, 207, 233, 237, 137, 190, 167, 51, 224, 19, 142, 174, 95, 13, 203, 177, 246, 227, 61, 251, 40, 173, 35, 225, 105, 161, 191, 209, 43, 92 },
                             PhoneNumber = "5678901234",
                             RoleId = 2,
                             SectorId = 2
@@ -897,12 +954,12 @@ namespace Backend_Riwi_LinkUp.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2024, 7, 10, 1, 17, 51, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2024, 5, 10, 1, 17, 51, 0, DateTimeKind.Utc),
                             Email = "diana.clark@example.com",
                             IsConfirmed = true,
                             Name = "diana clark",
-                            PasswordHash = new byte[] { 140, 69, 226, 137, 73, 30, 128, 1, 235, 213, 217, 18, 215, 61, 23, 85, 155, 191, 125, 150, 181, 147, 93, 17, 16, 213, 117, 119, 28, 163, 82, 6, 193, 162, 48, 35, 71, 248, 38, 200, 135, 202, 75, 177, 239, 4, 50, 212, 98, 0, 211, 18, 203, 172, 196, 93, 16, 101, 243, 120, 238, 89, 201, 82 },
-                            PasswordSalt = new byte[] { 34, 245, 140, 116, 240, 63, 97, 179, 252, 54, 70, 168, 22, 87, 128, 180, 121, 31, 149, 106, 19, 65, 125, 192, 102, 136, 43, 97, 149, 54, 222, 205, 207, 165, 25, 106, 123, 120, 135, 95, 174, 65, 84, 98, 226, 205, 32, 150, 131, 55, 75, 11, 212, 93, 150, 95, 65, 252, 124, 47, 194, 131, 142, 81, 65, 159, 7, 153, 69, 39, 49, 182, 31, 246, 1, 217, 211, 172, 217, 242, 164, 138, 109, 143, 112, 99, 47, 21, 0, 237, 55, 102, 126, 24, 92, 43, 55, 26, 45, 183, 213, 173, 144, 87, 95, 15, 141, 167, 59, 86, 121, 72, 49, 70, 110, 23, 172, 189, 236, 218, 176, 101, 155, 188, 91, 252, 173, 221 },
+                            PasswordHash = new byte[] { 155, 193, 244, 172, 241, 226, 144, 193, 184, 225, 197, 118, 5, 143, 117, 80, 106, 55, 93, 117, 49, 61, 217, 46, 25, 80, 142, 227, 78, 88, 235, 115, 218, 49, 236, 167, 194, 27, 203, 46, 208, 141, 192, 210, 154, 121, 153, 238, 95, 87, 49, 56, 91, 54, 222, 155, 238, 249, 122, 9, 184, 228, 6, 99 },
+                            PasswordSalt = new byte[] { 195, 49, 90, 111, 246, 86, 92, 230, 246, 229, 125, 226, 196, 28, 20, 203, 92, 17, 164, 51, 51, 104, 226, 133, 208, 176, 240, 121, 52, 66, 139, 20, 237, 37, 168, 94, 207, 110, 234, 29, 3, 186, 191, 227, 32, 237, 148, 67, 82, 199, 232, 139, 23, 81, 53, 180, 41, 213, 151, 132, 177, 247, 28, 126, 42, 231, 54, 23, 207, 191, 144, 167, 80, 191, 189, 67, 25, 187, 227, 39, 118, 207, 61, 72, 248, 166, 205, 217, 228, 107, 67, 49, 150, 126, 144, 49, 52, 225, 10, 47, 59, 198, 249, 54, 25, 15, 219, 202, 160, 241, 234, 147, 104, 11, 191, 76, 50, 180, 51, 108, 141, 142, 16, 168, 41, 113, 190, 28 },
                             PhoneNumber = "6789012345",
                             RoleId = 2,
                             SectorId = 1
@@ -910,12 +967,12 @@ namespace Backend_Riwi_LinkUp.Migrations
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(2024, 8, 15, 1, 17, 51, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2024, 6, 15, 1, 17, 51, 0, DateTimeKind.Utc),
                             Email = "edward.davis@example.com",
                             IsConfirmed = true,
                             Name = "edward davis",
-                            PasswordHash = new byte[] { 136, 188, 245, 176, 29, 36, 145, 68, 9, 179, 80, 195, 130, 6, 58, 100, 239, 89, 109, 80, 105, 110, 29, 17, 60, 111, 35, 75, 204, 145, 201, 135, 87, 113, 6, 108, 41, 181, 95, 76, 129, 194, 39, 182, 5, 7, 82, 10, 249, 169, 73, 70, 86, 217, 110, 175, 49, 153, 193, 68, 244, 240, 203, 219 },
-                            PasswordSalt = new byte[] { 156, 235, 229, 21, 172, 194, 221, 76, 190, 163, 185, 129, 89, 25, 68, 243, 224, 20, 158, 60, 27, 137, 73, 152, 251, 148, 153, 90, 44, 208, 106, 137, 246, 56, 193, 32, 37, 18, 179, 245, 69, 92, 77, 151, 51, 123, 43, 225, 53, 245, 181, 221, 231, 148, 144, 34, 19, 6, 111, 159, 64, 106, 119, 53, 219, 88, 41, 231, 17, 243, 78, 83, 47, 31, 107, 26, 165, 58, 140, 15, 30, 60, 165, 60, 20, 176, 250, 238, 153, 199, 198, 175, 58, 196, 15, 159, 156, 170, 234, 219, 108, 123, 19, 255, 187, 189, 231, 2, 247, 189, 84, 122, 159, 8, 55, 34, 31, 222, 142, 189, 223, 141, 44, 29, 153, 121, 119, 209 },
+                            PasswordHash = new byte[] { 188, 6, 82, 74, 45, 91, 167, 206, 188, 200, 192, 215, 116, 136, 81, 50, 210, 132, 181, 167, 159, 192, 126, 230, 15, 173, 163, 56, 30, 177, 204, 215, 230, 20, 146, 34, 2, 234, 105, 102, 75, 177, 28, 163, 128, 64, 230, 114, 161, 97, 42, 236, 172, 37, 167, 134, 178, 145, 201, 250, 147, 103, 155, 183 },
+                            PasswordSalt = new byte[] { 113, 154, 249, 20, 115, 94, 77, 22, 138, 114, 201, 42, 185, 74, 242, 92, 131, 74, 96, 76, 160, 177, 173, 187, 69, 131, 133, 130, 89, 2, 197, 222, 84, 120, 192, 54, 233, 251, 185, 211, 1, 59, 83, 110, 161, 5, 91, 160, 110, 255, 73, 231, 187, 184, 4, 17, 167, 213, 95, 126, 145, 195, 144, 202, 19, 138, 34, 4, 193, 243, 166, 88, 130, 219, 230, 39, 249, 79, 100, 44, 77, 175, 169, 171, 189, 2, 67, 143, 52, 103, 212, 99, 171, 38, 121, 55, 133, 120, 90, 222, 10, 132, 162, 88, 249, 30, 212, 125, 5, 223, 52, 141, 113, 42, 55, 0, 33, 173, 50, 15, 167, 112, 240, 119, 248, 117, 118, 126 },
                             PhoneNumber = "7890123456",
                             RoleId = 2,
                             SectorId = 5
@@ -923,12 +980,12 @@ namespace Backend_Riwi_LinkUp.Migrations
                         new
                         {
                             Id = 8,
-                            CreatedAt = new DateTime(2024, 9, 10, 1, 17, 51, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2024, 7, 10, 1, 17, 51, 0, DateTimeKind.Utc),
                             Email = "fiona.evans@example.com",
                             IsConfirmed = true,
                             Name = "fiona evans",
-                            PasswordHash = new byte[] { 34, 114, 61, 106, 115, 254, 175, 148, 195, 22, 95, 28, 20, 178, 105, 74, 167, 190, 141, 212, 155, 79, 56, 13, 146, 173, 228, 60, 153, 53, 136, 82, 83, 0, 43, 200, 210, 152, 26, 149, 17, 85, 181, 89, 31, 121, 193, 76, 38, 5, 68, 21, 140, 178, 130, 213, 190, 46, 133, 126, 86, 71, 119, 236 },
-                            PasswordSalt = new byte[] { 119, 45, 132, 241, 109, 60, 23, 221, 123, 205, 99, 255, 103, 60, 143, 244, 208, 130, 123, 21, 247, 80, 200, 174, 186, 10, 245, 42, 23, 28, 111, 198, 64, 102, 160, 249, 181, 87, 149, 37, 104, 24, 204, 188, 41, 4, 115, 164, 12, 30, 209, 184, 130, 67, 208, 211, 205, 243, 179, 220, 136, 87, 20, 248, 252, 204, 69, 70, 245, 225, 46, 153, 143, 197, 161, 131, 50, 219, 3, 76, 150, 114, 54, 19, 39, 240, 62, 137, 11, 72, 240, 93, 98, 35, 168, 10, 3, 135, 151, 61, 117, 195, 97, 182, 133, 39, 229, 240, 252, 233, 48, 12, 43, 25, 143, 187, 47, 56, 253, 7, 88, 44, 59, 224, 83, 72, 98, 49 },
+                            PasswordHash = new byte[] { 86, 112, 109, 82, 15, 228, 105, 212, 209, 208, 121, 153, 169, 114, 33, 116, 205, 194, 249, 231, 188, 9, 58, 171, 189, 63, 175, 49, 20, 70, 21, 168, 19, 169, 223, 65, 106, 75, 215, 38, 13, 255, 166, 150, 84, 70, 228, 214, 125, 199, 79, 248, 37, 76, 132, 112, 159, 249, 65, 98, 68, 9, 84, 102 },
+                            PasswordSalt = new byte[] { 136, 76, 12, 231, 153, 62, 67, 186, 240, 162, 23, 22, 155, 223, 122, 93, 193, 51, 159, 254, 2, 100, 125, 28, 158, 199, 118, 247, 39, 36, 21, 23, 183, 234, 29, 116, 97, 99, 232, 149, 111, 126, 199, 251, 172, 159, 237, 0, 169, 148, 87, 120, 58, 21, 146, 59, 99, 24, 89, 79, 110, 126, 210, 199, 88, 218, 56, 136, 248, 148, 81, 61, 33, 170, 133, 200, 140, 35, 39, 187, 254, 86, 170, 39, 252, 73, 233, 131, 74, 121, 80, 134, 187, 78, 41, 233, 48, 89, 132, 72, 33, 123, 193, 112, 112, 168, 34, 12, 207, 12, 79, 233, 168, 149, 136, 169, 116, 5, 189, 228, 186, 135, 234, 120, 89, 221, 204, 35 },
                             PhoneNumber = "8901234567",
                             RoleId = 2,
                             SectorId = 2
@@ -936,12 +993,12 @@ namespace Backend_Riwi_LinkUp.Migrations
                         new
                         {
                             Id = 9,
-                            CreatedAt = new DateTime(2024, 10, 5, 1, 17, 51, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2024, 8, 5, 1, 17, 51, 0, DateTimeKind.Utc),
                             Email = "george.fisher@example.com",
                             IsConfirmed = true,
                             Name = "george fisher",
-                            PasswordHash = new byte[] { 215, 105, 98, 10, 76, 234, 110, 208, 86, 55, 231, 5, 72, 51, 99, 170, 85, 140, 8, 26, 30, 134, 245, 234, 84, 217, 238, 183, 69, 232, 224, 255, 199, 201, 225, 161, 0, 137, 82, 252, 143, 165, 32, 129, 193, 208, 50, 72, 95, 171, 22, 201, 226, 175, 100, 31, 63, 147, 223, 176, 202, 28, 25, 199 },
-                            PasswordSalt = new byte[] { 102, 63, 242, 108, 202, 39, 209, 160, 96, 134, 29, 20, 156, 110, 170, 29, 99, 248, 229, 98, 221, 112, 254, 137, 182, 112, 89, 159, 223, 7, 132, 220, 51, 140, 200, 66, 47, 29, 157, 99, 47, 67, 238, 115, 162, 240, 212, 13, 128, 221, 154, 159, 201, 68, 194, 210, 221, 242, 78, 77, 128, 224, 236, 136, 109, 222, 113, 242, 122, 148, 207, 118, 39, 216, 203, 173, 73, 171, 28, 208, 107, 41, 175, 63, 133, 106, 219, 76, 45, 15, 63, 51, 143, 10, 176, 121, 71, 217, 130, 219, 116, 24, 155, 187, 232, 38, 224, 111, 118, 218, 203, 72, 173, 135, 9, 170, 199, 219, 150, 209, 230, 22, 33, 85, 213, 227, 103, 112 },
+                            PasswordHash = new byte[] { 52, 226, 249, 218, 230, 218, 201, 163, 58, 248, 162, 121, 204, 27, 148, 87, 211, 170, 99, 28, 168, 37, 161, 113, 101, 233, 46, 242, 157, 30, 4, 1, 152, 236, 195, 71, 18, 24, 87, 69, 163, 225, 145, 250, 105, 129, 73, 125, 159, 2, 102, 222, 109, 22, 147, 58, 35, 245, 27, 37, 238, 147, 91, 191 },
+                            PasswordSalt = new byte[] { 173, 37, 233, 38, 95, 11, 197, 213, 99, 183, 71, 215, 172, 47, 86, 48, 251, 80, 88, 187, 111, 149, 241, 212, 24, 141, 116, 128, 70, 182, 42, 92, 1, 59, 80, 113, 20, 86, 75, 210, 119, 86, 127, 54, 189, 93, 139, 226, 202, 198, 133, 75, 233, 230, 145, 202, 55, 79, 224, 128, 106, 187, 4, 224, 247, 35, 154, 28, 177, 20, 170, 98, 2, 166, 184, 199, 181, 252, 213, 183, 26, 146, 70, 31, 195, 212, 211, 100, 155, 85, 233, 54, 247, 159, 201, 12, 70, 175, 249, 182, 126, 164, 221, 133, 222, 220, 57, 34, 190, 194, 116, 40, 21, 14, 154, 35, 120, 137, 204, 110, 116, 16, 88, 104, 29, 138, 56, 17 },
                             PhoneNumber = "9012345678",
                             RoleId = 2,
                             SectorId = 5
@@ -949,12 +1006,12 @@ namespace Backend_Riwi_LinkUp.Migrations
                         new
                         {
                             Id = 10,
-                            CreatedAt = new DateTime(2024, 11, 1, 1, 17, 51, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2024, 9, 1, 1, 17, 51, 0, DateTimeKind.Utc),
                             Email = "hannah.green@example.com",
                             IsConfirmed = true,
                             Name = "hannah green",
-                            PasswordHash = new byte[] { 84, 101, 121, 27, 252, 4, 226, 224, 191, 210, 95, 65, 102, 8, 64, 247, 60, 176, 30, 38, 1, 75, 149, 111, 68, 28, 135, 139, 171, 195, 42, 171, 247, 7, 171, 234, 8, 161, 244, 160, 190, 169, 161, 2, 64, 160, 16, 193, 11, 71, 144, 137, 32, 118, 101, 97, 109, 14, 127, 173, 42, 189, 83, 35 },
-                            PasswordSalt = new byte[] { 247, 185, 199, 183, 184, 191, 180, 199, 254, 158, 49, 41, 221, 155, 211, 254, 194, 176, 202, 252, 97, 92, 44, 36, 130, 28, 31, 197, 193, 37, 207, 152, 66, 213, 51, 205, 192, 244, 157, 243, 130, 233, 22, 28, 51, 106, 250, 17, 46, 137, 21, 196, 34, 250, 63, 134, 240, 8, 167, 70, 169, 221, 234, 6, 104, 170, 152, 142, 149, 83, 127, 118, 26, 52, 58, 133, 236, 34, 142, 78, 121, 205, 110, 180, 96, 86, 198, 151, 164, 29, 94, 241, 190, 248, 152, 74, 63, 90, 208, 5, 221, 59, 157, 238, 107, 167, 38, 137, 137, 78, 96, 65, 43, 128, 134, 151, 178, 15, 145, 211, 138, 46, 99, 221, 234, 19, 51, 147 },
+                            PasswordHash = new byte[] { 178, 209, 142, 58, 219, 232, 27, 152, 250, 57, 65, 5, 13, 128, 0, 225, 31, 185, 222, 234, 202, 57, 21, 112, 155, 114, 87, 180, 115, 100, 140, 243, 108, 223, 205, 168, 42, 216, 104, 54, 235, 118, 2, 170, 104, 171, 25, 50, 190, 60, 77, 39, 12, 191, 10, 91, 235, 149, 65, 226, 6, 207, 213, 121 },
+                            PasswordSalt = new byte[] { 169, 192, 193, 230, 70, 223, 60, 169, 133, 148, 126, 80, 197, 255, 79, 93, 11, 61, 59, 178, 22, 222, 59, 175, 186, 212, 221, 239, 254, 60, 151, 239, 25, 125, 243, 22, 35, 17, 160, 106, 52, 209, 40, 221, 212, 85, 14, 82, 95, 175, 57, 9, 64, 247, 163, 138, 160, 129, 117, 89, 240, 13, 42, 225, 75, 171, 178, 180, 105, 20, 170, 60, 83, 80, 122, 111, 49, 179, 30, 133, 184, 97, 109, 230, 55, 27, 215, 132, 168, 115, 56, 217, 229, 160, 209, 105, 194, 27, 237, 239, 34, 115, 10, 28, 0, 18, 118, 115, 156, 181, 171, 149, 177, 63, 92, 192, 40, 144, 19, 134, 185, 224, 146, 252, 253, 223, 37, 98 },
                             PhoneNumber = "0123456789",
                             RoleId = 2,
                             SectorId = 3
@@ -1010,21 +1067,29 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.Navigation("Gender");
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguageLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguage", b =>
                 {
                     b.HasOne("Backend_Riwi_LinkUp.Models.Coder", "Coder")
-                        .WithMany("CoderLanguageLevels")
+                        .WithMany("CoderLanguages")
                         .HasForeignKey("CoderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Backend_Riwi_LinkUp.Models.Language", "Language")
+                        .WithMany("CoderLanguages")
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Backend_Riwi_LinkUp.Models.LanguageLevel", "LanguageLevel")
-                        .WithMany("CoderLanguageLevels")
+                        .WithMany("CoderLanguages")
                         .HasForeignKey("LanguageLevelId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Coder");
+
+                    b.Navigation("Language");
 
                     b.Navigation("LanguageLevel");
                 });
@@ -1048,45 +1113,31 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.Navigation("SoftSkill");
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkillLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkill", b =>
                 {
                     b.HasOne("Backend_Riwi_LinkUp.Models.Coder", "Coder")
-                        .WithMany("CoderTechnicalSkillLevels")
+                        .WithMany("CoderTechnicalSkills")
                         .HasForeignKey("CoderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Backend_Riwi_LinkUp.Models.TechnicalSkill", "TechnicalSkill")
+                        .WithMany("CoderTechnicalSkills")
+                        .HasForeignKey("TechnicalSkillId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", "TechnicalSkillLevel")
-                        .WithMany("CoderTechnicalSkillLevels")
+                        .WithMany("CoderTechnicalSkills")
                         .HasForeignKey("TechnicalSkillLevelId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Coder");
 
-                    b.Navigation("TechnicalSkillLevel");
-                });
-
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.LanguageLevel", b =>
-                {
-                    b.HasOne("Backend_Riwi_LinkUp.Models.Language", "Language")
-                        .WithMany("LanguageLevels")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
-                });
-
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", b =>
-                {
-                    b.HasOne("Backend_Riwi_LinkUp.Models.TechnicalSkill", "TechnicalSkill")
-                        .WithMany("TechnicalSkillLevels")
-                        .HasForeignKey("TechnicalSkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("TechnicalSkill");
+
+                    b.Navigation("TechnicalSkillLevel");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.User", b =>
@@ -1115,11 +1166,11 @@ namespace Backend_Riwi_LinkUp.Migrations
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Coder", b =>
                 {
-                    b.Navigation("CoderLanguageLevels");
+                    b.Navigation("CoderLanguages");
 
                     b.Navigation("CoderSoftSkills");
 
-                    b.Navigation("CoderTechnicalSkillLevels");
+                    b.Navigation("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Gender", b =>
@@ -1129,12 +1180,12 @@ namespace Backend_Riwi_LinkUp.Migrations
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Language", b =>
                 {
-                    b.Navigation("LanguageLevels");
+                    b.Navigation("CoderLanguages");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.LanguageLevel", b =>
                 {
-                    b.Navigation("CoderLanguageLevels");
+                    b.Navigation("CoderLanguages");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Sector", b =>
@@ -1149,12 +1200,12 @@ namespace Backend_Riwi_LinkUp.Migrations
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkill", b =>
                 {
-                    b.Navigation("TechnicalSkillLevels");
+                    b.Navigation("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", b =>
                 {
-                    b.Navigation("CoderTechnicalSkillLevels");
+                    b.Navigation("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.UserRole", b =>

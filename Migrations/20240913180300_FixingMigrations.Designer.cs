@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Backend_Riwi_LinkUp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240911170502_UpdatingProperties")]
-    partial class UpdatingProperties
+    [Migration("20240913180300_FixingMigrations")]
+    partial class FixingMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,7 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clan");
+                    b.ToTable("Clans");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Coder", b =>
@@ -82,19 +82,32 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.ToTable("Coders");
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguageLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguage", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("CoderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LanguageId")
                         .HasColumnType("integer");
 
                     b.Property<int>("LanguageLevelId")
                         .HasColumnType("integer");
 
-                    b.HasKey("CoderId", "LanguageLevelId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CoderId");
+
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex("LanguageLevelId");
 
-                    b.ToTable("CoderLanguageLevels");
+                    b.ToTable("CoderLanguages");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderSoftSkill", b =>
@@ -118,19 +131,32 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.ToTable("CoderSoftSkills");
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkillLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkill", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("CoderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TechnicalSkillId")
                         .HasColumnType("integer");
 
                     b.Property<int>("TechnicalSkillLevelId")
                         .HasColumnType("integer");
 
-                    b.HasKey("CoderId", "TechnicalSkillLevelId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CoderId");
+
+                    b.HasIndex("TechnicalSkillId");
 
                     b.HasIndex("TechnicalSkillLevelId");
 
-                    b.ToTable("CoderTechnicalSkillLevels");
+                    b.ToTable("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Gender", b =>
@@ -177,17 +203,12 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
 
                     b.ToTable("LanguageLevels");
                 });
@@ -259,12 +280,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int>("TechnicalSkillId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TechnicalSkillId");
 
                     b.ToTable("TechnicalSkillLevels");
                 });
@@ -353,21 +369,29 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.Navigation("Gender");
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguageLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguage", b =>
                 {
                     b.HasOne("Backend_Riwi_LinkUp.Models.Coder", "Coder")
-                        .WithMany("CoderLanguageLevels")
+                        .WithMany("CoderLanguages")
                         .HasForeignKey("CoderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Backend_Riwi_LinkUp.Models.Language", "Language")
+                        .WithMany("CoderLanguages")
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Backend_Riwi_LinkUp.Models.LanguageLevel", "LanguageLevel")
-                        .WithMany("CoderLanguageLevels")
+                        .WithMany("CoderLanguages")
                         .HasForeignKey("LanguageLevelId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Coder");
+
+                    b.Navigation("Language");
 
                     b.Navigation("LanguageLevel");
                 });
@@ -391,45 +415,31 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.Navigation("SoftSkill");
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkillLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkill", b =>
                 {
                     b.HasOne("Backend_Riwi_LinkUp.Models.Coder", "Coder")
-                        .WithMany("CoderTechnicalSkillLevels")
+                        .WithMany("CoderTechnicalSkills")
                         .HasForeignKey("CoderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Backend_Riwi_LinkUp.Models.TechnicalSkill", "TechnicalSkill")
+                        .WithMany("CoderTechnicalSkills")
+                        .HasForeignKey("TechnicalSkillId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", "TechnicalSkillLevel")
-                        .WithMany("CoderTechnicalSkillLevels")
+                        .WithMany("CoderTechnicalSkills")
                         .HasForeignKey("TechnicalSkillLevelId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Coder");
 
-                    b.Navigation("TechnicalSkillLevel");
-                });
-
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.LanguageLevel", b =>
-                {
-                    b.HasOne("Backend_Riwi_LinkUp.Models.Language", "Language")
-                        .WithMany("LanguageLevels")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
-                });
-
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", b =>
-                {
-                    b.HasOne("Backend_Riwi_LinkUp.Models.TechnicalSkill", "TechnicalSkill")
-                        .WithMany("TechnicalSkillLevels")
-                        .HasForeignKey("TechnicalSkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("TechnicalSkill");
+
+                    b.Navigation("TechnicalSkillLevel");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.User", b =>
@@ -458,11 +468,11 @@ namespace Backend_Riwi_LinkUp.Migrations
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Coder", b =>
                 {
-                    b.Navigation("CoderLanguageLevels");
+                    b.Navigation("CoderLanguages");
 
                     b.Navigation("CoderSoftSkills");
 
-                    b.Navigation("CoderTechnicalSkillLevels");
+                    b.Navigation("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Gender", b =>
@@ -472,12 +482,12 @@ namespace Backend_Riwi_LinkUp.Migrations
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Language", b =>
                 {
-                    b.Navigation("LanguageLevels");
+                    b.Navigation("CoderLanguages");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.LanguageLevel", b =>
                 {
-                    b.Navigation("CoderLanguageLevels");
+                    b.Navigation("CoderLanguages");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Sector", b =>
@@ -492,12 +502,12 @@ namespace Backend_Riwi_LinkUp.Migrations
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkill", b =>
                 {
-                    b.Navigation("TechnicalSkillLevels");
+                    b.Navigation("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", b =>
                 {
-                    b.Navigation("CoderTechnicalSkillLevels");
+                    b.Navigation("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.UserRole", b =>

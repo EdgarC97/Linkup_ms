@@ -16,12 +16,8 @@ namespace Backend_Riwi_LinkUp.Seeders
                 new TechnicalSkill { Id = 2, Name = "python" },
                 new TechnicalSkill { Id = 3, Name = "java" },
                 new TechnicalSkill { Id = 4, Name = "c#" },
-                new TechnicalSkill { Id = 5, Name = "sql" },
-                new TechnicalSkill { Id = 6, Name = "nextJs" },
-                new TechnicalSkill { Id = 7, Name = "nodeJs" },
-                new TechnicalSkill { Id = 8, Name = "docker" },
-                new TechnicalSkill { Id = 9, Name = "aws" },
-                new TechnicalSkill { Id = 10, Name = "machine learning" }
+                new TechnicalSkill { Id = 5, Name = "nextJs" },
+                new TechnicalSkill { Id = 6, Name = "nodeJs" }
             );
         }
     }

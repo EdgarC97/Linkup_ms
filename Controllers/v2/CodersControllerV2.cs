@@ -30,7 +30,8 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                     Id = c.Id,
                     Name = c.Name,
                     Birthday = c.Birthday,
-                    UrlImage = c.UrlImage
+                    UrlImage = c.UrlImage,
+                    Description = c.Description
                 })
                 .ToListAsync();
 
@@ -48,7 +49,8 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                     Id = c.Id,
                     Name = c.Name,
                     Birthday = c.Birthday,
-                    UrlImage = c.UrlImage
+                    UrlImage = c.UrlImage,
+                    Description = c.Description
                 })
                 .FirstOrDefaultAsync();
 
