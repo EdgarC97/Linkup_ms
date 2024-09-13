@@ -20,11 +20,12 @@ jobs:
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          railway up --detach
-          railway run --service my-app -- docker build -t my-app .
-          railway run --service my-app -- docker push railway.app/my-app
+          railway link --environment production --project Linkup_ms
+          railway up --service Backend_Riwi_LinkUp
+          docker build -t backend_riwi_linkup .
+          railway run --service Backend_Riwi_LinkUp -- docker push railway.app/backend_riwi_linkup
 
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway up --service my-app
+        run: railway up --service Backend_Riwi_LinkUp
