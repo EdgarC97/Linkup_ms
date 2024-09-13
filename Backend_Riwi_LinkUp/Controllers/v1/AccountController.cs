@@ -40,6 +40,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v1
                 Name = registerUserDto.Name,
                 Email = registerUserDto.Email,
                 PhoneNumber = registerUserDto.PhoneNumber,
+                CreatedAt = DateTime.UtcNow,
                 SectorId = registerUserDto.SectorId,
                 RoleId = 2,
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerUserDto.Password)),
