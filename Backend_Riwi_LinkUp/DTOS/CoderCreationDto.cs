@@ -31,9 +31,10 @@ namespace Backend_Riwi_LinkUp.DTOS
         public List<int> SoftSkillIds { get; set; }
 
         [Required]
-        public List<int> LanguageLevelIds { get; set; }
+        public List<LanguageDto> Languages { get; set; }
 
         [Required]
-        public List<int> TechnicalSkillLevelIds { get; set; }
+        public List<TechnicalSkillDto> TechnicalSkills { get; set; }
     }
 }
+
