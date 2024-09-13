@@ -15,321 +15,321 @@ namespace Backend_Riwi_LinkUp.ControllersV1
     [Route("api/v1/[controller]")]
     public class CodersController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        // private readonly AppDbContext _context;
 
-        public CodersController(AppDbContext context)
-        {
-            _context = context;
-        }
+        // public CodersController(AppDbContext context)
+        // {
+        //     _context = context;
+        // }
 
-        //GET
-        [HttpGet]
-        public async Task<IActionResult> GetCoders()
-        {
-            var coders = await _context.Coders
-                .Include(c => c.Gender)
-                .Include(c => c.Clan)
-                .Include(c => c.CoderSoftSkills)
-                    .ThenInclude(css => css.SoftSkill)
-                .Include(c => c.CoderLanguageLevels)
-                    .ThenInclude(cll => cll.LanguageLevel)
-                        .ThenInclude(ll => ll.Language)
-                .Include(c => c.CoderTechnicalSkillLevels)
-                    .ThenInclude(ctsl => ctsl.TechnicalSkillLevel)
-                        .ThenInclude(tsl => tsl.TechnicalSkill)
-                .Select(c => new CoderDtoV1
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    GenderName = c.Gender.Name,
-                    ClanName = c.Clan.Name,
-                    Birthday = c.Birthday,
-                    Description = c.Description,
-                    UrlImage = c.UrlImage,
-                    SoftSkills = c.CoderSoftSkills.Select(css => css.SoftSkill.Name).ToList(),
-                    LanguageLevels = c.CoderLanguageLevels.Select(cll => new LanguageLevelDto
-                    {
-                        LevelName = cll.LanguageLevel.Name,
-                        LanguageName = cll.LanguageLevel.Language.Name
-                    }).ToList(),
-                    TechnicalSkillLevels = c.CoderTechnicalSkillLevels.Select(ctsl => new TechnicalSkillDto
-                    {
-                        LevelName = ctsl.TechnicalSkillLevel.Name,
-                        TechnicalSkillName = ctsl.TechnicalSkillLevel.TechnicalSkill.Name
-                    }).ToList()
-                })
-                .ToListAsync();
+        // //GET
+        // [HttpGet]
+        // public async Task<IActionResult> GetCoders()
+        // {
+        //     var coders = await _context.Coders
+        //         .Include(c => c.Gender)
+        //         .Include(c => c.Clan)
+        //         .Include(c => c.CoderSoftSkills)
+        //             .ThenInclude(css => css.SoftSkill)
+        //         .Include(c => c.CoderLanguageLevels)
+        //             .ThenInclude(cll => cll.LanguageLevel)
+        //                 .ThenInclude(ll => ll.Language)
+        //         .Include(c => c.CoderTechnicalSkillLevels)
+        //             .ThenInclude(ctsl => ctsl.TechnicalSkillLevel)
+        //                 .ThenInclude(tsl => tsl.TechnicalSkill)
+        //         .Select(c => new CoderDtoV1
+        //         {
+        //             Id = c.Id,
+        //             Name = c.Name,
+        //             GenderName = c.Gender.Name,
+        //             ClanName = c.Clan.Name,
+        //             Birthday = c.Birthday,
+        //             Description = c.Description,
+        //             UrlImage = c.UrlImage,
+        //             SoftSkills = c.CoderSoftSkills.Select(css => css.SoftSkill.Name).ToList(),
+        //             LanguageLevels = c.CoderLanguageLevels.Select(cll => new LanguageLevelDto
+        //             {
+        //                 LevelName = cll.LanguageLevel.Name,
+        //                 LanguageName = cll.LanguageLevel.Language.Name
+        //             }).ToList(),
+        //             TechnicalSkillLevels = c.CoderTechnicalSkillLevels.Select(ctsl => new TechnicalSkillDto
+        //             {
+        //                 LevelName = ctsl.TechnicalSkillLevel.Name,
+        //                 TechnicalSkillName = ctsl.TechnicalSkillLevel.TechnicalSkill.Name
+        //             }).ToList()
+        //         })
+        //         .ToListAsync();
 
-            return Ok(coders);
-        }
+        //     return Ok(coders);
+        // }
 
-        //GET / id
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCoder(int id)
-        {
-            var coder = await _context.Coders
-                .Include(c => c.Gender)
-                .Include(c => c.Clan)
-                .Include(c => c.CoderSoftSkills)
-                    .ThenInclude(css => css.SoftSkill)
-                .Include(c => c.CoderLanguageLevels)
-                    .ThenInclude(cll => cll.LanguageLevel)
-                        .ThenInclude(ll => ll.Language)
-                .Include(c => c.CoderTechnicalSkillLevels)
-                    .ThenInclude(ctsl => ctsl.TechnicalSkillLevel)
-                        .ThenInclude(tsl => tsl.TechnicalSkill)
-                .FirstOrDefaultAsync(c => c.Id == id);
+        // //GET / id
+        // [HttpGet("{id}")]
+        // public async Task<IActionResult> GetCoder(int id)
+        // {
+        //     var coder = await _context.Coders
+        //         .Include(c => c.Gender)
+        //         .Include(c => c.Clan)
+        //         .Include(c => c.CoderSoftSkills)
+        //             .ThenInclude(css => css.SoftSkill)
+        //         .Include(c => c.CoderLanguageLevels)
+        //             .ThenInclude(cll => cll.LanguageLevel)
+        //                 .ThenInclude(ll => ll.Language)
+        //         .Include(c => c.CoderTechnicalSkillLevels)
+        //             .ThenInclude(ctsl => ctsl.TechnicalSkillLevel)
+        //                 .ThenInclude(tsl => tsl.TechnicalSkill)
+        //         .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (coder == null)
-            {
-                return NotFound();
-            }
+        //     if (coder == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            var coderDto = new CoderDtoV1
-            {
-                Id = coder.Id,
-                Name = coder.Name,
-                GenderName = coder.Gender.Name,
-                ClanName = coder.Clan.Name,
-                Birthday = coder.Birthday,
-                Description = coder.Description,
-                UrlImage = coder.UrlImage,
-                SoftSkills = coder.CoderSoftSkills.Select(css => css.SoftSkill.Name).ToList(),
-                LanguageLevels = coder.CoderLanguageLevels.Select(cll => new LanguageLevelDto
-                {
-                    LevelName = cll.LanguageLevel.Name,
-                    LanguageName = cll.LanguageLevel.Language.Name
-                }).ToList(),
-                TechnicalSkillLevels = coder.CoderTechnicalSkillLevels.Select(ctsl => new TechnicalSkillDto
-                {
-                    LevelName = ctsl.TechnicalSkillLevel.Name,
-                    TechnicalSkillName = ctsl.TechnicalSkillLevel.TechnicalSkill.Name
-                }).ToList()
-            };
+        //     var coderDto = new CoderDtoV1
+        //     {
+        //         Id = coder.Id,
+        //         Name = coder.Name,
+        //         GenderName = coder.Gender.Name,
+        //         ClanName = coder.Clan.Name,
+        //         Birthday = coder.Birthday,
+        //         Description = coder.Description,
+        //         UrlImage = coder.UrlImage,
+        //         SoftSkills = coder.CoderSoftSkills.Select(css => css.SoftSkill.Name).ToList(),
+        //         LanguageLevels = coder.CoderLanguageLevels.Select(cll => new LanguageLevelDto
+        //         {
+        //             LevelName = cll.LanguageLevel.Name,
+        //             LanguageName = cll.LanguageLevel.Language.Name
+        //         }).ToList(),
+        //         TechnicalSkillLevels = coder.CoderTechnicalSkillLevels.Select(ctsl => new TechnicalSkillDto
+        //         {
+        //             LevelName = ctsl.TechnicalSkillLevel.Name,
+        //             TechnicalSkillName = ctsl.TechnicalSkillLevel.TechnicalSkill.Name
+        //         }).ToList()
+        //     };
 
-            return Ok(coderDto);
-        }
+        //     return Ok(coderDto);
+        // }
 
-        //POST
-        [HttpPost]
-        public async Task<IActionResult> CreateCoder([FromBody] Coder newCoder)
-        {
+        // //POST
+        // [HttpPost]
+        // public async Task<IActionResult> CreateCoder([FromBody] Coder newCoder)
+        // {
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return BadRequest(ModelState);
+        //     }
 
-            _context.Coders.Add(newCoder);
-            await _context.SaveChangesAsync();
+        //     _context.Coders.Add(newCoder);
+        //     await _context.SaveChangesAsync();
 
-            return Created();
-        }
-
-
+        //     return Created();
+        // }
 
 
-        //PUT
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCoder(int id, [FromBody] CoderUpdateDto coderDto)
-        {
-            if (id != coderDto.Id)
-            {
-                return BadRequest();
-            }
 
-            var existingCoder = await _context.Coders
-                .Include(c => c.CoderSoftSkills)
-                .Include(c => c.CoderLanguageLevels)
-                .Include(c => c.CoderTechnicalSkillLevels)
-                .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (existingCoder == null)
-            {
-                return NotFound();
-            }
+        // //PUT
+        // [HttpPut("{id}")]
+        // public async Task<IActionResult> UpdateCoder(int id, [FromBody] CoderUpdateDto coderDto)
+        // {
+        //     if (id != coderDto.Id)
+        //     {
+        //         return BadRequest();
+        //     }
 
-            // Update basic properties
-            existingCoder.Name = coderDto.Name.ToLower();
-            existingCoder.Birthday = coderDto.Birthday;
-            existingCoder.Description = coderDto.Description.ToLower();
-            existingCoder.UrlImage = coderDto.UrlImage.ToLower();
-            existingCoder.Clan.Name = coderDto.ClanName.ToLower();
-            existingCoder.GenderId = coderDto.GenderId;
+        //     var existingCoder = await _context.Coders
+        //         .Include(c => c.CoderSoftSkills)
+        //         .Include(c => c.CoderLanguageLevels)
+        //         .Include(c => c.CoderTechnicalSkillLevels)
+        //         .FirstOrDefaultAsync(c => c.Id == id);
 
-            // Clear existing relationships
-            _context.CoderSoftSkills.RemoveRange(existingCoder.CoderSoftSkills);
-            _context.CoderLanguageLevels.RemoveRange(existingCoder.CoderLanguageLevels);
-            _context.CoderTechnicalSkillLevels.RemoveRange(existingCoder.CoderTechnicalSkillLevels);
+        //     if (existingCoder == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            // Add new relationships
-            foreach (var softSkillId in coderDto.SoftSkillIds)
-            {
-                _context.CoderSoftSkills.Add(new CoderSoftSkill { CoderId = id, SoftSkillId = softSkillId });
-            }
+        //     // Update basic properties
+        //     existingCoder.Name = coderDto.Name.ToLower();
+        //     existingCoder.Birthday = coderDto.Birthday;
+        //     existingCoder.Description = coderDto.Description.ToLower();
+        //     existingCoder.UrlImage = coderDto.UrlImage.ToLower();
+        //     existingCoder.Clan.Name = coderDto.ClanName.ToLower();
+        //     existingCoder.GenderId = coderDto.GenderId;
 
-            foreach (var language in coderDto.Languages)
-            {
-                var languageLevel = await _context.LanguageLevels
-                    .FirstOrDefaultAsync(ll => ll.LanguageId == language.LanguageId && ll.Id == language.LevelId);
+        //     // Clear existing relationships
+        //     _context.CoderSoftSkills.RemoveRange(existingCoder.CoderSoftSkills);
+        //     _context.CoderLanguageLevels.RemoveRange(existingCoder.CoderLanguageLevels);
+        //     _context.CoderTechnicalSkillLevels.RemoveRange(existingCoder.CoderTechnicalSkillLevels);
 
-                if (languageLevel != null)
-                {
-                    _context.CoderLanguageLevels.Add(new CoderLanguageLevel { CoderId = id, LanguageLevelId = languageLevel.Id });
-                }
-            }
+        //     // Add new relationships
+        //     foreach (var softSkillId in coderDto.SoftSkillIds)
+        //     {
+        //         _context.CoderSoftSkills.Add(new CoderSoftSkill { CoderId = id, SoftSkillId = softSkillId });
+        //     }
 
-            foreach (var technicalSkill in coderDto.TechnicalSkills)
-            {
-                var technicalSkillLevel = await _context.TechnicalSkillLevels
-                    .FirstOrDefaultAsync(tsl => tsl.TechnicalSkillId == technicalSkill.TechnicalSkillId && tsl.Id == technicalSkill.LevelId);
+        //     foreach (var language in coderDto.Languages)
+        //     {
+        //         var languageLevel = await _context.LanguageLevels
+        //             .FirstOrDefaultAsync(ll => ll.LanguageId == language.LanguageId && ll.Id == language.LevelId);
 
-                if (technicalSkillLevel != null)
-                {
-                    _context.CoderTechnicalSkillLevels.Add(new CoderTechnicalSkillLevel { CoderId = id, TechnicalSkillLevelId = technicalSkillLevel.Id });
-                }
-            }
+        //         if (languageLevel != null)
+        //         {
+        //             _context.CoderLanguageLevels.Add(new CoderLanguageLevel { CoderId = id, LanguageLevelId = languageLevel.Id });
+        //         }
+        //     }
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CoderExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //     foreach (var technicalSkill in coderDto.TechnicalSkills)
+        //     {
+        //         var technicalSkillLevel = await _context.TechnicalSkillLevels
+        //             .FirstOrDefaultAsync(tsl => tsl.TechnicalSkillId == technicalSkill.TechnicalSkillId && tsl.Id == technicalSkill.LevelId);
 
-            return NoContent();
-        }
+        //         if (technicalSkillLevel != null)
+        //         {
+        //             _context.CoderTechnicalSkillLevels.Add(new CoderTechnicalSkillLevel { CoderId = id, TechnicalSkillLevelId = technicalSkillLevel.Id });
+        //         }
+        //     }
 
-        //PATCH
-        [HttpPatch("{id}")]
-        [Consumes("application/json-patch+json")]
-        public async Task<IActionResult> PatchCoder(int id, [FromBody] JsonPatchDocument<CoderPatchDto> patchDoc)
-        {
-            if (patchDoc == null)
-            {
-                return BadRequest("Patch document is null");
-            }
+        //     try
+        //     {
+        //         await _context.SaveChangesAsync();
+        //     }
+        //     catch (DbUpdateConcurrencyException)
+        //     {
+        //         if (!CoderExists(id))
+        //         {
+        //             return NotFound();
+        //         }
+        //         else
+        //         {
+        //             throw;
+        //         }
+        //     }
 
-            var coder = await _context.Coders
-                .Include(c => c.CoderSoftSkills)
-                .Include(c => c.CoderLanguageLevels)
-                .Include(c => c.CoderTechnicalSkillLevels)
-                .FirstOrDefaultAsync(c => c.Id == id);
+        //     return NoContent();
+        // }
 
-            if (coder == null)
-            {
-                return NotFound();
-            }
+        // //PATCH
+        // [HttpPatch("{id}")]
+        // [Consumes("application/json-patch+json")]
+        // public async Task<IActionResult> PatchCoder(int id, [FromBody] JsonPatchDocument<CoderPatchDto> patchDoc)
+        // {
+        //     if (patchDoc == null)
+        //     {
+        //         return BadRequest("Patch document is null");
+        //     }
 
-            var coderPatchDto = new CoderPatchDto
-            {
-                Name = coder.Name,
-                Birthday = coder.Birthday,
-                Description = coder.Description,
-                UrlImage = coder.UrlImage,
-                ClanName = coder.Clan.Name,
-                GenderId = coder.GenderId,
-                SoftSkillIds = coder.CoderSoftSkills.Select(css => css.SoftSkillId).ToList(),
-                Languages = coder.CoderLanguageLevels.Select(cll => new LanguageWithLevelDto
-                {
-                    LanguageId = cll.LanguageLevel.LanguageId,
-                    LevelId = cll.LanguageLevel.Id
-                }).ToList(),
-                TechnicalSkills = coder.CoderTechnicalSkillLevels.Select(ctsl => new TechnicalSkillWithLevelDto
-                {
-                    TechnicalSkillId = ctsl.TechnicalSkillLevel.TechnicalSkillId,
-                    LevelId = ctsl.TechnicalSkillLevel.Id
-                }).ToList()
-            };
+        //     var coder = await _context.Coders
+        //         .Include(c => c.CoderSoftSkills)
+        //         .Include(c => c.CoderLanguageLevels)
+        //         .Include(c => c.CoderTechnicalSkillLevels)
+        //         .FirstOrDefaultAsync(c => c.Id == id);
 
-            patchDoc.ApplyTo(coderPatchDto, ModelState);
+        //     if (coder == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //     var coderPatchDto = new CoderPatchDto
+        //     {
+        //         Name = coder.Name,
+        //         Birthday = coder.Birthday,
+        //         Description = coder.Description,
+        //         UrlImage = coder.UrlImage,
+        //         ClanName = coder.Clan.Name,
+        //         GenderId = coder.GenderId,
+        //         SoftSkillIds = coder.CoderSoftSkills.Select(css => css.SoftSkillId).ToList(),
+        //         Languages = coder.CoderLanguageLevels.Select(cll => new LanguageWithLevelDto
+        //         {
+        //             LanguageId = cll.LanguageLevel.LanguageId,
+        //             LevelId = cll.LanguageLevel.Id
+        //         }).ToList(),
+        //         TechnicalSkills = coder.CoderTechnicalSkillLevels.Select(ctsl => new TechnicalSkillWithLevelDto
+        //         {
+        //             TechnicalSkillId = ctsl.TechnicalSkillLevel.TechnicalSkillId,
+        //             LevelId = ctsl.TechnicalSkillLevel.Id
+        //         }).ToList()
+        //     };
 
-            // Update basic properties
-            coder.Name = coderPatchDto.Name?.ToLower() ?? coder.Name;
-            coder.Birthday = coderPatchDto.Birthday ?? coder.Birthday;
-            coder.Description = coderPatchDto.Description?.ToLower() ?? coder.Description;
-            coder.UrlImage = coderPatchDto.UrlImage?.ToLower() ?? coder.UrlImage;
-            coder.Clan.Name = coderPatchDto.ClanName?.ToLower() ?? coder.Clan.Name;
-            coder.GenderId = coderPatchDto.GenderId ?? coder.GenderId;
+        //     patchDoc.ApplyTo(coderPatchDto, ModelState);
 
-            // Update relationships
-            if (coderPatchDto.SoftSkillIds != null)
-            {
-                _context.CoderSoftSkills.RemoveRange(coder.CoderSoftSkills);
-                foreach (var skillId in coderPatchDto.SoftSkillIds)
-                {
-                    _context.CoderSoftSkills.Add(new CoderSoftSkill { CoderId = id, SoftSkillId = skillId });
-                }
-            }
+        //     if (!ModelState.IsValid)
+        //     {
+        //         return BadRequest(ModelState);
+        //     }
 
-            if (coderPatchDto.Languages != null)
-            {
-                _context.CoderLanguageLevels.RemoveRange(coder.CoderLanguageLevels);
-                foreach (var language in coderPatchDto.Languages)
-                {
-                    var languageLevel = await _context.LanguageLevels
-                        .FirstOrDefaultAsync(ll => ll.LanguageId == language.LanguageId && ll.Id == language.LevelId);
+        //     // Update basic properties
+        //     coder.Name = coderPatchDto.Name?.ToLower() ?? coder.Name;
+        //     coder.Birthday = coderPatchDto.Birthday ?? coder.Birthday;
+        //     coder.Description = coderPatchDto.Description?.ToLower() ?? coder.Description;
+        //     coder.UrlImage = coderPatchDto.UrlImage?.ToLower() ?? coder.UrlImage;
+        //     coder.Clan.Name = coderPatchDto.ClanName?.ToLower() ?? coder.Clan.Name;
+        //     coder.GenderId = coderPatchDto.GenderId ?? coder.GenderId;
 
-                    if (languageLevel != null)
-                    {
-                        _context.CoderLanguageLevels.Add(new CoderLanguageLevel { CoderId = id, LanguageLevelId = languageLevel.Id });
-                    }
-                }
-            }
+        //     // Update relationships
+        //     if (coderPatchDto.SoftSkillIds != null)
+        //     {
+        //         _context.CoderSoftSkills.RemoveRange(coder.CoderSoftSkills);
+        //         foreach (var skillId in coderPatchDto.SoftSkillIds)
+        //         {
+        //             _context.CoderSoftSkills.Add(new CoderSoftSkill { CoderId = id, SoftSkillId = skillId });
+        //         }
+        //     }
 
-            if (coderPatchDto.TechnicalSkills != null)
-            {
-                _context.CoderTechnicalSkillLevels.RemoveRange(coder.CoderTechnicalSkillLevels);
-                foreach (var technicalSkill in coderPatchDto.TechnicalSkills)
-                {
-                    var technicalSkillLevel = await _context.TechnicalSkillLevels
-                        .FirstOrDefaultAsync(tsl => tsl.TechnicalSkillId == technicalSkill.TechnicalSkillId && tsl.Id == technicalSkill.LevelId);
+        //     if (coderPatchDto.Languages != null)
+        //     {
+        //         _context.CoderLanguageLevels.RemoveRange(coder.CoderLanguageLevels);
+        //         foreach (var language in coderPatchDto.Languages)
+        //         {
+        //             var languageLevel = await _context.LanguageLevels
+        //                 .FirstOrDefaultAsync(ll => ll.LanguageId == language.LanguageId && ll.Id == language.LevelId);
 
-                    if (technicalSkillLevel != null)
-                    {
-                        _context.CoderTechnicalSkillLevels.Add(new CoderTechnicalSkillLevel { CoderId = id, TechnicalSkillLevelId = technicalSkillLevel.Id });
-                    }
-                }
-            }
+        //             if (languageLevel != null)
+        //             {
+        //                 _context.CoderLanguageLevels.Add(new CoderLanguageLevel { CoderId = id, LanguageLevelId = languageLevel.Id });
+        //             }
+        //         }
+        //     }
 
-            await _context.SaveChangesAsync();
+        //     if (coderPatchDto.TechnicalSkills != null)
+        //     {
+        //         _context.CoderTechnicalSkillLevels.RemoveRange(coder.CoderTechnicalSkillLevels);
+        //         foreach (var technicalSkill in coderPatchDto.TechnicalSkills)
+        //         {
+        //             var technicalSkillLevel = await _context.TechnicalSkillLevels
+        //                 .FirstOrDefaultAsync(tsl => tsl.TechnicalSkillId == technicalSkill.TechnicalSkillId && tsl.Id == technicalSkill.LevelId);
 
-            return Ok("hola");
-        }
+        //             if (technicalSkillLevel != null)
+        //             {
+        //                 _context.CoderTechnicalSkillLevels.Add(new CoderTechnicalSkillLevel { CoderId = id, TechnicalSkillLevelId = technicalSkillLevel.Id });
+        //             }
+        //         }
+        //     }
 
-        //DELETE
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCoder(int id)
-        {
-            var coder = await _context.Coders.FindAsync(id);
-            if (coder == null)
-            {
-                return NotFound();
-            }
+        //     await _context.SaveChangesAsync();
 
-            _context.Coders.Remove(coder);
-            await _context.SaveChangesAsync();
+        //     return Ok("hola");
+        // }
 
-            return NoContent();
-        }
+        // //DELETE
+        // [HttpDelete("{id}")]
+        // public async Task<IActionResult> DeleteCoder(int id)
+        // {
+        //     var coder = await _context.Coders.FindAsync(id);
+        //     if (coder == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-        private bool CoderExists(int id)
-        {
-            return _context.Coders.Any(e => e.Id == id);
-        }
+        //     _context.Coders.Remove(coder);
+        //     await _context.SaveChangesAsync();
+
+        //     return NoContent();
+        // }
+
+        // private bool CoderExists(int id)
+        // {
+        //     return _context.Coders.Any(e => e.Id == id);
+        // }
     }
 }

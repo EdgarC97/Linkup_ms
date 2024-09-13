@@ -17,13 +17,14 @@ namespace Backend_Riwi_LinkUp.Data
         public DbSet<Coder> Coders { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<SoftSkill> SoftSkills { get; set; }
+
         public DbSet<Language> Languages { get; set; }
         public DbSet<LanguageLevel> LanguageLevels { get; set; }
         public DbSet<TechnicalSkill> TechnicalSkills { get; set; }
         public DbSet<TechnicalSkillLevel> TechnicalSkillLevels { get; set; }
         public DbSet<CoderSoftSkill> CoderSoftSkills { get; set; }
-        public DbSet<CoderLanguageLevel> CoderLanguageLevels { get; set; }
-        public DbSet<CoderTechnicalSkillLevel> CoderTechnicalSkillLevels { get; set; }
+        public DbSet<CoderLanguage> CoderLanguages { get; set; }
+        public DbSet<CoderTechnicalSkill> CoderTechnicalSkills { get; set; }
 
         public DbSet<User> Users { get; set; }
 
@@ -32,20 +33,20 @@ namespace Backend_Riwi_LinkUp.Data
             base.OnModelCreating(modelBuilder);
 
             // Seed initial data   
-            RoleSeeder.Seed(modelBuilder);
-            SectorSeeder.Seed(modelBuilder);
-            UserSeeder.Seed(modelBuilder);
-            GenderSeeder.Seed(modelBuilder);
-            ClanSeeder.Seed(modelBuilder);
-            CoderSeeder.Seed(modelBuilder);
-            SoftSkillSeeder.Seed(modelBuilder);
-            LanguageSeeder.Seed(modelBuilder);
-            TechnicalSkillSeeder.Seed(modelBuilder); 
-            LanguageLevelSeeder.Seed(modelBuilder);
-            CoderSoftSkillSeeder.Seed(modelBuilder);
-            TechnicalSkillLevelSeeder.Seed(modelBuilder);
-            CoderLanguageLevelSeeder.Seed(modelBuilder);
-            CoderTechnicalSkillLevelSeeder.Seed(modelBuilder);
+            // RoleSeeder.Seed(modelBuilder);
+            // SectorSeeder.Seed(modelBuilder);
+            // UserSeeder.Seed(modelBuilder);
+            // GenderSeeder.Seed(modelBuilder);
+            // ClanSeeder.Seed(modelBuilder);
+            // SoftSkillSeeder.Seed(modelBuilder);
+            // LanguageSeeder.Seed(modelBuilder);
+            // TechnicalSkillSeeder.Seed(modelBuilder);
+            // CoderSeeder.Seed(modelBuilder);
+            // LanguageLevelSeeder.Seed(modelBuilder);
+            // CoderSoftSkillSeeder.Seed(modelBuilder);
+            // TechnicalSkillLevelSeeder.Seed(modelBuilder);
+            // CoderLanguageSeeder.Seed(modelBuilder);
+            // CoderTechnicalSkillSeeder.Seed(modelBuilder);
 
             // Configure many-to-many relationship for CoderSoftSkill
             modelBuilder.Entity<CoderSoftSkill>()
@@ -55,45 +56,54 @@ namespace Backend_Riwi_LinkUp.Data
                 .HasOne(css => css.Coder)
                 .WithMany(c => c.CoderSoftSkills)
                 .HasForeignKey(css => css.CoderId)
-                .OnDelete(DeleteBehavior.Cascade); // Elimina entradas en CoderSoftSkills
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CoderSoftSkill>()
                 .HasOne(css => css.SoftSkill)
                 .WithMany(ss => ss.CoderSoftSkills)
                 .HasForeignKey(css => css.SoftSkillId)
-                .OnDelete(DeleteBehavior.Restrict); // No elimina SoftSkills
+                .OnDelete(DeleteBehavior.Restrict);
 
-            // Configure many-to-many relationship for CoderLanguageLevel
-            modelBuilder.Entity<CoderLanguageLevel>()
-                .HasKey(cll => new { cll.CoderId, cll.LanguageLevelId });
+            modelBuilder.Entity<CoderTechnicalSkill>()
+                .HasKey(cts => new { cts.CoderId, cts.TechnicalSkillId });
 
-            modelBuilder.Entity<CoderLanguageLevel>()
-                .HasOne(cll => cll.Coder)
-                .WithMany(c => c.CoderLanguageLevels)
-                .HasForeignKey(cll => cll.CoderId)
-                .OnDelete(DeleteBehavior.Cascade);// Elimina entradas en CoderLanguageLevels
+            modelBuilder.Entity<CoderTechnicalSkill>()
+                .HasOne(cts => cts.Coder)
+                .WithMany(c => c.CoderTechnicalSkills)
+                .HasForeignKey(cts => cts.CoderId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<CoderLanguageLevel>()
-                .HasOne(cll => cll.LanguageLevel)
-                .WithMany(ll => ll.CoderLanguageLevels)
-                .HasForeignKey(cll => cll.LanguageLevelId)
-                .OnDelete(DeleteBehavior.Restrict); // No elimina LanguageLevels
 
-            // Configure many-to-many relationship for CoderTechnicalSkillLevel
-            modelBuilder.Entity<CoderTechnicalSkillLevel>()
-                .HasKey(ctsl => new { ctsl.CoderId, ctsl.TechnicalSkillLevelId });
+            modelBuilder.Entity<CoderTechnicalSkill>()
+                .HasOne(cts => cts.TechnicalSkill)
+                .WithMany(ts => ts.CoderTechnicalSkills)
+                .HasForeignKey(cts => cts.TechnicalSkillId)
+                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<CoderTechnicalSkillLevel>()
-                .HasOne(ctsl => ctsl.Coder)
-                .WithMany(c => c.CoderTechnicalSkillLevels)
-                .HasForeignKey(ctsl => ctsl.CoderId)
-                .OnDelete(DeleteBehavior.Cascade); // Elimina entradas en CoderTechnicalSkillLevels
+            modelBuilder.Entity<CoderTechnicalSkill>()
+                .HasOne(cts => cts.TechnicalSkillLevel)
+                .WithMany(tsl => tsl.CoderTechnicalSkills)
+                .HasForeignKey(cts => cts.TechnicalSkillLevelId);
 
-            modelBuilder.Entity<CoderTechnicalSkillLevel>()
-                .HasOne(ctsl => ctsl.TechnicalSkillLevel)
-                .WithMany(tsl => tsl.CoderTechnicalSkillLevels)
-                .HasForeignKey(ctsl => ctsl.TechnicalSkillLevelId)
-                .OnDelete(DeleteBehavior.Restrict); // No elimina TechnicalSkillLevels
+            modelBuilder.Entity<CoderLanguage>()
+                .HasKey(cl => new { cl.CoderId, cl.LanguageId });
+
+            modelBuilder.Entity<CoderLanguage>()
+                .HasOne(cl => cl.Coder)
+                .WithMany(c => c.CoderLanguages)
+                .HasForeignKey(cl => cl.CoderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CoderLanguage>()
+                .HasOne(cl => cl.Language)
+                .WithMany(l => l.CoderLanguages)
+                .HasForeignKey(cl => cl.LanguageId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CoderLanguage>()
+                .HasOne(cl => cl.LanguageLevel)
+                .WithMany(ll => ll.CoderLanguages)
+                .HasForeignKey(cl => cl.LanguageLevelId);
 
         }
     }

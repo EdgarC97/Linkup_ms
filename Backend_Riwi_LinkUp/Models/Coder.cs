@@ -35,7 +35,7 @@ namespace Backend_Riwi_LinkUp.Models
         public Clan Clan { get; set; }
         
         public ICollection<CoderSoftSkill> CoderSoftSkills { get; set; }
-        public ICollection<CoderLanguageLevel> CoderLanguageLevels { get; set; }
-        public ICollection<CoderTechnicalSkillLevel> CoderTechnicalSkillLevels { get; set; }
+        public ICollection<CoderTechnicalSkill> CoderTechnicalSkills { get; set; }
+        public ICollection<CoderLanguage> CoderLanguages { get; set; }
     }
 }
