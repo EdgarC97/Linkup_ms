@@ -27,9 +27,24 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
+
+      - name: Build and push Docker image
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway up --detach
+          railway run --service ${{ secrets.RAILWAY_SERVICE_NAME }} -- docker build -t ${{ secrets.RAILWAY_SERVICE_NAME }} .
+          railway run --service ${{ secrets.RAILWAY_SERVICE_NAME }} -- docker push ${{ secrets.RAILWAY_REGISTRY }}/${{ secrets.RAILWAY_SERVICE_NAME }}
+
+      - name: Deploy to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
+
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           railway link --project-id ${{ secrets.RAILWAY_PROJECT_ID }} --environment ${{ secrets.RAILWAY_ENVIRONMENT_NAME }}
           railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }}
+
