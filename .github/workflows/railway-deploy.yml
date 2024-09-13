@@ -19,13 +19,16 @@ jobs:
       - name: Build and push Docker image
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME }}
         run: |
-          railway link --environment production --project Linkup_ms
-          railway up --service Backend_Riwi_LinkUp
-          docker build -t backend_riwi_linkup .
-          railway run --service Backend_Riwi_LinkUp -- docker push railway.app/backend_riwi_linkup
+          railway link --project $RAILWAY_PROJECT_ID --environment ${{ secrets.RAILWAY_ENVIRONMENT_NAME }}
+          railway up --service $RAILWAY_SERVICE_NAME
+          docker build -t $RAILWAY_SERVICE_NAME .
+          railway run --service $RAILWAY_SERVICE_NAME -- docker push railway.app/$RAILWAY_SERVICE_NAME
 
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway up --service Backend_Riwi_LinkUp
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME }}
+        run: railway up --service $RAILWAY_SERVICE_NAME
