@@ -21,18 +21,19 @@ namespace Backend_Riwi_LinkUp.DTOS
         [StringLength(255)]
         public string UrlImage { get; set; }
 
-        [StringLength(255)]
-        public string ClanName { get; set; }
-
         [Required]
         public int GenderId { get; set; }
+
+        [Required]
+        public int ClanId { get; set; }
 
         [Required]
         public List<int> SoftSkillIds { get; set; }
 
         [Required]
-        public List<LanguageWithLevelDto> Languages { get; set; }
+        public List<int> LanguageLevelIds { get; set; }
+
         [Required]
-        public List<TechnicalSkillWithLevelDto> TechnicalSkills { get; set; }
+        public List<int> TechnicalSkillLevelIds { get; set; }
     }
 }
