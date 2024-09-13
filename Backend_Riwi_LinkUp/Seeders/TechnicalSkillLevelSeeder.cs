@@ -12,9 +12,9 @@ namespace Backend_Riwi_LinkUp.Seeders
         public static void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TechnicalSkillLevel>().HasData(
-                new TechnicalSkillLevel { Id = 1, Name = "junior", TechnicalSkillId = 1 },
-                new TechnicalSkillLevel { Id = 2, Name = "semi-senior", TechnicalSkillId = 2 },
-                new TechnicalSkillLevel { Id = 3, Name = "senior", TechnicalSkillId = 3 }
+                new TechnicalSkillLevel { Id = 1, Name = "junior" },
+                new TechnicalSkillLevel { Id = 2, Name = "semi-senior" },
+                new TechnicalSkillLevel { Id = 3, Name = "senior" }
             );
         }
     }

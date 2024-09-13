@@ -17,9 +17,6 @@ namespace Backend_Riwi_LinkUp.Models
         [StringLength(50)]
         public string Name { get; set; }
         
-        public int TechnicalSkillId { get; set; }
-        public TechnicalSkill TechnicalSkill { get; set; }
-        
-        public ICollection<CoderTechnicalSkillLevel> CoderTechnicalSkillLevels { get; set; }
+        public ICollection<CoderTechnicalSkill> CoderTechnicalSkills { get; set; }
     }
 }

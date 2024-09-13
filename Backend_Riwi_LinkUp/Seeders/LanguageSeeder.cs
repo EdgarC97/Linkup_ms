@@ -13,8 +13,12 @@ namespace Backend_Riwi_LinkUp.Seeders
     {
         modelBuilder.Entity<Language>().HasData(
             new Language { Id = 1, Name = "inglés" },
-            new Language { Id = 2, Name = "español" },
-            new Language { Id = 3, Name = "francés" }
+            new Language { Id = 2, Name = "portugues" },
+            new Language { Id = 3, Name = "francés" },
+            new Language { Id = 4, Name = "aleman" },
+            new Language { Id = 5, Name = "chino" }
+
+
         );
     }
     }

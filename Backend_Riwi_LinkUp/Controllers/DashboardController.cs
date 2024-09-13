@@ -14,7 +14,7 @@ namespace Backend_Riwi_LinkUp.Controllers
     {
         // Dependency injection of the database context
         private readonly AppDbContext _context;
-        
+
         // Constructor to initialize the context
         public DashboardController(AppDbContext context)
         {
@@ -33,8 +33,9 @@ namespace Backend_Riwi_LinkUp.Controllers
         public async Task<int> GetFrontendCodersCount()
         {
             return await _context.Coders
-                .Where(c => c.CoderTechnicalSkillLevels
-                    .Any(cts => new[] { "javaScript", "nextJs" }.Contains(cts.TechnicalSkillLevel.TechnicalSkill.Name)))
+                .Where(c => c.CoderTechnicalSkills
+                    .Any(cts => new[] { "javaScript", "nextJs" }
+                        .Contains(cts.TechnicalSkill.Name)))
                 .CountAsync();
         }
 
@@ -43,8 +44,9 @@ namespace Backend_Riwi_LinkUp.Controllers
         public async Task<int> GetBackendCodersCount()
         {
             return await _context.Coders
-                .Where(c => c.CoderTechnicalSkillLevels
-                    .Any(cts => new[] { "c#", "java", "nodeJs" }.Contains(cts.TechnicalSkillLevel.TechnicalSkill.Name)))
+                .Where(c => c.CoderTechnicalSkills
+                    .Any(cts => new[] { "c#", "java", "nodeJs", "python" }
+                        .Contains(cts.TechnicalSkill.Name)))
                 .CountAsync();
         }
 
@@ -64,7 +66,7 @@ namespace Backend_Riwi_LinkUp.Controllers
                 .OrderBy(c => c.Year)
                 .ThenBy(c => c.Month)
                 .ToListAsync();
-                
+
             return Ok(companiesByMonth);
         }
     }

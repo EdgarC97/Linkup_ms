@@ -37,6 +37,9 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     b.HasKey("Id");
 
+<<<<<<< HEAD
+                    b.ToTable("Clan");
+=======
                     b.ToTable("Clans");
 
                     b.HasData(
@@ -60,6 +63,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                             Id = 4,
                             Name = "jeff bezzos"
                         });
+>>>>>>> e222f350f71a57a43498fd03c950fa0937da118c
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Coder", b =>
@@ -99,175 +103,32 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasIndex("GenderId");
 
                     b.ToTable("Coders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Birthday = new DateTime(1992, 5, 22, 1, 17, 51, 0, DateTimeKind.Utc),
-                            ClanId = 1,
-                            Description = "especialista en front-end",
-                            GenderId = 2,
-                            Name = "edgar cardona",
-                            UrlImage = "https://media.licdn.com/dms/image/v2/D4E03AQH22ztGRhoM2g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1677008729241?e=1731542400&v=beta&t=89RVHJpVnq8_m5ObsEU3CEs0KVrBraYI4gGWdIEuXEM"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Birthday = new DateTime(1988, 9, 30, 1, 17, 51, 0, DateTimeKind.Utc),
-                            ClanId = 2,
-                            Description = "desarrollador backend",
-                            GenderId = 1,
-                            Name = "nicolas martinez",
-                            UrlImage = "https://avatars.githubusercontent.com/u/164014608?v=4&size=64"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Birthday = new DateTime(1995, 3, 10, 1, 17, 51, 0, DateTimeKind.Utc),
-                            ClanId = 2,
-                            Description = "desarrolladora de aplicaciones móviles",
-                            GenderId = 2,
-                            Name = "brayan acosta",
-                            UrlImage = "https://media.licdn.com/dms/image/v2/C4D03AQHAwWzaQDI6gw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1641180503207?e=1731542400&v=beta&t=A7lWrZBzJ84ZlLdFsvKA73tbZKdP1vfPGuvf3Ah6XH4"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Birthday = new DateTime(1991, 7, 18, 1, 17, 51, 0, DateTimeKind.Utc),
-                            ClanId = 3,
-                            Description = "ingeniero devops",
-                            GenderId = 1,
-                            Name = "jose barreto",
-                            UrlImage = "https://media.licdn.com/dms/image/v2/D4E03AQEqn-8BGpvfaw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1724345138906?e=1731542400&v=beta&t=wWL1nKrccb9DfJVg8Dz6v49L3AIpunv8gkovi5BpqgQ"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Birthday = new DateTime(1993, 11, 5, 1, 17, 51, 0, DateTimeKind.Utc),
-                            ClanId = 4,
-                            Description = "diseñadora ui/ux",
-                            GenderId = 2,
-                            Name = "juan arias",
-                            UrlImage = "https://media.licdn.com/dms/image/v2/D4E03AQGXb8dGisr-wQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724327950529?e=1731542400&v=beta&t=uCMHF7cJT2SfM-4acPddFycPWzAUYFWYr_WofvG2Cf8"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Birthday = new DateTime(1989, 2, 28, 1, 17, 51, 0, DateTimeKind.Utc),
-                            ClanId = 1,
-                            Description = "científico de datos",
-                            GenderId = 1,
-                            Name = "juan rojas",
-                            UrlImage = "https://media.licdn.com/dms/image/v2/D4E03AQGyhYNRLL9edg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1681701914743?e=1731542400&v=beta&t=0aYfJifoDREE5dhY4dCSD8IECOotdQqJ5HwtLfAKkxw"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Birthday = new DateTime(1994, 6, 12, 1, 17, 51, 0, DateTimeKind.Utc),
-                            ClanId = 4,
-                            Description = "especialista en seguridad",
-                            GenderId = 2,
-                            Name = "ava martinez",
-                            UrlImage = "https://example.com/ava.jpg"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Birthday = new DateTime(1987, 10, 8, 1, 17, 51, 0, DateTimeKind.Utc),
-                            ClanId = 1,
-                            Description = "desarrollador de videojuegos",
-                            GenderId = 1,
-                            Name = "noah anderson",
-                            UrlImage = "https://example.com/noah.jpg"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Birthday = new DateTime(1996, 4, 25, 1, 17, 51, 0, DateTimeKind.Utc),
-                            ClanId = 2,
-                            Description = "desarrolladora de blockchain",
-                            GenderId = 2,
-                            Name = "isabella white",
-                            UrlImage = "https://example.com/isabella.jpg"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Birthday = new DateTime(1990, 1, 15, 1, 17, 51, 0, DateTimeKind.Utc),
-                            ClanId = 3,
-                            Description = "desarrollador full-stack",
-                            GenderId = 1,
-                            Name = "alex johnson",
-                            UrlImage = "https://example.com/alex.jpg"
-                        });
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguageLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguage", b =>
                 {
                     b.Property<int>("CoderId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("LanguageLevelId")
                         .HasColumnType("integer");
 
-                    b.HasKey("CoderId", "LanguageLevelId");
+                    b.HasKey("CoderId", "LanguageId");
+
+                    b.HasIndex("LanguageId");
 
                     b.HasIndex("LanguageLevelId");
 
-                    b.ToTable("CoderLanguageLevels");
-
-                    b.HasData(
-                        new
-                        {
-                            CoderId = 1,
-                            LanguageLevelId = 1
-                        },
-                        new
-                        {
-                            CoderId = 2,
-                            LanguageLevelId = 3
-                        },
-                        new
-                        {
-                            CoderId = 3,
-                            LanguageLevelId = 2
-                        },
-                        new
-                        {
-                            CoderId = 4,
-                            LanguageLevelId = 4
-                        },
-                        new
-                        {
-                            CoderId = 5,
-                            LanguageLevelId = 5
-                        },
-                        new
-                        {
-                            CoderId = 6,
-                            LanguageLevelId = 2
-                        },
-                        new
-                        {
-                            CoderId = 7,
-                            LanguageLevelId = 3
-                        },
-                        new
-                        {
-                            CoderId = 8,
-                            LanguageLevelId = 4
-                        },
-                        new
-                        {
-                            CoderId = 9,
-                            LanguageLevelId = 6
-                        },
-                        new
-                        {
-                            CoderId = 10,
-                            LanguageLevelId = 3
-                        });
+                    b.ToTable("CoderLanguages");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderSoftSkill", b =>
@@ -289,135 +150,32 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasIndex("SoftSkillId");
 
                     b.ToTable("CoderSoftSkills");
-
-                    b.HasData(
-                        new
-                        {
-                            CoderId = 1,
-                            SoftSkillId = 1,
-                            Id = 1
-                        },
-                        new
-                        {
-                            CoderId = 2,
-                            SoftSkillId = 2,
-                            Id = 2
-                        },
-                        new
-                        {
-                            CoderId = 3,
-                            SoftSkillId = 3,
-                            Id = 3
-                        },
-                        new
-                        {
-                            CoderId = 4,
-                            SoftSkillId = 4,
-                            Id = 4
-                        },
-                        new
-                        {
-                            CoderId = 5,
-                            SoftSkillId = 5,
-                            Id = 5
-                        },
-                        new
-                        {
-                            CoderId = 6,
-                            SoftSkillId = 6,
-                            Id = 6
-                        },
-                        new
-                        {
-                            CoderId = 7,
-                            SoftSkillId = 7,
-                            Id = 7
-                        },
-                        new
-                        {
-                            CoderId = 8,
-                            SoftSkillId = 8,
-                            Id = 8
-                        },
-                        new
-                        {
-                            CoderId = 9,
-                            SoftSkillId = 9,
-                            Id = 9
-                        },
-                        new
-                        {
-                            CoderId = 10,
-                            SoftSkillId = 10,
-                            Id = 10
-                        });
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkillLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkill", b =>
                 {
                     b.Property<int>("CoderId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("TechnicalSkillId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("TechnicalSkillLevelId")
                         .HasColumnType("integer");
 
-                    b.HasKey("CoderId", "TechnicalSkillLevelId");
+                    b.HasKey("CoderId", "TechnicalSkillId");
+
+                    b.HasIndex("TechnicalSkillId");
 
                     b.HasIndex("TechnicalSkillLevelId");
 
-                    b.ToTable("CoderTechnicalSkillLevels");
-
-                    b.HasData(
-                        new
-                        {
-                            CoderId = 1,
-                            TechnicalSkillLevelId = 1
-                        },
-                        new
-                        {
-                            CoderId = 2,
-                            TechnicalSkillLevelId = 3
-                        },
-                        new
-                        {
-                            CoderId = 3,
-                            TechnicalSkillLevelId = 2
-                        },
-                        new
-                        {
-                            CoderId = 4,
-                            TechnicalSkillLevelId = 1
-                        },
-                        new
-                        {
-                            CoderId = 5,
-                            TechnicalSkillLevelId = 3
-                        },
-                        new
-                        {
-                            CoderId = 6,
-                            TechnicalSkillLevelId = 2
-                        },
-                        new
-                        {
-                            CoderId = 7,
-                            TechnicalSkillLevelId = 3
-                        },
-                        new
-                        {
-                            CoderId = 8,
-                            TechnicalSkillLevelId = 1
-                        },
-                        new
-                        {
-                            CoderId = 9,
-                            TechnicalSkillLevelId = 1
-                        },
-                        new
-                        {
-                            CoderId = 10,
-                            TechnicalSkillLevelId = 3
-                        });
+                    b.ToTable("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Gender", b =>
@@ -436,23 +194,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "masculino"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "femenino"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "prefiero no indicarlo"
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Language", b =>
@@ -471,23 +212,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Languages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "inglés"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "español"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "francés"
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.LanguageLevel", b =>
@@ -498,9 +222,6 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -508,47 +229,7 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LanguageId");
-
                     b.ToTable("LanguageLevels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            LanguageId = 1,
-                            Name = "a1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            LanguageId = 2,
-                            Name = "a2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            LanguageId = 3,
-                            Name = "b1"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            LanguageId = 2,
-                            Name = "b2"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            LanguageId = 3,
-                            Name = "c1"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            LanguageId = 1,
-                            Name = "c2"
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Sector", b =>
@@ -567,33 +248,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sector");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "tecnología"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "finanzas"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "salud"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "educación"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "manufactura"
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.SoftSkill", b =>
@@ -612,58 +266,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SoftSkills");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "comunicación"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "trabajo en equipo"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "resolución de problemas"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "adaptabilidad"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "creatividad"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "gestión del tiempo"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "liderazgo"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "inteligencia emocional"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "pensamiento crítico"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "resolución de conflictos"
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkill", b =>
@@ -682,58 +284,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TechnicalSkills");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "javaScript"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "python"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "java"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "c#"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "sql"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "nextJs"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "nodeJs"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "docker"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "aws"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "machine learning"
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", b =>
@@ -749,34 +299,9 @@ namespace Backend_Riwi_LinkUp.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int>("TechnicalSkillId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TechnicalSkillId");
-
                     b.ToTable("TechnicalSkillLevels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "junior",
-                            TechnicalSkillId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "semi-senior",
-                            TechnicalSkillId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "senior",
-                            TechnicalSkillId = 3
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.User", b =>
@@ -824,6 +349,8 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasIndex("SectorId");
 
                     b.ToTable("Users");
+<<<<<<< HEAD
+=======
 
                     b.HasData(
                         new
@@ -956,6 +483,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                             RoleId = 2,
                             SectorId = 3
                         });
+>>>>>>> e222f350f71a57a43498fd03c950fa0937da118c
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.UserRole", b =>
@@ -974,18 +502,6 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserRole");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "cliente"
-                        });
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Coder", b =>
@@ -1007,21 +523,29 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.Navigation("Gender");
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguageLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderLanguage", b =>
                 {
                     b.HasOne("Backend_Riwi_LinkUp.Models.Coder", "Coder")
-                        .WithMany("CoderLanguageLevels")
+                        .WithMany("CoderLanguages")
                         .HasForeignKey("CoderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend_Riwi_LinkUp.Models.LanguageLevel", "LanguageLevel")
-                        .WithMany("CoderLanguageLevels")
-                        .HasForeignKey("LanguageLevelId")
+                    b.HasOne("Backend_Riwi_LinkUp.Models.Language", "Language")
+                        .WithMany("CoderLanguages")
+                        .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Backend_Riwi_LinkUp.Models.LanguageLevel", "LanguageLevel")
+                        .WithMany("CoderLanguages")
+                        .HasForeignKey("LanguageLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Coder");
+
+                    b.Navigation("Language");
 
                     b.Navigation("LanguageLevel");
                 });
@@ -1045,45 +569,31 @@ namespace Backend_Riwi_LinkUp.Migrations
                     b.Navigation("SoftSkill");
                 });
 
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkillLevel", b =>
+            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.CoderTechnicalSkill", b =>
                 {
                     b.HasOne("Backend_Riwi_LinkUp.Models.Coder", "Coder")
-                        .WithMany("CoderTechnicalSkillLevels")
+                        .WithMany("CoderTechnicalSkills")
                         .HasForeignKey("CoderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", "TechnicalSkillLevel")
-                        .WithMany("CoderTechnicalSkillLevels")
-                        .HasForeignKey("TechnicalSkillLevelId")
+                    b.HasOne("Backend_Riwi_LinkUp.Models.TechnicalSkill", "TechnicalSkill")
+                        .WithMany("CoderTechnicalSkills")
+                        .HasForeignKey("TechnicalSkillId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", "TechnicalSkillLevel")
+                        .WithMany("CoderTechnicalSkills")
+                        .HasForeignKey("TechnicalSkillLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Coder");
 
-                    b.Navigation("TechnicalSkillLevel");
-                });
-
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.LanguageLevel", b =>
-                {
-                    b.HasOne("Backend_Riwi_LinkUp.Models.Language", "Language")
-                        .WithMany("LanguageLevels")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Language");
-                });
-
-            modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", b =>
-                {
-                    b.HasOne("Backend_Riwi_LinkUp.Models.TechnicalSkill", "TechnicalSkill")
-                        .WithMany("TechnicalSkillLevels")
-                        .HasForeignKey("TechnicalSkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("TechnicalSkill");
+
+                    b.Navigation("TechnicalSkillLevel");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.User", b =>
@@ -1112,11 +622,11 @@ namespace Backend_Riwi_LinkUp.Migrations
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Coder", b =>
                 {
-                    b.Navigation("CoderLanguageLevels");
+                    b.Navigation("CoderLanguages");
 
                     b.Navigation("CoderSoftSkills");
 
-                    b.Navigation("CoderTechnicalSkillLevels");
+                    b.Navigation("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Gender", b =>
@@ -1126,12 +636,12 @@ namespace Backend_Riwi_LinkUp.Migrations
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Language", b =>
                 {
-                    b.Navigation("LanguageLevels");
+                    b.Navigation("CoderLanguages");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.LanguageLevel", b =>
                 {
-                    b.Navigation("CoderLanguageLevels");
+                    b.Navigation("CoderLanguages");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Sector", b =>
@@ -1146,12 +656,12 @@ namespace Backend_Riwi_LinkUp.Migrations
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkill", b =>
                 {
-                    b.Navigation("TechnicalSkillLevels");
+                    b.Navigation("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.TechnicalSkillLevel", b =>
                 {
-                    b.Navigation("CoderTechnicalSkillLevels");
+                    b.Navigation("CoderTechnicalSkills");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.UserRole", b =>
