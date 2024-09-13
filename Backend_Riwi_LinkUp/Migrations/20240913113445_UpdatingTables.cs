@@ -13,7 +13,7 @@ namespace Backend_Riwi_LinkUp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Clan",
+                name: "Clans",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -22,7 +22,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clan", x => x.Id);
+                    table.PrimaryKey("PK_Clans", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,9 +146,9 @@ namespace Backend_Riwi_LinkUp.Migrations
                 {
                     table.PrimaryKey("PK_Coders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Coders_Clan_ClanId",
+                        name: "FK_Coders_Clans_ClanId",
                         column: x => x.ClanId,
-                        principalTable: "Clan",
+                        principalTable: "Clans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -370,7 +370,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                 name: "UserRole");
 
             migrationBuilder.DropTable(
-                name: "Clan");
+                name: "Clans");
 
             migrationBuilder.DropTable(
                 name: "Genders");

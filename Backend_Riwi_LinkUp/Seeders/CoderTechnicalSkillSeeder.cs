@@ -18,7 +18,7 @@ namespace Backend_Riwi_LinkUp.Seeders
                 new CoderTechnicalSkill { Id = 4, CoderId = 3, TechnicalSkillId = 1, TechnicalSkillLevelId = 1},
                 new CoderTechnicalSkill { Id = 5, CoderId = 4, TechnicalSkillId = 6, TechnicalSkillLevelId = 1},
                 new CoderTechnicalSkill { Id = 6, CoderId = 5, TechnicalSkillId = 4, TechnicalSkillLevelId = 1},
-                new CoderTechnicalSkill { Id = 7, CoderId = 6, TechnicalSkillId = 7, TechnicalSkillLevelId = 1},
+                new CoderTechnicalSkill { Id = 7, CoderId = 6, TechnicalSkillId = 3, TechnicalSkillLevelId = 1},
                 new CoderTechnicalSkill { Id = 8, CoderId = 7, TechnicalSkillId = 1, TechnicalSkillLevelId = 1},
                 new CoderTechnicalSkill { Id = 9, CoderId = 8, TechnicalSkillId = 5, TechnicalSkillLevelId = 1},
                 new CoderTechnicalSkill { Id = 10, CoderId = 9, TechnicalSkillId = 1, TechnicalSkillLevelId = 1},
