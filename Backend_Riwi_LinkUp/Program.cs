@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
 using Backend_Riwi_LinkUp.Data;
 using Backend_Riwi_LinkUp.Extensions;
+using Backend_Riwi_LinkUp.Interfaces;
+using Backend_Riwi_LinkUp.Services;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -55,7 +57,7 @@ builder.Services.AddSwaggerGen(c =>
     // Configura Swagger para usar NewtonsoftJson
     c.OperationFilter<SwaggerJsonPatchOperationFilter>();
 });
-
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddIdentityServices(builder.Configuration);
 
@@ -79,6 +81,10 @@ app.MapControllers();
 // var port = builder.Configuration["PORT"] ?? "5298";
 // $"http://0.0.0.0:{port}"
 app.Run();
+
+// Use the PORT environment variable provided by Railway
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Urls.Add($"http://0.0.0.0:{port}");
 
 // Clase auxiliar para configurar Swagger para JSON Patch
 public class SwaggerJsonPatchOperationFilter : IOperationFilter
