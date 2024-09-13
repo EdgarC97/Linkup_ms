@@ -20,5 +20,6 @@ namespace Backend_Riwi_LinkUp.Models
 
         public int LanguageLevelId { get; set; }
         public LanguageLevel LanguageLevel { get; set; }
+
     }
 }

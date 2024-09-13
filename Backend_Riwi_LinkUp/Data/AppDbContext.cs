@@ -16,6 +16,7 @@ namespace Backend_Riwi_LinkUp.Data
 
         public DbSet<Coder> Coders { get; set; }
         public DbSet<Gender> Genders { get; set; }
+        public DbSet<Clan> Clans { get; set; }
         public DbSet<SoftSkill> SoftSkills { get; set; }
 
         public DbSet<Language> Languages { get; set; }
