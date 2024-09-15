@@ -74,8 +74,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Use the PORT environment variable provided by Railway
-// var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-// app.Urls.Add($"http://0.0.0.0:{port}");
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5298";
+app.Urls.Add($"http://0.0.0.0:{port}");
+
 app.Run();
 
 
