@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend_Riwi_LinkUp.Data;
 using Backend_Riwi_LinkUp.DTOS;
+using Linkup_ms.DTOS;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,25 +63,12 @@ namespace Backend_Riwi_LinkUp.Controllers.v3
             }
 
             var filteredCoders = await query
-                .Select(c => new CoderDto
+                .Select(c => new CoderDtoV3
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    GenderName = c.Gender.Name,
-                    ClanName = c.Clan.Name,
-                    SoftSkills = c.CoderSoftSkills.Select(css => css.SoftSkill.Name).ToList(),
-                    LanguageLevels = c.CoderLanguages.Select(cl => new LanguageLevelDto
-                    {
-                        Id = cl.LanguageLevel.Id,
-                        LevelName = cl.LanguageLevel.Name,
-                        LanguageName = cl.Language.Name
-                    }).ToList(),
-                    TechnicalSkillLevels = c.CoderTechnicalSkills.Select(cts => new TechnicalSkillDto
-                    {
-                        Id = cts.TechnicalSkillLevel.Id,
-                        LevelName = cts.TechnicalSkillLevel.Name,
-                        TechnicalSkillName = cts.TechnicalSkill.Name
-                    }).ToList()
+                    UrlImage = c.UrlImage,
+                    Birthday = c.Birthday,
                 })
                 .ToListAsync();
 
