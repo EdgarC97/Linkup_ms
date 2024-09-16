@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend_Riwi_LinkUp.Data;
 using Backend_Riwi_LinkUp.DTOS;
+using Linkup_ms.DTOS;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -73,25 +74,13 @@ namespace Backend_Riwi_LinkUp.Controllers.v3
 
             // Executes the query and maps the result to a list of CoderDto
             var filteredCoders = await query
-                .Select(c => new CoderDto
+                .Select(c => new CoderDtoV3
                 {
-                    Id = c.Id, // Coder's ID
-                    Name = c.Name, // Coder's name
-                    GenderName = c.Gender.Name, // Coder's gender name
-                    ClanName = c.Clan.Name, // Coder's clan name
-                    SoftSkills = c.CoderSoftSkills.Select(css => css.SoftSkill.Name).ToList(), // List of coder's soft skills
-                    LanguageLevels = c.CoderLanguages.Select(cl => new LanguageLevelDto
-                    {
-                        Id = cl.LanguageLevel.Id, // Language level ID
-                        LevelName = cl.LanguageLevel.Name, // Language level name
-                        LanguageName = cl.Language.Name // Language name
-                    }).ToList(), // List of coder's languages and levels
-                    TechnicalSkillLevels = c.CoderTechnicalSkills.Select(cts => new TechnicalSkillDto
-                    {
-                        Id = cts.TechnicalSkillLevel.Id, // Technical skill level ID
-                        LevelName = cts.TechnicalSkillLevel.Name, // Technical skill level name
-                        TechnicalSkillName = cts.TechnicalSkill.Name // Technical skill name
-                    }).ToList() // List of coder's technical skills and levels
+                    Id = c.Id,
+                    Name = c.Name,
+                    UrlImage = c.UrlImage,
+                    Birthday = c.Birthday,
+
                 })
                 .ToListAsync(); // Execute query asynchronously
 
