@@ -1,32 +1,28 @@
+# Usar la imagen base de .NET SDK
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0
+# Establecer el directorio de trabajo
 WORKDIR /app
 
-COPY . .
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+# Copiar el archivo de solución y el archivo del proyecto
+COPY Linkup_ms.sln ./
+COPY Linkup_ms.csproj ./
 
-ENV ASPNETCORE_URLS=http://+:8080
+# Restaurar las dependencias del proyecto
+RUN dotnet restore Linkup_ms.csproj
 
-ENTRYPOINT ["dotnet", "out/Backend_Riwi_LinkUp.dll"]
-=======
-# Etapa de compilación
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-WORKDIR /src
+# Copiar el resto del código y construir el proyecto
+COPY . ./
+RUN dotnet publish Linkup_ms.csproj -c Release -o out
 
-# Copiar csproj y restaurar dependencias
-COPY *.sln .
-COPY Backend_Riwi_LinkUp/*.csproj ./Backend_Riwi_LinkUp/
-RUN dotnet restore
+# Crear una imagen de runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
-# Copiar todo y construir
-COPY Backend_Riwi_LinkUp/. ./Backend_Riwi_LinkUp/
-WORKDIR /src/Backend_Riwi_LinkUp
-RUN dotnet publish -c Release -o /app/publish
-
-# Etapa de ejecución
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# Establecer el directorio de trabajo
 WORKDIR /app
-COPY --from=build-env /app/publish .
-ENTRYPOINT ["dotnet", "Backend_Riwi_LinkUp.dll"]
 
+# Copiar los archivos compilados desde la etapa de build
+COPY --from=build /app/out ./
+
+# Establecer el punto de entrada de la aplicación
+ENTRYPOINT ["dotnet", "Linkup_ms.dll"]
