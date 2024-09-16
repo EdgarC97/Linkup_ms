@@ -28,7 +28,7 @@ namespace Backend_Riwi_LinkUp.Data
         public DbSet<CoderTechnicalSkill> CoderTechnicalSkills { get; set; }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Sector> Sector { get; set; }
+        public DbSet<Sector> Sectors { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         
 

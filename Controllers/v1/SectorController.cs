@@ -25,7 +25,7 @@ namespace Linkup_ms.Controllers.v1
         {
             try
             {
-                var sectors = await _context.Sector.ToListAsync();
+                var sectors = await _context.Sectors.ToListAsync();
                 return Ok(sectors);
             }
             catch(Exception ex)
