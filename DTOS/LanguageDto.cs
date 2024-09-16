@@ -9,5 +9,6 @@ namespace Backend_Riwi_LinkUp.DTOS
     {
         public int Id { get; set; } 
         public string Name { get; set; }
+        public int LevelId { get; set; }
     }
 }

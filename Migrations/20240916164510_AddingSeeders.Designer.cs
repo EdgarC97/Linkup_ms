@@ -9,11 +9,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Backend_Riwi_LinkUp.Migrations
+namespace Linkup_ms.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240913180300_FixingMigrations")]
-    partial class FixingMigrations
+    [Migration("20240916164510_AddingSeeders")]
+    partial class AddingSeeders
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -228,7 +228,7 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sector");
+                    b.ToTable("Sectors");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.SoftSkill", b =>
@@ -347,7 +347,7 @@ namespace Backend_Riwi_LinkUp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Backend_Riwi_LinkUp.Models.Coder", b =>

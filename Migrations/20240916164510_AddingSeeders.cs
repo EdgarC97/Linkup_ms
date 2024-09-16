@@ -4,10 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Backend_Riwi_LinkUp.Migrations
+namespace Linkup_ms.Migrations
 {
     /// <inheritdoc />
-    public partial class FixingMigrations : Migration
+    public partial class AddingSeeders : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -65,7 +65,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sector",
+                name: "Sectors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -74,7 +74,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sector", x => x.Id);
+                    table.PrimaryKey("PK_Sectors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,7 +117,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRole",
+                name: "UserRoles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -126,7 +126,7 @@ namespace Backend_Riwi_LinkUp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRole", x => x.Id);
+                    table.PrimaryKey("PK_UserRoles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -179,15 +179,15 @@ namespace Backend_Riwi_LinkUp.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Sector_SectorId",
+                        name: "FK_Users_Sectors_SectorId",
                         column: x => x.SectorId,
-                        principalTable: "Sector",
+                        principalTable: "Sectors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Users_UserRole_RoleId",
+                        name: "FK_Users_UserRoles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "UserRole",
+                        principalTable: "UserRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -374,10 +374,10 @@ namespace Backend_Riwi_LinkUp.Migrations
                 name: "TechnicalSkills");
 
             migrationBuilder.DropTable(
-                name: "Sector");
+                name: "Sectors");
 
             migrationBuilder.DropTable(
-                name: "UserRole");
+                name: "UserRoles");
 
             migrationBuilder.DropTable(
                 name: "Clans");
