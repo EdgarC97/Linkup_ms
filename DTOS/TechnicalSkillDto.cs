@@ -10,5 +10,6 @@ namespace Backend_Riwi_LinkUp.DTOS
         public int Id { get; set; }
         public string LevelName { get; set; }
         public string TechnicalSkillName { get; set; }
+        public int LevelId { get; set; }
     }
 }
