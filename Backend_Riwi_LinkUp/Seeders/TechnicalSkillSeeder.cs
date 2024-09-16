@@ -12,12 +12,10 @@ namespace Backend_Riwi_LinkUp.Seeders
         public static void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TechnicalSkill>().HasData(
-                new TechnicalSkill { Id = 1, Name = "javaScript" },
-                new TechnicalSkill { Id = 2, Name = "python" },
-                new TechnicalSkill { Id = 3, Name = "java" },
-                new TechnicalSkill { Id = 4, Name = "c#" },
-                new TechnicalSkill { Id = 5, Name = "nextJs" },
-                new TechnicalSkill { Id = 6, Name = "nodeJs" }
+                new TechnicalSkill { Id = 1, Name = "java" },
+                new TechnicalSkill { Id = 2, Name = "c#" },
+                new TechnicalSkill { Id = 3, Name = "nextJs" },
+                new TechnicalSkill { Id = 4, Name = "nodeJs" }
             );
         }
     }
