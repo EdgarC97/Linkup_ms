@@ -39,7 +39,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.WithOrigins("http://127.0.0.1:3000", "http://localhost:3000", "https://tu-app-railway.up.railway.app", "http://127.0.0.1:5500", "http://localhost:5500")
+            builder.WithOrigins("http://127.0.0.1:3000", "http://localhost:3000", "https://riwi-linkup.vercel.app/", "http://127.0.0.1:5500", "http://localhost:5500")
                    .AllowAnyHeader()
                    .AllowAnyMethod()
                    .AllowCredentials();
