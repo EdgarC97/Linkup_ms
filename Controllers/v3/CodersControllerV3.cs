@@ -23,56 +23,69 @@ namespace Backend_Riwi_LinkUp.Controllers.v3
             _context = context;
         }
 
-        // Endpoint to filter coders based on various query parameters
+        /// <summary>
+        /// Filters coders based on various query parameters.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows you to filter coders using optional query parameters. You can filter by clan ID, gender ID, and by multiple IDs for languages, technical skills, and soft skills. The query will return a list of coders matching the specified criteria. If no filters are applied, it will return all coders.
+        ///
+        /// The query parameters are:
+        /// - `clanId` (optional): Filter coders by a specific clan ID.
+        /// - `genderId` (optional): Filter coders by a specific gender ID.
+        /// - `languageIds`: Filter coders by a list of language IDs they are associated with.
+        /// - `technicalSkillIds`: Filter coders by a list of technical skill IDs they possess.
+        /// - `softSkillIds`: Filter coders by a list of soft skill IDs they have.
+        ///
+        /// The result will include coders with their related data such as gender, clan, soft skills, languages, and technical skills.
+        /// </remarks>
         [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<CoderDto>>> FilterCoders(
-            [FromQuery] int? clanId, // Optional clanId filter
-            [FromQuery] int? genderId, // Optional genderId filter
-            [FromQuery] List<int> languageIds, // List of language IDs to filter by
-            [FromQuery] List<int> technicalSkillIds, // List of technical skill IDs to filter by
-            [FromQuery] List<int> softSkillIds // List of soft skill IDs to filter by
+            [FromQuery] int? clanId, 
+            [FromQuery] int? genderId, 
+            [FromQuery] List<int> languageIds, 
+            [FromQuery] List<int> technicalSkillIds, 
+            [FromQuery] List<int> softSkillIds 
         )
         {
-            // Base query to fetch coders with related data using eager loading
-            var query = _context.Coders
-                .Include(c => c.Gender) // Include gender relationship
-                .Include(c => c.Clan) // Include clan relationship
-                .Include(c => c.CoderSoftSkills).ThenInclude(css => css.SoftSkill) // Include soft skills relationship
-                .Include(c => c.CoderLanguages).ThenInclude(cl => cl.Language) // Include language relationship
-                .Include(c => c.CoderTechnicalSkills).ThenInclude(cts => cts.TechnicalSkill) // Include technical skills relationship
-                .AsQueryable(); // Makes the query flexible for further conditions
 
-            // Apply clan filter if specified
+            var query = _context.Coders
+                .Include(c => c.Gender) 
+                .Include(c => c.Clan) 
+                .Include(c => c.CoderSoftSkills).ThenInclude(css => css.SoftSkill) 
+                .Include(c => c.CoderLanguages).ThenInclude(cl => cl.Language) 
+                .Include(c => c.CoderTechnicalSkills).ThenInclude(cts => cts.TechnicalSkill) 
+                .AsQueryable();
+
+
             if (clanId.HasValue)
             {
                 query = query.Where(c => c.ClanId == clanId.Value);
             }
 
-            // Apply gender filter if specified
+
             if (genderId.HasValue)
             {
                 query = query.Where(c => c.GenderId == genderId.Value);
             }
 
-            // Apply language filter if any language IDs are specified
+
             if (languageIds.Any())
             {
                 query = query.Where(c => c.CoderLanguages.Any(cl => languageIds.Contains(cl.LanguageId)));
             }
 
-            // Apply technical skill filter if any technical skill IDs are specified
+
             if (technicalSkillIds.Any())
             {
                 query = query.Where(c => c.CoderTechnicalSkills.Any(cts => technicalSkillIds.Contains(cts.TechnicalSkillId)));
             }
 
-            // Apply soft skill filter if any soft skill IDs are specified
+
             if (softSkillIds.Any())
             {
                 query = query.Where(c => c.CoderSoftSkills.Any(css => softSkillIds.Contains(css.SoftSkillId)));
             }
 
-            // Executes the query and maps the result to a list of CoderDto
             var filteredCoders = await query
                 .Select(c => new CoderDtoV3
                 {
@@ -80,12 +93,12 @@ namespace Backend_Riwi_LinkUp.Controllers.v3
                     Name = c.Name,
                     UrlImage = c.UrlImage,
                     Birthday = c.Birthday,
-
                 })
-                .ToListAsync(); // Execute query asynchronously
+                .ToListAsync(); 
 
-            // Return the filtered list of coders in the response
+
             return Ok(filteredCoders);
         }
+
     }
 }

@@ -22,7 +22,12 @@ namespace Backend_Riwi_LinkUp.ControllersV1
             _context = context;
         }
 
-        // GET: api/v1/Coders
+        /// <summary>
+        /// Retrieves a list of coders with their associated details.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of coders from the database, including their gender, clan, soft skills, languages, and technical skills. Each coder's details are returned in a structured format, including their name, birthday, description, image URL, and associated skills and levels.
+        /// </remarks>
         [HttpGet]
         public async Task<IActionResult> GetCoders()
         {
@@ -63,7 +68,13 @@ namespace Backend_Riwi_LinkUp.ControllersV1
             return Ok(coders);
         }
 
-        // GET: api/v1/Coders/{id}
+
+        /// <summary>
+        /// Retrieves the details of a specific coder by their ID.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches detailed information about a coder, including their gender, clan, soft skills, languages, and technical skills. If the coder with the specified ID exists, it returns their details. If no coder is found with the given ID, it returns a NotFound response.
+        /// </remarks>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCoder(int id)
         {
@@ -112,8 +123,14 @@ namespace Backend_Riwi_LinkUp.ControllersV1
 
             return Ok(coder);
         }
-  
-        // GET: api/v1/Coders/Genders
+
+
+        /// <summary>
+        /// Retrieves a list of all genders.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of all genders from the database. Each gender is represented by its ID and name.
+        /// </remarks>
         [HttpGet("Genders")]
         public async Task<ActionResult<IEnumerable<GenderDto>>> GetGenders()
         {
@@ -124,7 +141,13 @@ namespace Backend_Riwi_LinkUp.ControllersV1
             return Ok(genders);
         }
 
-        // GET: api/v1/Coders/Clans
+
+        /// <summary>
+        /// Retrieves a list of all clans.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of all clans from the database. Each clan is represented by its ID and name.
+        /// </remarks>
         [HttpGet("Clans")]
         public async Task<ActionResult<IEnumerable<ClanDto>>> GetClans()
         {
@@ -135,7 +158,12 @@ namespace Backend_Riwi_LinkUp.ControllersV1
             return Ok(clans);
         }
 
-        // GET: api/v1/Coders/SoftSkills
+        /// <summary>
+        /// Retrieves a list of all soft skills.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of all soft skills from the database. Each soft skill is represented by its ID and name.
+        /// </remarks>
         [HttpGet("SoftSkills")]
         public async Task<ActionResult<IEnumerable<SoftSkillDto>>> GetSoftSkills()
         {
@@ -146,7 +174,13 @@ namespace Backend_Riwi_LinkUp.ControllersV1
             return Ok(softSkills);
         }
 
-        // GET: api/v1/Coders/Languages
+
+        /// <summary>
+        /// Retrieves a list of all languages.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of all languages from the database. Each language is represented by its ID and name.
+        /// </remarks>
         [HttpGet("Languages")]
         public async Task<ActionResult<IEnumerable<LanguageDto>>> GetLanguages()
         {
@@ -157,7 +191,13 @@ namespace Backend_Riwi_LinkUp.ControllersV1
             return Ok(languages);
         }
 
-        // GET: api/v1/Coders/TechnicalSkills
+
+        /// <summary>
+        /// Retrieves a list of all technical skills.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of all technical skills from the database. Each technical skill is represented by its ID and name.
+        /// </remarks>
         [HttpGet("TechnicalSkills")]
         public async Task<ActionResult<IEnumerable<TechnicalSkillDto>>> GetTechnicalSkills()
         {
@@ -168,7 +208,13 @@ namespace Backend_Riwi_LinkUp.ControllersV1
             return Ok(technicalSkills);
         }
 
-        // GET: api/v1/Coders/LanguageLevels
+
+        /// <summary>
+        /// Retrieves a list of all language levels.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of all language levels from the database. Each language level is represented by its ID and name.
+        /// </remarks>
         [HttpGet("LanguageLevels")]
         public async Task<ActionResult<IEnumerable<LanguageLevelDto>>> GetLanguageLevels()
         {
@@ -179,7 +225,13 @@ namespace Backend_Riwi_LinkUp.ControllersV1
             return Ok(languageLevels);
         }
 
-        // GET: api/v1/Coders/TechnicalSkillLevels
+
+        /// <summary>
+        /// Retrieves a list of all technical skill levels.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of all technical skill levels from the database. Each technical skill level is represented by its ID and name.
+        /// </remarks>
         [HttpGet("TechnicalSkillLevels")]
         public async Task<ActionResult<IEnumerable<TechnicalSkillLevelDto>>> GetTechnicalSkillLevels()
         {

@@ -22,7 +22,12 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             _context = context;
         }
 
-        // GET
+        /// <summary>
+        /// Retrieves a list of all coders.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of all coders from the database. Each coder is represented by their ID, name, birthday, URL image, and description.
+        /// </remarks>
         [HttpGet]
         public async Task<IActionResult> GetCoders()
         {
@@ -40,7 +45,13 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             return Ok(coders);
         }
 
-        // GET /id
+
+        /// <summary>
+        /// Retrieves a specific coder by their ID.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches the details of a single coder from the database based on the provided ID. The coder is represented by their ID, name, birthday, URL image, and description. If no coder is found with the given ID, it returns a 404 Not Found response.
+        /// </remarks>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCoder(int id)
         {
@@ -64,7 +75,13 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             return Ok(coder);
         }
 
-        // POST: api/v2/Coders
+
+        /// <summary>
+        /// Creates a new coder.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows for the creation of a new coder in the database. The coder's details are provided in the request body. The endpoint performs validation checks to ensure that the specified gender and clan exist. If the creation is successful, it returns a response with the details of the newly created coder. In case of errors, appropriate error messages are returned.
+        /// </remarks>
         [HttpPost]
         public async Task<IActionResult> CreateCoder([FromBody] CoderCreationDto coderDto)
         {
@@ -76,7 +93,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             var gender = await _context.Genders.FindAsync(coderDto.GenderId);
             if (gender == null)
             {
-                return BadRequest("El género especificado no existe.");
+                return BadRequest("El clan especificado no existe.");
             }
 
             var clan = await _context.Clans.FindAsync(coderDto.ClanId);
@@ -85,7 +102,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 return BadRequest("El clan especificado no existe.");
             }
 
-            // Convertir campos a minúsculas
+            // Convert fields to lowercase
             coderDto.Name = coderDto.Name?.ToLower();
             coderDto.Description = coderDto.Description?.ToLower();
             coderDto.UrlImage = coderDto.UrlImage?.ToLower();
@@ -122,6 +139,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 data = responseDto
             });
         }
+
 
         private async Task AddCoderRelationships(int coderId, CoderCreationDto coderDto)
         {
@@ -192,7 +210,12 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             };
         }
 
-        // PUT: api/v2/Coders/{id}
+        /// <summary>
+        /// Updates the details of an existing coder.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint updates the details of a coder in the database based on the provided ID. The updated details are provided in the request body. It performs validation to ensure that the coder exists and updates the coder's information accordingly. In case of errors during the update process, appropriate error messages are returned.
+        /// </remarks>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCoder(int id, [FromBody] CoderUpdateDto coderDto)
         {
@@ -207,7 +230,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 return NotFound();
             }
 
-            // Convertir campos a minúsculas
+            // Convert fields to lowercase
             coderDto.Name = coderDto.Name?.ToLower();
             coderDto.Description = coderDto.Description?.ToLower();
             coderDto.UrlImage = coderDto.UrlImage?.ToLower();
@@ -229,7 +252,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 await UpdateCoderRelationships(id, coderDto);
                 await transaction.CommitAsync();
             }
-            catch (DbUpdateException )
+            catch (DbUpdateException)
             {
                 await transaction.RollbackAsync();
                 // Log the exception details here
@@ -238,6 +261,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
 
             return NoContent();
         }
+
 
         private async Task UpdateCoderRelationships(int coderId, CoderUpdateDto coderDto)
         {
@@ -288,7 +312,12 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             return _context.Coders.Any(c => c.Id == id);
         }
 
-        // PATCH: api/v2/Coders/{id}
+        /// <summary>
+        /// Applies partial updates to an existing coder.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows partial updates to the details of a coder using a JSON Patch document. The patch document contains the fields to be updated, and the changes are applied to the coder identified by the specified ID. The method handles validation and ensures that the updates are correctly applied before saving them to the database. It also includes error handling for concurrency issues and invalid patch documents.
+        /// </remarks>
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchCoder(int id, [FromBody] JsonPatchDocument<CoderUpdateDto> patchDoc)
         {
@@ -359,7 +388,13 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             return NoContent();
         }
 
-        // DELETE: api/v1/Coders/{id}
+
+        /// <summary>
+        /// Deletes a coder by its unique identifier.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint deletes the coder specified by the given ID from the database. If the coder does not exist, it returns a 404 Not Found status. If the deletion is successful, it returns a 204 No Content status. This operation is used to remove a coder entry from the system permanently.
+        /// </remarks>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCoder(int id)
         {
