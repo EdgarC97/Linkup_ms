@@ -7,7 +7,10 @@ namespace Linkup_ms.DTOS
 {
     public class TechnicalSkillDtoV1
     {
+        // Unique identifier for the technical skill
         public int Id { get; set; }
+
+        // Name of the technical skill
         public string TechnicalSkillName { get; set; }
     }
 }
