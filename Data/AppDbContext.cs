@@ -37,7 +37,7 @@ namespace Backend_Riwi_LinkUp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            
             // Seed initial data for various entities
             RoleSeeder.Seed(modelBuilder); // Seed roles
             SectorSeeder.Seed(modelBuilder); // Seed sectors
@@ -53,6 +53,7 @@ namespace Backend_Riwi_LinkUp.Data
             CoderSoftSkillSeeder.Seed(modelBuilder); // Seed coder soft skills
             CoderLanguageSeeder.Seed(modelBuilder); // Seed coder languages
             CoderTechnicalSkillSeeder.Seed(modelBuilder); // Seed coder technical skills
+
 
             // Configure the many-to-many relationship for CoderLanguage
             modelBuilder.Entity<CoderLanguage>(entity =>
