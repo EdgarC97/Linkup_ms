@@ -90,6 +90,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v1
 
             return new UserDto
             {
+                Name = user.Name,
                 RoleId = user.RoleId,
                 Email = user.Email,
                 Token = _tokenService.CreateToken(user),
