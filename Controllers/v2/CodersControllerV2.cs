@@ -85,6 +85,11 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 return BadRequest("El clan especificado no existe.");
             }
 
+            // Convertir campos a minúsculas
+            coderDto.Name = coderDto.Name?.ToLower();
+            coderDto.Description = coderDto.Description?.ToLower();
+            coderDto.UrlImage = coderDto.UrlImage?.ToLower();
+
             var coder = new Coder
             {
                 Name = coderDto.Name,
@@ -111,7 +116,11 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             // Create response DTO
             var responseDto = await CreateCoderResponseDto(coder.Id);
 
-            return CreatedAtAction(nameof(GetCoder), new { id = coder.Id }, responseDto);
+            return CreatedAtAction(nameof(GetCoder), new { id = coder.Id }, new
+            {
+                message = "Coder created successfully",
+                data = responseDto
+            });
         }
 
         private async Task AddCoderRelationships(int coderId, CoderCreationDto coderDto)
@@ -150,7 +159,9 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 .Include(c => c.Gender)
                 .Include(c => c.Clan)
                 .Include(c => c.CoderSoftSkills).ThenInclude(css => css.SoftSkill)
+                .Include(c => c.CoderLanguages).ThenInclude(cl => cl.Language)
                 .Include(c => c.CoderLanguages).ThenInclude(cl => cl.LanguageLevel)
+                .Include(c => c.CoderTechnicalSkills).ThenInclude(cts => cts.TechnicalSkill)
                 .Include(c => c.CoderTechnicalSkills).ThenInclude(cts => cts.TechnicalSkillLevel)
                 .FirstOrDefaultAsync(c => c.Id == coderId);
 
@@ -163,18 +174,20 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 UrlImage = coder.UrlImage,
                 GenderId = coder.GenderId,
                 ClanId = coder.ClanId,
-                GenderName = coder.Gender?.Name ?? "Unknown",
-                ClanName = coder.Clan?.Name ?? "Unknown",
+                GenderName = coder.Gender?.Name,
+                ClanName = coder.Clan?.Name,
                 SoftSkills = coder.CoderSoftSkills?.Select(css => css.SoftSkill?.Name ?? "Unknown").ToList() ?? new List<string>(),
                 LanguageLevels = coder.CoderLanguages?.Select(cl => new LanguageLevelDto
                 {
-                    LevelName = cl.LanguageLevel?.Name ?? "Unknown",
-                    LanguageName = cl.Language?.Name ?? "Unknown"
+                    Id = cl.LanguageId,
+                    LevelId = cl.LanguageLevel.Id,
+                    LanguageName = cl.Language?.Name ?? "Unknown",
                 }).ToList() ?? new List<LanguageLevelDto>(),
                 TechnicalSkillLevels = coder.CoderTechnicalSkills?.Select(cts => new TechnicalSkillDto
                 {
-                    LevelName = cts.TechnicalSkillLevel?.Name ?? "Unknown",
-                    TechnicalSkillName = cts.TechnicalSkill?.Name ?? "Unknown"
+                    Id = cts.TechnicalSkillId,
+                    TechnicalSkillName = cts.TechnicalSkill?.Name ?? "Unknown",
+                    LevelId = cts.TechnicalSkillLevelId
                 }).ToList() ?? new List<TechnicalSkillDto>()
             };
         }
@@ -194,6 +207,11 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 return NotFound();
             }
 
+            // Convertir campos a minúsculas
+            coderDto.Name = coderDto.Name?.ToLower();
+            coderDto.Description = coderDto.Description?.ToLower();
+            coderDto.UrlImage = coderDto.UrlImage?.ToLower();
+
             coder.Name = coderDto.Name;
             coder.Birthday = coderDto.Birthday;
             coder.Description = coderDto.Description;
@@ -203,26 +221,27 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
 
             _context.Entry(coder).State = EntityState.Modified;
 
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
             try
             {
                 await _context.SaveChangesAsync();
+                await UpdateCoderRelationships(id, coderDto);
+                await transaction.CommitAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateException )
             {
-                if (!CoderExists(id))
-                {
-                    return NotFound();
-                }
-                throw;
+                await transaction.RollbackAsync();
+                // Log the exception details here
+                return StatusCode(500, "Error al actualizar el coder. Por favor, verifica que todos los IDs sean válidos.");
             }
-
-            await UpdateCoderRelationships(id, coderDto);
 
             return NoContent();
         }
 
         private async Task UpdateCoderRelationships(int coderId, CoderUpdateDto coderDto)
         {
+            // Eliminar relaciones existentes
             var currentSoftSkills = await _context.CoderSoftSkills.Where(css => css.CoderId == coderId).ToListAsync();
             _context.CoderSoftSkills.RemoveRange(currentSoftSkills);
 
@@ -232,27 +251,31 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             var currentTechnicalSkills = await _context.CoderTechnicalSkills.Where(cts => cts.CoderId == coderId).ToListAsync();
             _context.CoderTechnicalSkills.RemoveRange(currentTechnicalSkills);
 
-            foreach (var skillId in coderDto.SoftSkillIds)
+            // Validar y agregar nuevas relaciones
+            var validSoftSkillIds = await _context.SoftSkills.Where(ss => coderDto.SoftSkillIds.Contains(ss.Id)).Select(ss => ss.Id).ToListAsync();
+            foreach (var skillId in validSoftSkillIds)
             {
                 _context.CoderSoftSkills.Add(new CoderSoftSkill { CoderId = coderId, SoftSkillId = skillId });
             }
 
-            foreach (var languageDto in coderDto.Languages)
+            var validLanguageIds = await _context.Languages.Where(l => coderDto.Languages.Select(dto => dto.Id).Contains(l.Id)).Select(l => l.Id).ToListAsync();
+            foreach (var languageDto in coderDto.Languages.Where(l => validLanguageIds.Contains(l.Id)))
             {
                 _context.CoderLanguages.Add(new CoderLanguage
                 {
                     CoderId = coderId,
-                    LanguageId = languageDto.LanguageId,
+                    LanguageId = languageDto.Id,
                     LanguageLevelId = languageDto.LevelId
                 });
             }
 
-            foreach (var technicalSkillDto in coderDto.TechnicalSkills)
+            var validTechnicalSkillIds = await _context.TechnicalSkills.Where(ts => coderDto.TechnicalSkills.Select(dto => dto.Id).Contains(ts.Id)).Select(ts => ts.Id).ToListAsync();
+            foreach (var technicalSkillDto in coderDto.TechnicalSkills.Where(ts => validTechnicalSkillIds.Contains(ts.Id)))
             {
                 _context.CoderTechnicalSkills.Add(new CoderTechnicalSkill
                 {
                     CoderId = coderId,
-                    TechnicalSkillId = technicalSkillDto.TechnicalSkillId,
+                    TechnicalSkillId = technicalSkillDto.Id,
                     TechnicalSkillLevelId = technicalSkillDto.LevelId
                 });
             }
@@ -295,6 +318,20 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            // Convert strings to lowercase before saving
+            if (coderToPatch.Name != null)
+            {
+                coderToPatch.Name = coderToPatch.Name.ToLower();
+            }
+            if (coderToPatch.Description != null)
+            {
+                coderToPatch.Description = coderToPatch.Description.ToLower();
+            }
+            if (coderToPatch.UrlImage != null)
+            {
+                coderToPatch.UrlImage = coderToPatch.UrlImage.ToLower();
             }
 
             coder.Name = coderToPatch.Name;
