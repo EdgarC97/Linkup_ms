@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Backend_Riwi_LinkUp.DTOS
+namespace Linkup_ms.DTOS
 {
-    public class TechnicalSkillDto
+    public class TechnicalSkillDtoV1
     {
         public int Id { get; set; }
         public string TechnicalSkillName { get; set; }
-        public int LevelId { get; set; }
-        public string LevelName { get; set; }
-
     }
 }

@@ -19,7 +19,12 @@ namespace Linkup_ms.Controllers.v1
             _context = context;
         }
 
-        //Get: api/Sector
+        /// <summary>
+        /// Retrieves a list of all sectors.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of all sectors from the database. If the retrieval is successful, it returns the list of sectors. In case of an error, it returns a 500 Internal Server Error with an error message.
+        /// </remarks>
         [HttpGet]
         public async Task<IActionResult> AllSectors()
         {
@@ -28,10 +33,11 @@ namespace Linkup_ms.Controllers.v1
                 var sectors = await _context.Sectors.ToListAsync();
                 return Ok(sectors);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An error occurred while retrieving sectores.", error = ex.Message});
+                return StatusCode(500, new { message = "An error occurred while retrieving sectors.", error = ex.Message });
             }
         }
+
     }
 }

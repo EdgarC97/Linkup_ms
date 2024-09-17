@@ -22,7 +22,12 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             _context = context;
         }
 
-        // GET
+        /// <summary>
+        /// Retrieves a list of all coders.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a list of all coders from the database. Each coder is represented by their ID, name, birthday, URL image, and description.
+        /// </remarks>
         [HttpGet]
         public async Task<IActionResult> GetCoders()
         {
@@ -40,7 +45,13 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             return Ok(coders);
         }
 
-        // GET /id
+
+        /// <summary>
+        /// Retrieves a specific coder by their ID.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches the details of a single coder from the database based on the provided ID. The coder is represented by their ID, name, birthday, URL image, and description. If no coder is found with the given ID, it returns a 404 Not Found response.
+        /// </remarks>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCoder(int id)
         {
@@ -64,7 +75,13 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             return Ok(coder);
         }
 
-        // POST: api/v2/Coders
+
+        /// <summary>
+        /// Creates a new coder.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows for the creation of a new coder in the database. The coder's details are provided in the request body. The endpoint performs validation checks to ensure that the specified gender and clan exist. If the creation is successful, it returns a response with the details of the newly created coder. In case of errors, appropriate error messages are returned.
+        /// </remarks>
         [HttpPost]
         public async Task<IActionResult> CreateCoder([FromBody] CoderCreationDto coderDto)
         {
@@ -76,7 +93,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             var gender = await _context.Genders.FindAsync(coderDto.GenderId);
             if (gender == null)
             {
-                return BadRequest("El género especificado no existe.");
+                return BadRequest("El clan especificado no existe.");
             }
 
             var clan = await _context.Clans.FindAsync(coderDto.ClanId);
@@ -84,6 +101,11 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             {
                 return BadRequest("El clan especificado no existe.");
             }
+
+            // Convert fields to lowercase
+            coderDto.Name = coderDto.Name?.ToLower();
+            coderDto.Description = coderDto.Description?.ToLower();
+            coderDto.UrlImage = coderDto.UrlImage?.ToLower();
 
             var coder = new Coder
             {
@@ -111,8 +133,13 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             // Create response DTO
             var responseDto = await CreateCoderResponseDto(coder.Id);
 
-            return CreatedAtAction(nameof(GetCoder), new { id = coder.Id }, responseDto);
+            return CreatedAtAction(nameof(GetCoder), new { id = coder.Id }, new
+            {
+                message = "Coder created successfully",
+                data = responseDto
+            });
         }
+
 
         private async Task AddCoderRelationships(int coderId, CoderCreationDto coderDto)
         {
@@ -150,7 +177,9 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 .Include(c => c.Gender)
                 .Include(c => c.Clan)
                 .Include(c => c.CoderSoftSkills).ThenInclude(css => css.SoftSkill)
+                .Include(c => c.CoderLanguages).ThenInclude(cl => cl.Language)
                 .Include(c => c.CoderLanguages).ThenInclude(cl => cl.LanguageLevel)
+                .Include(c => c.CoderTechnicalSkills).ThenInclude(cts => cts.TechnicalSkill)
                 .Include(c => c.CoderTechnicalSkills).ThenInclude(cts => cts.TechnicalSkillLevel)
                 .FirstOrDefaultAsync(c => c.Id == coderId);
 
@@ -163,23 +192,30 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 UrlImage = coder.UrlImage,
                 GenderId = coder.GenderId,
                 ClanId = coder.ClanId,
-                GenderName = coder.Gender?.Name ?? "Unknown",
-                ClanName = coder.Clan?.Name ?? "Unknown",
+                GenderName = coder.Gender?.Name,
+                ClanName = coder.Clan?.Name,
                 SoftSkills = coder.CoderSoftSkills?.Select(css => css.SoftSkill?.Name ?? "Unknown").ToList() ?? new List<string>(),
                 LanguageLevels = coder.CoderLanguages?.Select(cl => new LanguageLevelDto
                 {
-                    LevelName = cl.LanguageLevel?.Name ?? "Unknown",
-                    LanguageName = cl.Language?.Name ?? "Unknown"
+                    Id = cl.LanguageId,
+                    LevelId = cl.LanguageLevel.Id,
+                    LanguageName = cl.Language?.Name ?? "Unknown",
                 }).ToList() ?? new List<LanguageLevelDto>(),
                 TechnicalSkillLevels = coder.CoderTechnicalSkills?.Select(cts => new TechnicalSkillDto
                 {
-                    LevelName = cts.TechnicalSkillLevel?.Name ?? "Unknown",
-                    TechnicalSkillName = cts.TechnicalSkill?.Name ?? "Unknown"
+                    Id = cts.TechnicalSkillId,
+                    TechnicalSkillName = cts.TechnicalSkill?.Name ?? "Unknown",
+                    LevelId = cts.TechnicalSkillLevelId
                 }).ToList() ?? new List<TechnicalSkillDto>()
             };
         }
 
-        // PUT: api/v2/Coders/{id}
+        /// <summary>
+        /// Updates the details of an existing coder.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint updates the details of a coder in the database based on the provided ID. The updated details are provided in the request body. It performs validation to ensure that the coder exists and updates the coder's information accordingly. In case of errors during the update process, appropriate error messages are returned.
+        /// </remarks>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCoder(int id, [FromBody] CoderUpdateDto coderDto)
         {
@@ -194,6 +230,11 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 return NotFound();
             }
 
+            // Convert fields to lowercase
+            coderDto.Name = coderDto.Name?.ToLower();
+            coderDto.Description = coderDto.Description?.ToLower();
+            coderDto.UrlImage = coderDto.UrlImage?.ToLower();
+
             coder.Name = coderDto.Name;
             coder.Birthday = coderDto.Birthday;
             coder.Description = coderDto.Description;
@@ -203,26 +244,28 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
 
             _context.Entry(coder).State = EntityState.Modified;
 
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
             try
             {
                 await _context.SaveChangesAsync();
+                await UpdateCoderRelationships(id, coderDto);
+                await transaction.CommitAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateException)
             {
-                if (!CoderExists(id))
-                {
-                    return NotFound();
-                }
-                throw;
+                await transaction.RollbackAsync();
+                // Log the exception details here
+                return StatusCode(500, "Error al actualizar el coder. Por favor, verifica que todos los IDs sean válidos.");
             }
-
-            await UpdateCoderRelationships(id, coderDto);
 
             return NoContent();
         }
 
+
         private async Task UpdateCoderRelationships(int coderId, CoderUpdateDto coderDto)
         {
+            // Eliminar relaciones existentes
             var currentSoftSkills = await _context.CoderSoftSkills.Where(css => css.CoderId == coderId).ToListAsync();
             _context.CoderSoftSkills.RemoveRange(currentSoftSkills);
 
@@ -232,27 +275,31 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             var currentTechnicalSkills = await _context.CoderTechnicalSkills.Where(cts => cts.CoderId == coderId).ToListAsync();
             _context.CoderTechnicalSkills.RemoveRange(currentTechnicalSkills);
 
-            foreach (var skillId in coderDto.SoftSkillIds)
+            // Validar y agregar nuevas relaciones
+            var validSoftSkillIds = await _context.SoftSkills.Where(ss => coderDto.SoftSkillIds.Contains(ss.Id)).Select(ss => ss.Id).ToListAsync();
+            foreach (var skillId in validSoftSkillIds)
             {
                 _context.CoderSoftSkills.Add(new CoderSoftSkill { CoderId = coderId, SoftSkillId = skillId });
             }
 
-            foreach (var languageDto in coderDto.Languages)
+            var validLanguageIds = await _context.Languages.Where(l => coderDto.Languages.Select(dto => dto.Id).Contains(l.Id)).Select(l => l.Id).ToListAsync();
+            foreach (var languageDto in coderDto.Languages.Where(l => validLanguageIds.Contains(l.Id)))
             {
                 _context.CoderLanguages.Add(new CoderLanguage
                 {
                     CoderId = coderId,
-                    LanguageId = languageDto.LanguageId,
+                    LanguageId = languageDto.Id,
                     LanguageLevelId = languageDto.LevelId
                 });
             }
 
-            foreach (var technicalSkillDto in coderDto.TechnicalSkills)
+            var validTechnicalSkillIds = await _context.TechnicalSkills.Where(ts => coderDto.TechnicalSkills.Select(dto => dto.Id).Contains(ts.Id)).Select(ts => ts.Id).ToListAsync();
+            foreach (var technicalSkillDto in coderDto.TechnicalSkills.Where(ts => validTechnicalSkillIds.Contains(ts.Id)))
             {
                 _context.CoderTechnicalSkills.Add(new CoderTechnicalSkill
                 {
                     CoderId = coderId,
-                    TechnicalSkillId = technicalSkillDto.TechnicalSkillId,
+                    TechnicalSkillId = technicalSkillDto.Id,
                     TechnicalSkillLevelId = technicalSkillDto.LevelId
                 });
             }
@@ -265,7 +312,12 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             return _context.Coders.Any(c => c.Id == id);
         }
 
-        // PATCH: api/v2/Coders/{id}
+        /// <summary>
+        /// Applies partial updates to an existing coder.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint allows partial updates to the details of a coder using a JSON Patch document. The patch document contains the fields to be updated, and the changes are applied to the coder identified by the specified ID. The method handles validation and ensures that the updates are correctly applied before saving them to the database. It also includes error handling for concurrency issues and invalid patch documents.
+        /// </remarks>
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchCoder(int id, [FromBody] JsonPatchDocument<CoderUpdateDto> patchDoc)
         {
@@ -297,6 +349,20 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 return BadRequest(ModelState);
             }
 
+            // Convert strings to lowercase before saving
+            if (coderToPatch.Name != null)
+            {
+                coderToPatch.Name = coderToPatch.Name.ToLower();
+            }
+            if (coderToPatch.Description != null)
+            {
+                coderToPatch.Description = coderToPatch.Description.ToLower();
+            }
+            if (coderToPatch.UrlImage != null)
+            {
+                coderToPatch.UrlImage = coderToPatch.UrlImage.ToLower();
+            }
+
             coder.Name = coderToPatch.Name;
             coder.Birthday = coderToPatch.Birthday;
             coder.Description = coderToPatch.Description;
@@ -322,7 +388,13 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             return NoContent();
         }
 
-        // DELETE: api/v1/Coders/{id}
+
+        /// <summary>
+        /// Deletes a coder by its unique identifier.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint deletes the coder specified by the given ID from the database. If the coder does not exist, it returns a 404 Not Found status. If the deletion is successful, it returns a 204 No Content status. This operation is used to remove a coder entry from the system permanently.
+        /// </remarks>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCoder(int id)
         {
