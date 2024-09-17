@@ -1,28 +1,28 @@
-# Usar la imagen base de .NET SDK
+# Use the .NET SDK base image
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
-# Establecer el directorio de trabajo
+# Set the working directory
 WORKDIR /app
 
-# Copiar el archivo de solución y el archivo del proyecto
+# Copy the solution file and project file
 COPY Linkup_ms.sln ./
 COPY Linkup_ms.csproj ./
 
-# Restaurar las dependencias del proyecto
+# Restore the project dependencies
 RUN dotnet restore Linkup_ms.csproj
 
-# Copiar el resto del código y construir el proyecto
+# Copy the rest of the code and build the project
 COPY . ./
 RUN dotnet publish Linkup_ms.csproj -c Release -o out
 
-# Crear una imagen de runtime
+# Create a runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
-# Establecer el directorio de trabajo
+# Set the working directory
 WORKDIR /app
 
-# Copiar los archivos compilados desde la etapa de build
+# Copy the compiled files from the build stage
 COPY --from=build /app/out ./
 
-# Establecer el punto de entrada de la aplicación
+# Set the entry point for the application
 ENTRYPOINT ["dotnet", "Linkup_ms.dll"]
