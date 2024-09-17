@@ -90,15 +90,17 @@ namespace Backend_Riwi_LinkUp.ControllersV1
                     SoftSkills = c.CoderSoftSkills.Select(css => css.SoftSkill.Name).ToList(),
                     LanguageLevels = c.CoderLanguages.Select(cl => new LanguageLevelDto
                     {
-                        Id = cl.LanguageLevel.Id,
+                        Id = cl.LanguageId,
                         LevelName = cl.LanguageLevel.Name,
-                        LanguageName = cl.Language.Name
+                        LevelId = cl.LanguageLevel.Id,
+                        LanguageName = cl.Language.Name,
                     }).ToList(),
                     TechnicalSkillLevels = c.CoderTechnicalSkills.Select(cts => new TechnicalSkillDto
                     {
-                        Id = cts.TechnicalSkillLevel.Id,
-                        LevelName = cts.TechnicalSkillLevel.Name,
-                        TechnicalSkillName = cts.TechnicalSkill.Name
+                        Id = cts.TechnicalSkillId,
+                        LevelName = cts.TechnicalSkill.Name,
+                        TechnicalSkillName = cts.TechnicalSkill.Name,
+                        LevelId = cts.TechnicalSkillLevelId
                     }).ToList()
                 })
                 .FirstOrDefaultAsync(c => c.Id == id);

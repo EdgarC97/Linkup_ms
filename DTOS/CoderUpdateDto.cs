@@ -14,7 +14,7 @@ namespace Backend_Riwi_LinkUp.DTOS
         public int GenderId { get; set; }
         public int ClanId { get; set; }
         public List<int> SoftSkillIds { get; set; }
-        public List<LanguageWithLevelDto> Languages { get; set; }
-        public List<TechnicalSkillWithLevelDto> TechnicalSkills { get; set; }
+        public List<LanguageDto> Languages { get; set; }
+        public List<TechnicalSkillDto> TechnicalSkills { get; set; }
     }
 }
