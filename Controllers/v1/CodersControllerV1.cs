@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Backend_Riwi_LinkUp.Data;
 using Backend_Riwi_LinkUp.DTOS;
 using Backend_Riwi_LinkUp.Models;
+using Linkup_ms.DTOS;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -125,12 +126,16 @@ namespace Backend_Riwi_LinkUp.ControllersV1
         }
 
 
+
         /// <summary>
         /// Retrieves a list of all genders.
         /// </summary>
         /// <remarks>
         /// This endpoint fetches a list of all genders from the database. Each gender is represented by its ID and name.
         /// </remarks>
+
+        // GET: api/v1/Coders/Genders
+
         [HttpGet("Genders")]
         public async Task<ActionResult<IEnumerable<GenderDto>>> GetGenders()
         {
@@ -199,10 +204,14 @@ namespace Backend_Riwi_LinkUp.ControllersV1
         /// This endpoint fetches a list of all technical skills from the database. Each technical skill is represented by its ID and name.
         /// </remarks>
         [HttpGet("TechnicalSkills")]
-        public async Task<ActionResult<IEnumerable<TechnicalSkillDto>>> GetTechnicalSkills()
+        public async Task<ActionResult<IEnumerable<TechnicalSkillDtoV1>>> GetTechnicalSkills()
         {
             var technicalSkills = await _context.TechnicalSkills
-                .Select(ts => new TechnicalSkillDto { Id = ts.Id, LevelName = ts.Name })
+                .Select(ts => new TechnicalSkillDtoV1
+                {
+                    Id = ts.Id,
+                    TechnicalSkillName = ts.Name
+                })
                 .ToListAsync();
 
             return Ok(technicalSkills);
