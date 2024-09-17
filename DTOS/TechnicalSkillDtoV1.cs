@@ -8,6 +8,6 @@ namespace Linkup_ms.DTOS
     public class TechnicalSkillDtoV1
     {
         public int Id { get; set; }
-        public string TechnicalSkillName { get; set; }
+        public string Name { get; set; }
     }
 }

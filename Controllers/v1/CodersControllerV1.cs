@@ -210,7 +210,7 @@ namespace Backend_Riwi_LinkUp.ControllersV1
                 .Select(ts => new TechnicalSkillDtoV1
                 {
                     Id = ts.Id,
-                    TechnicalSkillName = ts.Name
+                    Name = ts.Name
                 })
                 .ToListAsync();
 
