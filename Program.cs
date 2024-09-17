@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.Json.Serialization;
 using Backend_Riwi_LinkUp.Data;
 using Backend_Riwi_LinkUp.Extensions;
@@ -9,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 
+// Load environment variables
 Env.Load();
 
 var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
@@ -19,13 +21,13 @@ var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
 var DefaultConnection = $"Host={dbHost};Database={dbDatabaseName};Username={dbUser};Password={dbPassword};Port={dbPort};";
 
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar database para usar desarrollo
+// Configure database context
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(DefaultConnection));
 
+// Add controllers and JSON settings
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
@@ -33,7 +35,7 @@ builder.Services.AddControllers()
         options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
     });
 
-// Configurar CORS
+// Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -47,25 +49,32 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Configura Swagger para manejar JSON Patch
+// Configure Swagger
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Coders API", Version = "v1" });
 
-    // Configura Swagger para usar NewtonsoftJson
+    // Set up XML documentation file for Swagger
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+
+    // Configure Swagger for JSON Patch
     c.OperationFilter<SwaggerJsonPatchOperationFilter>();
 });
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 app.UseSwagger();
-app.UseSwaggerUI();
-
-// app.UseHttpsRedirection();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Coders API V1");
+});
 
 app.UseCors("AllowSpecificOrigin");
 
@@ -80,8 +89,7 @@ app.Urls.Add($"http://0.0.0.0:{port}");
 
 app.Run();
 
-
-// Clase auxiliar para configurar Swagger para JSON Patch
+// Class for configuring Swagger to handle JSON Patch
 public class SwaggerJsonPatchOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
