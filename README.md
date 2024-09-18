@@ -1,9 +1,9 @@
 # [Riwi Link-up - Backend-API]
 
-[![pepe](https://github.com/user-attachments/assets/dcd27bc2-efa2-4ec2-8588-db8be7f3ef54))](https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
+[![pepe](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/1024px-.NET_Core_Logo.svg.png)](https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
 
 
-![Logo del Proyecto](/ruta/a/tu/logo.png)
+![Logo del Proyecto](/ruta/a/tu/logo.png)![Project Logo](/ruta/a/tu/logo.png)
 
 Una WebAPI robusta y escalable construida con C# y ASP.NET Core.
 
