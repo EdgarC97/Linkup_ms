@@ -1,4 +1,4 @@
-# [Riwi Link-up - Backend-API]
+# Riwi Link-up - Backend-API
 
 [![.Net](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/480px-.NET_Core_Logo.svg.png)](https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
 
@@ -7,11 +7,15 @@
 
 Una WebAPI robusta y escalable construida con C# y ASP.NET Core.
 
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![build](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![run](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)]()[![version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)]()
+[![version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)]()[![version](https://img.shields.io/badge/version-2.0.0-brightgreen.svg)]()
+[![version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)]()[![version](https://img.shields.io/badge/version-3.0.0-brightgreen.svg)]()
 
-## Descripción## Description
+
+## Descripción## Description## Description## Description
 
 [Tu Proyecto] es una WebAPI desarrollada en C# que [breve descripción del propósito y características principales de tu API].
 
