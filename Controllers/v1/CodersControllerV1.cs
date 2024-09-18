@@ -14,7 +14,7 @@ namespace Backend_Riwi_LinkUp.ControllersV1
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-
+    [ApiExplorerSettings(GroupName = "v1")]
     // Constructor that initializes the CodersController with the provided DbContext.
     public class CodersController : ControllerBase
     {

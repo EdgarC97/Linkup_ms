@@ -10,6 +10,7 @@ namespace Linkup_ms.Controllers.v1
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class SectorController : ControllerBase
     {
         private readonly AppDbContext _context;
