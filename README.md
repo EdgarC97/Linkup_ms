@@ -72,6 +72,20 @@ The API utilizes a variety of DTOs to ensure efficient and secure data transfer 
 > [!TIP]
 > The v2 endpoints provide more detailed and flexible operations for coder profiles.
 
+### Coder Profile Management (v3)
+- Advanced filtering for coder profiles
+- Endpoint:
+  - `GET /api/v3/coders/filter`
+    - **Description**: Filters coders based on various optional query parameters.
+    - **Query Parameters**:
+      - `clanId` (optional): Filter by clan ID.
+      - `genderId` (optional): Filter by gender ID.
+      - `languageIds`: List of language IDs to filter by.
+      - `technicalSkillIds`: List of technical skill IDs to filter by.
+      - `softSkillIds`: List of soft skill IDs to filter by.
+
+> [!TIP]
+> This endpoint returns a list of coders matching the specified criteria, including related data such as gender, clan, and skills.
 
 ### User Management
 - Endpoints:
@@ -176,7 +190,7 @@ dotnet run
   Linkup_ms.csproj      # Project file
   Linkup_ms.http        # HTTP request examples for testing
   Linkup_ms.sln         # Solution file
-  Program.cs            # Application entry point and configuration
+  Program.cs            # Application entry point and configurationProgram.cs            # Application entry point and configuration
   README.md             # Project documentation (this file)
 ```
 
