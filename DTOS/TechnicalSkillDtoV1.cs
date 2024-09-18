@@ -11,6 +11,6 @@ namespace Linkup_ms.DTOS
         public int Id { get; set; }
 
         // Name of the technical skill
-        public string TechnicalSkillName { get; set; }
+        public string Name { get; set; }
     }
 }
