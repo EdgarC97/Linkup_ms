@@ -13,6 +13,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v3
     // Defines the API controller for Coders and specifies the route for version 3 of the API.
     [ApiController]
     [Route("api/v3/[controller]")]
+    [ApiExplorerSettings(GroupName = "v3")]
     public class CodersControllerV3 : ControllerBase
     {
         // Dependency injection for the database context. This provides access to the data layer.

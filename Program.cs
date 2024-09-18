@@ -59,6 +59,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     // Define Swagger document with title and version
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Coders API", Version = "v1" });
+    c.SwaggerDoc("v2", new OpenApiInfo { Title = "Coders API", Version = "v2" });
+    c.SwaggerDoc("v3", new OpenApiInfo { Title = "Coders API", Version = "v3" });
 
     // Set up XML documentation file for Swagger
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -86,8 +88,11 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     // Define Swagger UI endpoint
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Coders API V1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Version 1"); 
+    c.SwaggerEndpoint("/swagger/v2/swagger.json", "Version 2");
+    c.SwaggerEndpoint("/swagger/v3/swagger.json", "Version 3");
 });
+
 
 // Enable CORS policy
 app.UseCors("AllowSpecificOrigin");
@@ -104,6 +109,8 @@ app.Urls.Add($"http://0.0.0.0:{port}");
 
 // Run the web application
 app.Run();
+
+app.UseHttpsRedirection();
 
 // Custom Swagger filter for handling JSON Patch operations
 public class SwaggerJsonPatchOperationFilter : IOperationFilter
@@ -124,3 +131,5 @@ public class SwaggerJsonPatchOperationFilter : IOperationFilter
         }
     }
 }
+
+
