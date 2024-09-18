@@ -7,19 +7,30 @@ using System.Threading.Tasks;
 
 namespace Backend_Riwi_LinkUp.Models
 {
+    // Represents the relationship between a coder and a language
     public class CoderLanguage
     {
+        // Unique identifier for the CoderLanguage entry
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        // ID of the associated coder
         public int CoderId { get; set; }
+
+        // Navigation property for the associated coder
         public Coder Coder { get; set; }
 
+        // ID of the associated language
         public int LanguageId { get; set; }
+
+        // Navigation property for the associated language
         public Language Language { get; set; }
 
+        // ID of the language proficiency level
         public int LanguageLevelId { get; set; }
-        public LanguageLevel LanguageLevel { get; set; }
 
+        // Navigation property for the language proficiency level
+        public LanguageLevel LanguageLevel { get; set; }
     }
 }

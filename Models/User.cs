@@ -10,13 +10,10 @@ namespace Backend_Riwi_LinkUp.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
         [Required]
         public string Email { get; set; }
         public bool IsConfirmed { get; set; }
-        [Required]
-        [MinLength(6)]
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public string PhoneNumber { get; set; }
