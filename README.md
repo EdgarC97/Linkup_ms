@@ -1,6 +1,6 @@
 # [Riwi Link-up - Backend-API]
 
-![pepe] (https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU9vICDoDMCUOp2hmmGgzIHEeBCmx_DZCqvQ&s)
+[![pepe] (https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU9vICDoDMCUOp2hmmGgzIHEeBCmx_DZCqvQ&s)] (https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
 
 ![Logo del Proyecto](/ruta/a/tu/logo.png)
 
@@ -16,7 +16,7 @@ Una WebAPI robusta y escalable construida con C# y ASP.NET Core.
 
 ## Requisitos del Sistema
 
-- .NET 6.0 o superior
+- .NET 8.0 
 - [Otras dependencias principales]
 
 ## Instalación
