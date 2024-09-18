@@ -1,6 +1,7 @@
 # [Riwi Link-up - Backend-API]
 
-[![pepe] (https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU9vICDoDMCUOp2hmmGgzIHEeBCmx_DZCqvQ&s)] (https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
+[![pepe](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU9vICDoDMCUOp2hmmGgzIHEeBCmx_DZCqvQ&s)](https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
+
 
 ![Logo del Proyecto](/ruta/a/tu/logo.png)
 
@@ -10,7 +11,7 @@ Una WebAPI robusta y escalable construida con C# y ASP.NET Core.
 [![build](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)]()
 
-## Descripción
+## Descripción## Description
 
 [Tu Proyecto] es una WebAPI desarrollada en C# que [breve descripción del propósito y características principales de tu API].
 
@@ -66,7 +67,7 @@ dotnet run --configuration Release
 
 - `GET /api/recurso`: Descripción del endpoint
 - `POST /api/recurso`: Descripción del endpoint
-- [Otros endpoints importantes]
+- [Otros endpoints importantes]- [Other important endpoints]- [Otros endpoints importantes]- [Other important endpoints]- [Otros endpoints importantes]- [Other important endpoints]- [Otros endpoints importantes]- [Other important endpoints]
 
 ## Pruebas
 
