@@ -1,6 +1,6 @@
 # [Riwi Link-up - Backend-API]
 
-[![pepe](![image](https://github.com/user-attachments/assets/dcd27bc2-efa2-4ec2-8588-db8be7f3ef54))](https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
+[![pepe](https://github.com/user-attachments/assets/dcd27bc2-efa2-4ec2-8588-db8be7f3ef54))](https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
 
 
 ![Logo del Proyecto](/ruta/a/tu/logo.png)
