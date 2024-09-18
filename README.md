@@ -1,15 +1,15 @@
 # [Riwi Link-up - Backend-API]
 
-[![pepe](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU9vICDoDMCUOp2hmmGgzIHEeBCmx_DZCqvQ&s)](https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
+[![pepe](![image](https://github.com/user-attachments/assets/dcd27bc2-efa2-4ec2-8588-db8be7f3ef54))](https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
 
 
 ![Logo del Proyecto](/ruta/a/tu/logo.png)
 
 Una WebAPI robusta y escalable construida con C# y ASP.NET Core.
 
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![build](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)]()
+[![version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)]()[![version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)]()
 
 ## Descripción## Description
 
