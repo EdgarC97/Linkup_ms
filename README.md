@@ -1,6 +1,6 @@
 # [Riwi Link-up - Backend-API]
 
-[![pepe](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/1024px-.NET_Core_Logo.svg.png)](https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
+[![.Net](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/.NET_Core_Logo.svg/480px-.NET_Core_Logo.svg.png)](https://dotnet.microsoft.com/es-es/apps/aspnet/apis)
 
 
 ![Logo del Proyecto](/ruta/a/tu/logo.png)![Project Logo](/ruta/a/tu/logo.png)
