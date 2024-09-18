@@ -12,9 +12,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Riwi_LinkUp.Controllers.v1
-{
+{      
     [ApiController]
     [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class AccountController : ControllerBase
     {
         private readonly ITokenService _tokenService;

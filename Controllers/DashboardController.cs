@@ -10,6 +10,7 @@ namespace Backend_Riwi_LinkUp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [ApiExplorerSettings(GroupName = "v3")]
     public class DashboardController : ControllerBase
     {
         // Dependency injection of the database context

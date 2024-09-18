@@ -13,6 +13,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
 {
     [ApiController]
     [Route("api/v2/[controller]")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public class CodersControllerV2 : ControllerBase
     {
         private readonly AppDbContext _context;
