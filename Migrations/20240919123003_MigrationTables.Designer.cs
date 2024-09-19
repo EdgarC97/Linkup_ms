@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Linkup_ms.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240916164510_AddingSeeders")]
-    partial class AddingSeeders
+    [Migration("20240919123003_MigrationTables")]
+    partial class MigrationTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -304,11 +304,9 @@ namespace Linkup_ms.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<byte[]>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("bytea");
 
                     b.Property<byte[]>("PasswordSalt")
