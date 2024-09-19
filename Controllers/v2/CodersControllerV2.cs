@@ -84,6 +84,59 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             return Ok(coder);
         }
 
+        /// <summary>
+        /// Retrieves a paginated list of coders.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint fetches a paginated list of coders from the database. 
+        /// Each coder is represented by their ID, name, birthday, URL image, and description.
+        /// </remarks>
+        /// <param name="pageNumber">The page number to retrieve (default is 1)</param>
+        /// <param name="pageSize">The number of items per page (default is 10)</param>
+        /// <returns>A paginated list of coders</returns>
+        
+        // GET: api/v2/coders/paginated
+        [HttpGet("paginated")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetCodersPaginated(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                return BadRequest("Page number and page size must be greater than 0.");
+            }
+
+            var query = _context.Coders
+                .Select(c => new CoderDtoV2
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Birthday = c.Birthday,
+                    UrlImage = c.UrlImage,
+                    Description = c.Description
+                });
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var coders = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var paginatedResult = new
+            {
+                TotalItems = totalItems,
+                TotalPages = totalPages,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Data = coders
+            };
+
+            return Ok(paginatedResult);
+        }
 
         /// <summary>
         /// Creates a new coder.
@@ -91,11 +144,11 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
         /// <remarks>
         /// This endpoint allows for the creation of a new coder in the database. The coder's details are provided in the request body. The endpoint performs validation checks to ensure that the specified gender and clan exist. If the creation is successful, it returns a response with the details of the newly created coder. In case of errors, appropriate error messages are returned.
         /// </remarks>
-        
+
         // POST: api/v2/coders
         [HttpPost]
         public async Task<IActionResult> CreateCoder([FromBody] CoderCreationDto coderDto)
-        {   
+        {
             // Validate the incoming request model.
             if (!ModelState.IsValid)
             {
@@ -145,7 +198,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 return StatusCode(500, $"Error al guardar en la base de datos: {ex.Message}");
             }
 
-             // Add relationships such as SoftSkills, Languages, and TechnicalSkills.
+            // Add relationships such as SoftSkills, Languages, and TechnicalSkills.
             await AddCoderRelationships(coder.Id, coderDto);
 
             // Create a detailed response DTO with all relationships included.
@@ -250,7 +303,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
         /// <remarks>
         /// This endpoint updates the details of a coder in the database based on the provided ID. The updated details are provided in the request body. It performs validation to ensure that the coder exists and updates the coder's information accordingly. In case of errors during the update process, appropriate error messages are returned.
         /// </remarks>
-        
+
         //PUT: api/v2/coders/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCoder(int id, [FromBody] CoderUpdateDto coderDto)
@@ -378,7 +431,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
         /// <remarks>
         /// This endpoint allows partial updates to the details of a coder using a JSON Patch document. The patch document contains the fields to be updated, and the changes are applied to the coder identified by the specified ID. The method handles validation and ensures that the updates are correctly applied before saving them to the database. It also includes error handling for concurrency issues and invalid patch documents.
         /// </remarks>
-        
+
         //PATCH: api/v2/coders/{id}
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchCoder(int id, [FromBody] JsonPatchDocument<CoderUpdateDto> patchDoc)
@@ -455,7 +508,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 }
                 throw;
             }
-            
+
             // Return a 204 No Content response to indicate a successful update.
             return NoContent();
         }
@@ -467,7 +520,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
         /// <remarks>
         /// This endpoint deletes the coder specified by the given ID from the database. If the coder does not exist, it returns a 404 Not Found status. If the deletion is successful, it returns a 204 No Content status. This operation is used to remove a coder entry from the system permanently.
         /// </remarks>
-        
+
         //DELETE: api/v2/coders/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCoder(int id)
