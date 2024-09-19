@@ -47,9 +47,9 @@ namespace Backend_Riwi_LinkUp.Data
             LanguageSeeder.Seed(modelBuilder); // Seed languages
             TechnicalSkillSeeder.Seed(modelBuilder); // Seed technical skills
             LanguageLevelSeeder.Seed(modelBuilder); // Seed language levels
+            TechnicalSkillLevelSeeder.Seed(modelBuilder); // Seed technical skill levels
             UserSeeder.Seed(modelBuilder); // Seed users
             CoderSeeder.Seed(modelBuilder); // Seed coders
-            TechnicalSkillLevelSeeder.Seed(modelBuilder); // Seed technical skill levels
             CoderSoftSkillSeeder.Seed(modelBuilder); // Seed coder soft skills
             CoderLanguageSeeder.Seed(modelBuilder); // Seed coder languages
             CoderTechnicalSkillSeeder.Seed(modelBuilder); // Seed coder technical skills

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Linkup_ms.Migrations
 {
     /// <inheritdoc />
-    public partial class AddingSeeders : Migration
+    public partial class MigrationTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -165,10 +165,10 @@ namespace Linkup_ms.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: false),
                     IsConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "bytea", nullable: true),
                     PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
