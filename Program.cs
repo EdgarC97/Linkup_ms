@@ -67,8 +67,6 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 
-    // Add support for JSON Patch operations in Swagger
-    c.OperationFilter<SwaggerJsonPatchOperationFilter>();
 });
 
 // Register token service for dependency injection
@@ -82,6 +80,9 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 // Build the web application
 var app = builder.Build();
+
+// Middleware de redirección HTTPS
+app.UseHttpsRedirection();
 
 // Enable Swagger UI middleware
 app.UseSwagger();
@@ -110,26 +111,6 @@ app.Urls.Add($"http://0.0.0.0:{port}");
 // Run the web application
 app.Run();
 
-app.UseHttpsRedirection();
 
-// Custom Swagger filter for handling JSON Patch operations
-public class SwaggerJsonPatchOperationFilter : IOperationFilter
-{
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
-    {
-        // Update Swagger schema for JSON Patch content type
-        if (operation.RequestBody?.Content.Any(x => x.Key.ToLower().Contains("json-patch+json")) == true)
-        {
-            operation.RequestBody.Content["application/json-patch+json"].Schema = new OpenApiSchema
-            {
-                Type = "array",
-                Items = new OpenApiSchema
-                {
-                    Reference = new OpenApiReference { Type = ReferenceType.Schema, Id = "Operation" }
-                }
-            };
-        }
-    }
-}
 
 

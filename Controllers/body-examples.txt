@@ -1,0 +1,66 @@
+Basic body for -->  // POST: api/v2/coders
+{
+  "name": "jhon doe",
+  "birthday": "2024-09-21T17:31:10.401Z",
+  "description": " example description",
+  "urlImage": "http.image.com",
+  "genderId": 1,
+  "clanId": 1,
+  "softSkillIds": [
+    1
+  ],
+  "languages": [
+    {
+      "id": 1,
+      "name": "string",
+      "levelId": 1
+    }
+  ],
+  "technicalSkills": [
+    {
+      "id": 1,
+      "technicalSkillName": "string",
+      "levelId": 1,
+      "levelName": "string"
+    }
+  ]
+}
+
+Basic body for -->  //PUT: api/v2/coders/{id}
+{id}
+{
+  "name": "jhon doe",
+  "birthday": "2024-09-21T17:31:10.401Z",
+  "description": " example description",
+  "urlImage": "http.image.com",
+  "genderId": 2,
+  "clanId": 2,
+  "softSkillIds": [
+    3
+  ],
+  "languages": [
+    {
+      "id": 3,
+      "name": "string",
+      "levelId": 3
+    }
+  ],
+  "technicalSkills": [
+    {
+      "id": 3,
+      "technicalSkillName": "string",
+      "levelId": 3,
+      "levelName": "string"
+    }
+  ]
+}
+
+Basic body for --> //PATCH: api/v2/coders/{id}
+{id}
+[
+  {
+    "path": "name",
+    "op": "replace",
+    "value": "guillo"
+  }
+]

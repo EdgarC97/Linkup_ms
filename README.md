@@ -190,7 +190,7 @@ dotnet run
   Linkup_ms.csproj      # Project file
   Linkup_ms.http        # HTTP request examples for testing
   Linkup_ms.sln         # Solution file
-  Program.cs            # Application entry point and configurationProgram.cs            # Application entry point and configuration
+  Program.cs            # Application entry point and configurationProgram.cs
   README.md             # Project documentation (this file)
 ```
 
