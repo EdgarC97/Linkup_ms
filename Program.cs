@@ -81,6 +81,9 @@ builder.Services.AddIdentityServices(builder.Configuration);
 // Build the web application
 var app = builder.Build();
 
+// Middleware de redirección HTTPS
+app.UseHttpsRedirection();
+
 // Enable Swagger UI middleware
 app.UseSwagger();
 app.UseSwaggerUI(c =>
@@ -107,8 +110,6 @@ app.Urls.Add($"http://0.0.0.0:{port}");
 
 // Run the web application
 app.Run();
-
-app.UseHttpsRedirection();
 
 
 
