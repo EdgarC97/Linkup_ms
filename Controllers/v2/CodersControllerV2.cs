@@ -152,21 +152,21 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             // Validate the incoming request model.
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Invalid input data. Please check the information provided.");
             }
 
             // Check if the provided Gender ID exists.
             var gender = await _context.Genders.FindAsync(coderDto.GenderId);
             if (gender == null)
             {
-                return BadRequest("El clan especificado no existe.");
+                return BadRequest("The specified gender does not exist.");
             }
 
             // Check if the provided Clan ID exists.
             var clan = await _context.Clans.FindAsync(coderDto.ClanId);
             if (clan == null)
             {
-                return BadRequest("El clan especificado no existe.");
+                return BadRequest("The specified clan does not exist.");
             }
 
             // Convert string fields to lowercase for consistency.
@@ -195,7 +195,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             catch (DbUpdateException ex)
             {
                 // Handle database update exceptions and return a 500 Internal Server Error response.
-                return StatusCode(500, $"Error al guardar en la base de datos: {ex.Message}");
+                return StatusCode(500, $"Error saving to the database: {ex.Message}");
             }
 
             // Add relationships such as SoftSkills, Languages, and TechnicalSkills.
@@ -311,14 +311,14 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             // Validate the incoming request model.
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Invalid input data. Please check the information provided.");
             }
 
             // Find the coder by the provided ID.
             var coder = await _context.Coders.FindAsync(id);
             if (coder == null)
             {
-                return NotFound();
+                return NotFound("Coder not found.");
             }
 
             // Convert strings to lowercase before updating.
@@ -354,7 +354,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             }
 
             // Return a 204 No Content response to indicate a successful update.
-            return NoContent();
+            return Ok("Coder created succesfully" );
         }
 
         /// <summary>
@@ -439,14 +439,14 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             // Check if the patch document is null.
             if (patchDoc == null)
             {
-                return BadRequest();
+                return BadRequest("Invalid patch document.");
             }
 
             // Find the coder by the provided ID.
             var coder = await _context.Coders.FindAsync(id);
             if (coder == null)
             {
-                return NotFound();
+                return NotFound("Coder not found.");
             }
 
             // Create a DTO object to apply the patch document to.
@@ -504,13 +504,13 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 // Handle concurrency issues.
                 if (!CoderExists(id))
                 {
-                    return NotFound();
+                    return NotFound("Coder not found.");
                 }
                 throw;
             }
 
             // Return a 204 No Content response to indicate a successful update.
-            return NoContent();
+            return Ok("Coder updated partially succesfully.");
         }
 
 
@@ -530,7 +530,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             if (coder == null)
             {
                 // If the coder does not exist, return a 404 Not Found response
-                return NotFound();
+                return NotFound("Coder not found.");
             }
 
             // Remove the coder entity from the database context.
@@ -538,7 +538,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
             await _context.SaveChangesAsync();
 
             // Return a 204 No Content response to indicate successful deletion.
-            return NoContent();
+            return Ok("Coder deleted successfully.");
         }
 
     }
