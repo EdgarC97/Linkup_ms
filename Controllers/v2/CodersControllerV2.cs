@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Backend_Riwi_LinkUp.Data;
 using Backend_Riwi_LinkUp.DTOS;
 using Backend_Riwi_LinkUp.Models;
+using Linkup_ms.Interfaces;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,12 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
     public class CodersControllerV2 : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly ICoderService _coderService;
 
-        public CodersControllerV2(AppDbContext context)
+        public CodersControllerV2(AppDbContext context, ICoderService coderService)
         {
             _context = context;
+            _coderService = coderService;
         }
 
         /// <summary>
@@ -29,7 +32,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
         /// <remarks>
         /// This endpoint fetches a list of all coders from the database. Each coder is represented by their ID, name, birthday, URL image, and description.
         /// </remarks>
-        
+
         //GET: api/v2/coders
         [HttpGet]
         public async Task<IActionResult> GetCoders()
@@ -56,7 +59,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
         /// <remarks>
         /// This endpoint fetches the details of a single coder from the database based on the provided ID. The coder is represented by their ID, name, birthday, URL image, and description. If no coder is found with the given ID, it returns a 404 Not Found response.
         /// </remarks>
-        
+
         // GET: api/v2/coders/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCoder(int id)
@@ -94,7 +97,7 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
         /// <param name="pageNumber">The page number to retrieve (default is 1)</param>
         /// <param name="pageSize">The number of items per page (default is 10)</param>
         /// <returns>A paginated list of coders</returns>
-        
+
         // GET: api/v2/coders/paginated
         [HttpGet("paginated")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -155,146 +158,27 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
                 return BadRequest("Invalid input data. Please check the information provided.");
             }
 
-            // Check if the provided Gender ID exists.
-            var gender = await _context.Genders.FindAsync(coderDto.GenderId);
-            if (gender == null)
-            {
-                return BadRequest("The specified gender does not exist.");
-            }
-
-            // Check if the provided Clan ID exists.
-            var clan = await _context.Clans.FindAsync(coderDto.ClanId);
-            if (clan == null)
-            {
-                return BadRequest("The specified clan does not exist.");
-            }
-
-            // Convert string fields to lowercase for consistency.
-            coderDto.Name = coderDto.Name?.ToLower();
-            coderDto.Description = coderDto.Description?.ToLower();
-            coderDto.UrlImage = coderDto.UrlImage?.ToLower();
-
-            // Create a new Coder entity based on the provided DTO.
-            var coder = new Coder
-            {
-                Name = coderDto.Name,
-                Birthday = coderDto.Birthday,
-                Description = coderDto.Description,
-                UrlImage = coderDto.UrlImage,
-                GenderId = coderDto.GenderId,
-                ClanId = coderDto.ClanId
-            };
-
-            // Add the new Coder to the database context.
-            _context.Coders.Add(coder);
             try
             {
-                // Attempt to save changes to the database.
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                // Handle database update exceptions and return a 500 Internal Server Error response.
-                return StatusCode(500, $"Error saving to the database: {ex.Message}");
-            }
+                // Use the service to create the coder
+                var responseDto = await _coderService.CreateCoderAsync(coderDto);
 
-            // Add relationships such as SoftSkills, Languages, and TechnicalSkills.
-            await AddCoderRelationships(coder.Id, coderDto);
-
-            // Create a detailed response DTO with all relationships included.
-            var responseDto = await CreateCoderResponseDto(coder.Id);
-
-            // Return a 201 Created response with the newly created coder details.
-            return CreatedAtAction(nameof(GetCoder), new { id = coder.Id }, new
-            {
-                message = "Coder created successfully",
-                data = responseDto
-            });
-        }
-
-        /// <summary>
-        /// Adds relationships for the newly created coder.
-        /// </summary>
-        /// <param name="coderId">The ID of the newly created coder.</param>
-        /// <param name="coderDto">The DTO containing the relationships to be added.</param>
-        private async Task AddCoderRelationships(int coderId, CoderCreationDto coderDto)
-        {
-            // Add SoftSkills relationships.
-            foreach (var skillId in coderDto.SoftSkillIds)
-            {
-                _context.CoderSoftSkills.Add(new CoderSoftSkill { CoderId = coderId, SoftSkillId = skillId });
-            }
-
-            // Add Language relationships.
-            foreach (var languageDto in coderDto.Languages)
-            {
-                _context.CoderLanguages.Add(new CoderLanguage
+                // Return a 201 Created response with the newly created coder details.
+                return CreatedAtAction(nameof(GetCoder), new { id = responseDto.Id }, new
                 {
-                    CoderId = coderId,
-                    LanguageId = languageDto.Id,
-                    LanguageLevelId = languageDto.LevelId
+                    message = "Coder created successfully",
+                    data = responseDto
                 });
             }
-
-            // Add TechnicalSkill relationships.
-            foreach (var technicalSkillDto in coderDto.TechnicalSkills)
+            catch (ArgumentException ex)
             {
-                _context.CoderTechnicalSkills.Add(new CoderTechnicalSkill
-                {
-                    CoderId = coderId,
-                    TechnicalSkillId = technicalSkillDto.Id,
-                    TechnicalSkillLevelId = technicalSkillDto.LevelId
-                });
+                return BadRequest(ex.Message);
             }
-
-            // Save the changes for the added relationships.
-            await _context.SaveChangesAsync();
-        }
-
-        /// <summary>
-        /// Creates a detailed response DTO with all the coder's information including relationships.
-        /// </summary>
-        /// <param name="coderId">The ID of the coder.</param>
-        /// <returns>A detailed CoderResponseDto object.</returns>
-        private async Task<CoderResponseDto> CreateCoderResponseDto(int coderId)
-        {
-            // Retrieve the coder with all related entities loaded.
-            var coder = await _context.Coders
-                .Include(c => c.Gender)
-                .Include(c => c.Clan)
-                .Include(c => c.CoderSoftSkills).ThenInclude(css => css.SoftSkill)
-                .Include(c => c.CoderLanguages).ThenInclude(cl => cl.Language)
-                .Include(c => c.CoderLanguages).ThenInclude(cl => cl.LanguageLevel)
-                .Include(c => c.CoderTechnicalSkills).ThenInclude(cts => cts.TechnicalSkill)
-                .Include(c => c.CoderTechnicalSkills).ThenInclude(cts => cts.TechnicalSkillLevel)
-                .FirstOrDefaultAsync(c => c.Id == coderId);
-
-            // Map the coder and its relationships to a CoderResponseDto.
-            return new CoderResponseDto
+            catch (DbUpdateException)
             {
-                Id = coder.Id,
-                Name = coder.Name,
-                Birthday = coder.Birthday,
-                Description = coder.Description,
-                UrlImage = coder.UrlImage,
-                GenderId = coder.GenderId,
-                ClanId = coder.ClanId,
-                GenderName = coder.Gender?.Name,
-                ClanName = coder.Clan?.Name,
-                SoftSkills = coder.CoderSoftSkills?.Select(css => css.SoftSkill?.Name ?? "Unknown").ToList() ?? new List<string>(),
-                LanguageLevels = coder.CoderLanguages?.Select(cl => new LanguageLevelDto
-                {
-                    Id = cl.LanguageId,
-                    LevelId = cl.LanguageLevel.Id,
-                    LanguageName = cl.Language?.Name ?? "Unknown",
-                }).ToList() ?? new List<LanguageLevelDto>(),
-                TechnicalSkillLevels = coder.CoderTechnicalSkills?.Select(cts => new TechnicalSkillDto
-                {
-                    Id = cts.TechnicalSkillId,
-                    TechnicalSkillName = cts.TechnicalSkill?.Name ?? "Unknown",
-                    LevelId = cts.TechnicalSkillLevelId
-                }).ToList() ?? new List<TechnicalSkillDto>()
-            };
+                // Log the exception details here
+                return StatusCode(500, "Error saving to the database. Please check that all IDs are valid.");
+            }
         }
 
         /// <summary>
@@ -308,121 +192,25 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCoder(int id, [FromBody] CoderUpdateDto coderDto)
         {
-            // Validate the incoming request model.
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid input data. Please check the information provided.");
             }
 
-            // Find the coder by the provided ID.
-            var coder = await _context.Coders.FindAsync(id);
-            if (coder == null)
-            {
-                return NotFound("Coder not found.");
-            }
-
-            // Convert strings to lowercase before updating.
-            coderDto.Name = coderDto.Name?.ToLower();
-            coderDto.Description = coderDto.Description?.ToLower();
-            coderDto.UrlImage = coderDto.UrlImage?.ToLower();
-
-            coder.Name = coderDto.Name;
-            coder.Birthday = coderDto.Birthday;
-            coder.Description = coderDto.Description;
-            coder.UrlImage = coderDto.UrlImage;
-            coder.GenderId = coderDto.GenderId;
-            coder.ClanId = coderDto.ClanId;
-
-            // Update the coder entity in the database context.
-            _context.Entry(coder).State = EntityState.Modified;
-
-            using var transaction = await _context.Database.BeginTransactionAsync();
-
             try
             {
-                // Save changes to the database.
-                await _context.SaveChangesAsync();
-                // Update relationships such as SoftSkills, Languages, and TechnicalSkills.
-                await UpdateCoderRelationships(id, coderDto);
-                await transaction.CommitAsync();
+                var updatedCoder = await _coderService.UpdateCoderAsync(id, coderDto);
+                // Return a 204 No Content response to indicate a successful update.
+                return Ok("Coder updated successfully.");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (DbUpdateException)
             {
-                await transaction.RollbackAsync();
-                // Log the exception details here
-                return StatusCode(500, "Error al actualizar el coder. Por favor, verifica que todos los IDs sean válidos.");
+                return StatusCode(500, "Error updating the coder. Please check that all IDs are valid.");
             }
-
-            // Return a 204 No Content response to indicate a successful update.
-            return Ok("Coder created succesfully" );
-        }
-
-        /// <summary>
-        /// Updates the relationships (SoftSkills, Languages, TechnicalSkills) of an existing coder.
-        /// </summary>
-        /// <param name="coderId">The ID of the coder to update relationships for.</param>
-        /// <param name="coderDto">The DTO containing the new relationships.</param>
-        private async Task UpdateCoderRelationships(int coderId, CoderUpdateDto coderDto)
-        {
-            // Remove existing relationships
-
-            // Remove existing SoftSkills relationships.
-            var currentSoftSkills = await _context.CoderSoftSkills.Where(css => css.CoderId == coderId).ToListAsync();
-            _context.CoderSoftSkills.RemoveRange(currentSoftSkills);
-
-            // Remove existing Languages relationships.
-            var currentLanguages = await _context.CoderLanguages.Where(cl => cl.CoderId == coderId).ToListAsync();
-            _context.CoderLanguages.RemoveRange(currentLanguages);
-
-            // Remove existing TechnicalSkills relationships.
-            var currentTechnicalSkills = await _context.CoderTechnicalSkills.Where(cts => cts.CoderId == coderId).ToListAsync();
-            _context.CoderTechnicalSkills.RemoveRange(currentTechnicalSkills);
-
-            // Validate and add new relationships 
-
-            // Add new SoftSkills relationships.
-            var validSoftSkillIds = await _context.SoftSkills.Where(ss => coderDto.SoftSkillIds.Contains(ss.Id)).Select(ss => ss.Id).ToListAsync();
-            foreach (var skillId in validSoftSkillIds)
-            {
-                _context.CoderSoftSkills.Add(new CoderSoftSkill { CoderId = coderId, SoftSkillId = skillId });
-            }
-
-            // Add new Language relationships.
-            var validLanguageIds = await _context.Languages.Where(l => coderDto.Languages.Select(dto => dto.Id).Contains(l.Id)).Select(l => l.Id).ToListAsync();
-            foreach (var languageDto in coderDto.Languages.Where(l => validLanguageIds.Contains(l.Id)))
-            {
-                _context.CoderLanguages.Add(new CoderLanguage
-                {
-                    CoderId = coderId,
-                    LanguageId = languageDto.Id,
-                    LanguageLevelId = languageDto.LevelId
-                });
-            }
-
-            // Add new TechnicalSkill relationships.
-            var validTechnicalSkillIds = await _context.TechnicalSkills.Where(ts => coderDto.TechnicalSkills.Select(dto => dto.Id).Contains(ts.Id)).Select(ts => ts.Id).ToListAsync();
-            foreach (var technicalSkillDto in coderDto.TechnicalSkills.Where(ts => validTechnicalSkillIds.Contains(ts.Id)))
-            {
-                _context.CoderTechnicalSkills.Add(new CoderTechnicalSkill
-                {
-                    CoderId = coderId,
-                    TechnicalSkillId = technicalSkillDto.Id,
-                    TechnicalSkillLevelId = technicalSkillDto.LevelId
-                });
-            }
-
-            // Save changes to update relationships in the database.
-            await _context.SaveChangesAsync();
-        }
-
-        /// <summary>
-        /// Checks if a coder exists by their ID.
-        /// </summary>
-        /// <param name="id">The ID of the coder to check.</param>
-        /// <returns>True if the coder exists, otherwise false.</returns>
-        private bool CoderExists(int id)
-        {
-            return _context.Coders.Any(c => c.Id == id);
         }
 
         /// <summary>
@@ -436,83 +224,26 @@ namespace Backend_Riwi_LinkUp.Controllers.v2
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchCoder(int id, [FromBody] JsonPatchDocument<CoderUpdateDto> patchDoc)
         {
-            // Check if the patch document is null.
             if (patchDoc == null)
             {
                 return BadRequest("Invalid patch document.");
             }
 
-            // Find the coder by the provided ID.
-            var coder = await _context.Coders.FindAsync(id);
-            if (coder == null)
-            {
-                return NotFound("Coder not found.");
-            }
-
-            // Create a DTO object to apply the patch document to.
-            var coderToPatch = new CoderUpdateDto
-            {
-                Name = coder.Name,
-                Birthday = coder.Birthday,
-                Description = coder.Description,
-                UrlImage = coder.UrlImage,
-                GenderId = coder.GenderId,
-                ClanId = coder.ClanId
-            };
-
-            // Apply the patch document to the DTO.
-            patchDoc.ApplyTo(coderToPatch, ModelState);
-
-            // Validate the patched model state.
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // Convert strings to lowercase before saving
-            if (coderToPatch.Name != null)
-            {
-                coderToPatch.Name = coderToPatch.Name.ToLower();
-            }
-            if (coderToPatch.Description != null)
-            {
-                coderToPatch.Description = coderToPatch.Description.ToLower();
-            }
-            if (coderToPatch.UrlImage != null)
-            {
-                coderToPatch.UrlImage = coderToPatch.UrlImage.ToLower();
-            }
-
-            // Update the coder entity with the patched values.
-            coder.Name = coderToPatch.Name;
-            coder.Birthday = coderToPatch.Birthday;
-            coder.Description = coderToPatch.Description;
-            coder.UrlImage = coderToPatch.UrlImage;
-            coder.GenderId = coderToPatch.GenderId;
-            coder.ClanId = coderToPatch.ClanId;
-
-            // Mark the coder entity as modified.
-            _context.Entry(coder).State = EntityState.Modified;
-
             try
             {
-                // Save changes to the database.
-                await _context.SaveChangesAsync();
+                var patchedCoder = await _coderService.PatchCoderAsync(id, patchDoc);
+                // Return a 204 No Content response to indicate a successful partial update.
+                return Ok("Coder updated partially successfully.");
             }
-            catch (DbUpdateConcurrencyException)
+            catch (ArgumentException ex)
             {
-                // Handle concurrency issues.
-                if (!CoderExists(id))
-                {
-                    return NotFound("Coder not found.");
-                }
-                throw;
+                return BadRequest(ex.Message);
             }
-
-            // Return a 204 No Content response to indicate a successful update.
-            return Ok("Coder updated partially succesfully.");
+            catch (DbUpdateException)
+            {
+                return StatusCode(500, "Error applying patch to coder. Please check that all IDs are valid.");
+            }
         }
-
 
         /// <summary>
         /// Deletes a coder by its unique identifier.
