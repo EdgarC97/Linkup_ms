@@ -46,6 +46,9 @@ The API utilizes a variety of DTOs to ensure efficient and secure data transfer 
 
 ## Core Functionalities
 
+### Swagger API
+https://linkupv1-production.up.railway.app/swagger/index.html
+
 ### Account Management
 - Endpoints:
   - `POST /api/v1/account/register`

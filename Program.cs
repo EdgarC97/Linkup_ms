@@ -73,7 +73,9 @@ builder.Services.AddSwaggerGen(c =>
 
 // Register services for dependency injection
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICoderService, CoderService>();
+
 
 // Add support for API endpoint exploration
 builder.Services.AddEndpointsApiExplorer();
