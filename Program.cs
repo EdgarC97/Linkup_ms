@@ -5,6 +5,8 @@ using Backend_Riwi_LinkUp.Extensions;
 using Backend_Riwi_LinkUp.Interfaces;
 using Backend_Riwi_LinkUp.Services;
 using DotNetEnv;
+using Linkup_ms.Interfaces;
+using Linkup_ms.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -71,6 +73,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // Register token service for dependency injection
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Add support for API endpoint exploration
 builder.Services.AddEndpointsApiExplorer();
