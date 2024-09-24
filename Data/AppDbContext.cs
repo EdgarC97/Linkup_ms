@@ -38,7 +38,7 @@ namespace Backend_Riwi_LinkUp.Data
         {
             base.OnModelCreating(modelBuilder);
             
-            // Seed initial data for various entities
+            // // Seed initial data for various entities
             RoleSeeder.Seed(modelBuilder); // Seed roles
             SectorSeeder.Seed(modelBuilder); // Seed sectors
             GenderSeeder.Seed(modelBuilder); // Seed genders
