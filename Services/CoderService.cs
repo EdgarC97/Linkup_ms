@@ -6,6 +6,7 @@ using Backend_Riwi_LinkUp.Data;
 using Backend_Riwi_LinkUp.DTOS;
 using Backend_Riwi_LinkUp.Models;
 using Linkup_ms.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 
 namespace Linkup_ms.Services
@@ -151,5 +152,243 @@ namespace Linkup_ms.Services
             };
         }
 
+        /// <summary>
+        /// Updates an existing coder in the database.
+        /// </summary>
+        /// <param name="id">The ID of the coder to be updated.</param>
+        /// <param name="coderDto">The DTO containing the updated information.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the updated coder's response DTO.</returns>
+        public async Task<CoderResponseDto> UpdateCoderAsync(int id, CoderUpdateDto coderDto)
+        {
+            // Validate the incoming coderDto
+            if (!await ValidateCoderUpdateAsync(coderDto))
+            {
+                throw new ArgumentException("Invalid input data. Please check the information provided.");
+            }
+
+            // Find the existing coder
+            var coder = await _context.Coders.FindAsync(id);
+            if (coder == null)
+            {
+                throw new ArgumentException("Coder not found.");
+            }
+
+            // Update the coder entity
+            coder.Name = coderDto.Name?.ToLower();
+            coder.Birthday = coderDto.Birthday;
+            coder.Description = coderDto.Description?.ToLower();
+            coder.UrlImage = coderDto.UrlImage?.ToLower();
+            coder.GenderId = coderDto.GenderId;
+            coder.ClanId = coderDto.ClanId;
+
+            _context.Entry(coder).State = EntityState.Modified;
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                await UpdateCoderRelationships(id, coderDto);
+                await transaction.CommitAsync();
+            }
+            catch (DbUpdateException)
+            {
+                await transaction.RollbackAsync();
+                throw new Exception("Error updating the coder. Please check that all IDs are valid.");
+            }
+
+            return await CreateCoderResponseDtoAsync(coder.Id);
+        }
+
+        /// <summary>
+        /// Applies a JSON Patch document to an existing coder in the database.
+        /// </summary>
+        /// <param name="id">The ID of the coder to be patched.</param>
+        /// <param name="patchDoc">The JSON Patch document containing the updates.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the patched coder's response DTO.</returns>
+        public async Task<CoderResponseDto> PatchCoderAsync(int id, JsonPatchDocument<CoderUpdateDto> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                throw new ArgumentException("Invalid patch document.");
+            }
+
+            var coder = await _context.Coders.FindAsync(id);
+            if (coder == null)
+            {
+                throw new ArgumentException("Coder not found.");
+            }
+
+            var coderToPatch = new CoderUpdateDto
+            {
+                Name = coder.Name,
+                Birthday = coder.Birthday,
+                Description = coder.Description,
+                UrlImage = coder.UrlImage,
+                GenderId = coder.GenderId,
+                ClanId = coder.ClanId
+            };
+
+            patchDoc.ApplyTo(coderToPatch);
+
+            if (!await ValidateCoderUpdateAsync(coderToPatch))
+            {
+                throw new ArgumentException("Invalid input data after patching.");
+            }
+
+            coder.Name = coderToPatch.Name?.ToLower();
+            coder.Birthday = coderToPatch.Birthday;
+            coder.Description = coderToPatch.Description?.ToLower();
+            coder.UrlImage = coderToPatch.UrlImage?.ToLower();
+            coder.GenderId = coderToPatch.GenderId;
+            coder.ClanId = coderToPatch.ClanId;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CoderExists(id))
+                {
+                    throw new ArgumentException("Coder not found.");
+                }
+                throw;
+            }
+
+            return await CreateCoderResponseDtoAsync(coder.Id);
+        }
+
+        /// <summary>
+        /// Updates relationships for a coder.
+        /// </summary>
+        /// <param name="coderId">The ID of the coder to update relationships for.</param>
+        /// <param name="coderDto">The DTO containing the relationships to be updated.</param>
+        private async Task UpdateCoderRelationships(int coderId, CoderUpdateDto coderDto)
+        {
+            // Update SoftSkills
+            var existingSoftSkills = await _context.CoderSoftSkills
+                .Where(css => css.CoderId == coderId)
+                .ToListAsync();
+
+            // Remove relationships that are no longer in coderDto
+            foreach (var existing in existingSoftSkills)
+            {
+                if (!coderDto.SoftSkillIds.Contains(existing.SoftSkillId))
+                {
+                    _context.CoderSoftSkills.Remove(existing);
+                }
+            }
+
+            // Add new SoftSkills
+            foreach (var skillId in coderDto.SoftSkillIds)
+            {
+                if (!existingSoftSkills.Any(css => css.SoftSkillId == skillId))
+                {
+                    _context.CoderSoftSkills.Add(new CoderSoftSkill { CoderId = coderId, SoftSkillId = skillId });
+                }
+            }
+
+            // Update Language relationships
+            var existingLanguages = await _context.CoderLanguages
+                .Where(cl => cl.CoderId == coderId)
+                .ToListAsync();
+
+            // Remove relationships that are no longer in coderDto
+            foreach (var existing in existingLanguages)
+            {
+                var languageDto = coderDto.Languages.FirstOrDefault(l => l.Id == existing.LanguageId);
+                if (languageDto == null)
+                {
+                    _context.CoderLanguages.Remove(existing);
+                }
+            }
+
+            // Add new Language relationships
+            foreach (var languageDto in coderDto.Languages)
+            {
+                var existingLanguage = existingLanguages.FirstOrDefault(cl => cl.LanguageId == languageDto.Id);
+                if (existingLanguage == null)
+                {
+                    _context.CoderLanguages.Add(new CoderLanguage
+                    {
+                        CoderId = coderId,
+                        LanguageId = languageDto.Id,
+                        LanguageLevelId = languageDto.LevelId
+                    });
+                }
+                else
+                {
+                    // Update language level if exists
+                    existingLanguage.LanguageLevelId = languageDto.LevelId;
+                    _context.Entry(existingLanguage).State = EntityState.Modified;
+                }
+            }
+
+            // Update TechnicalSkill relationships
+            var existingTechnicalSkills = await _context.CoderTechnicalSkills
+                .Where(cts => cts.CoderId == coderId)
+                .ToListAsync();
+
+            // Remove relationships that are no longer in coderDto
+            foreach (var existing in existingTechnicalSkills)
+            {
+                var technicalSkillDto = coderDto.TechnicalSkills.FirstOrDefault(ts => ts.Id == existing.TechnicalSkillId);
+                if (technicalSkillDto == null)
+                {
+                    _context.CoderTechnicalSkills.Remove(existing);
+                }
+            }
+
+            // Add new TechnicalSkill relationships
+            foreach (var technicalSkillDto in coderDto.TechnicalSkills)
+            {
+                var existingTechnicalSkill = existingTechnicalSkills.FirstOrDefault(cts => cts.TechnicalSkillId == technicalSkillDto.Id);
+                if (existingTechnicalSkill == null)
+                {
+                    _context.CoderTechnicalSkills.Add(new CoderTechnicalSkill
+                    {
+                        CoderId = coderId,
+                        TechnicalSkillId = technicalSkillDto.Id,
+                        TechnicalSkillLevelId = technicalSkillDto.LevelId
+                    });
+                }
+                else
+                {
+                    // Update technical skill level if exists
+                    existingTechnicalSkill.TechnicalSkillLevelId = technicalSkillDto.LevelId;
+                    _context.Entry(existingTechnicalSkill).State = EntityState.Modified;
+                }
+            }
+
+            // Save changes for updated relationships
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Validates the coder update DTO.
+        /// </summary>
+        /// <param name="coderDto">The coder update DTO to validate.</param>
+        /// <returns>A task that represents the asynchronous operation. Returns true if valid, otherwise false.</returns>
+        private async Task<bool> ValidateCoderUpdateAsync(CoderUpdateDto coderDto)
+        {
+            // Implement your validation logic here
+            // Example: Check if GenderId and ClanId exist
+            var genderExists = await _context.Genders.AnyAsync(g => g.Id == coderDto.GenderId);
+            var clanExists = await _context.Clans.AnyAsync(c => c.Id == coderDto.ClanId);
+            return genderExists && clanExists;
+        }
+
+
+        /// <summary>
+        /// Checks if a coder exists by ID.
+        /// </summary>
+        /// <param name="id">The ID of the coder.</param>
+        /// <returns>True if exists, otherwise false.</returns>
+        private bool CoderExists(int id)
+        {
+            return _context.Coders.Any(e => e.Id == id);
+        }
     }
+
 }
