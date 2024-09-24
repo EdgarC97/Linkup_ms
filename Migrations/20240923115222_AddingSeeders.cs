@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Linkup_ms.Migrations
 {
     /// <inheritdoc />
-    public partial class MigrationTables : Migration
+    public partial class AddingSeeders : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

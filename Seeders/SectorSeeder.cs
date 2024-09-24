@@ -6,11 +6,13 @@ using Backend_Riwi_LinkUp.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Riwi_LinkUp.Seeders
-{
+{   
+    // SectorSeeder
     public class SectorSeeder
     {
         public static void Seed(ModelBuilder modelBuilder)
-        {
+        {   
+            // Initialize the seed
             modelBuilder.Entity<Sector>().HasData(
                 new Sector { Id = 1, Name = "tecnología" },
                 new Sector { Id = 2, Name = "finanzas" },

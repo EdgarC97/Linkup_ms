@@ -6,11 +6,13 @@ using Backend_Riwi_LinkUp.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Riwi_LinkUp.Seeders
-{
+{   
+    // CoderSeeder class
     public class CoderSeeder
     {
         public static void Seed(ModelBuilder modelBuilder)
-        {
+        {   
+            // Initialize the seed
             modelBuilder.Entity<Coder>().HasData(
                 new Coder { Id = 1, Name = "edgar cardona", Birthday = new DateTime(1997, 5, 22, 1, 17, 51, DateTimeKind.Utc), Description = "desarrollador de software con experiencia en diseño de soluciones digitales, modelado de datos y metodologías ágiles. me destaco en resolver problemas complejos y en comunicación efectiva.", UrlImage = "https://media.licdn.com/dms/image/v2/D4E03AQH22ztGRhoM2g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1677008729241?e=1731542400&v=beta&t=89RVHJpVnq8_m5ObsEU3CEs0KVrBraYI4gGWdIEuXEM", ClanId = 1, GenderId = 1 },
                 new Coder { Id = 2, Name = "nicolas martinez", Birthday = new DateTime(2006, 9, 30, 1, 17, 51, DateTimeKind.Utc), Description = "desarrollador backend con aptitudes en c#, .net. especializado en aplicaciones del servidor e integración de api. buen trabajo en equipo y solucion de problemas", UrlImage = "https://avatars.githubusercontent.com/u/164014608?v=4", ClanId = 2, GenderId = 1 },

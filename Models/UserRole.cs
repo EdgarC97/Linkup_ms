@@ -6,9 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Backend_Riwi_LinkUp.Models
-{
+{   
+    // UserRole model
     public class UserRole
-    {
+    {   
+        // properties and data annotations
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

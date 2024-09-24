@@ -6,11 +6,13 @@ using Backend_Riwi_LinkUp.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Riwi_LinkUp.Seeders
-{
+{   
+    // SoftSkillSeeder class
     public class SoftSkillSeeder
     {
         public static void Seed(ModelBuilder modelBuilder)
-        {
+        {   
+            // Initialize the seed
             modelBuilder.Entity<SoftSkill>().HasData(
                 new SoftSkill { Id = 1, Name = "comunicación" },
                 new SoftSkill { Id = 2, Name = "resolución de problemas" },

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Linkup_ms.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240919123003_MigrationTables")]
-    partial class MigrationTables
+    [Migration("20240923115222_AddingSeeders")]
+    partial class AddingSeeders
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -5,9 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Backend_Riwi_LinkUp.Models
-{
+{   
+    // User model 
     public class User
-    {
+    {   
+        // properties and data annotations
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }

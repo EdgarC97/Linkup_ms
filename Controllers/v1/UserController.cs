@@ -24,7 +24,12 @@ namespace Linkup_ms.Controllers.v1
             _context = context;
         }
 
-        //Get : api/User (All Users)
+        /// <summary>
+        /// Retrieves all users from the database, including their associated sector and role information.
+        /// </summary>
+        /// <remarks>
+        /// Returns a list of users or a 500 error message if an error occurs.
+        /// </remarks>
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -38,11 +43,16 @@ namespace Linkup_ms.Controllers.v1
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An error occured while retrieving users", error = ex.Message });
+                return StatusCode(500, new { message = "An error occurred while retrieving users", error = ex.Message });
             }
         }
 
-        // GET: api/User/email/{email} (search user by email)
+        /// <summary>
+        /// Retrieves a user by their email address, including associated sector and role information.
+        /// </summary>
+        /// <remarks>
+        /// Returns the user or a 404 error if not found.
+        /// </remarks>
         [HttpGet("email/{email}")]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
@@ -64,7 +74,13 @@ namespace Linkup_ms.Controllers.v1
             }
         }
 
-        // PATCH: api/User/{email} (search user by email and update only email and phonenumber)
+
+        /// <summary>
+        /// Updates the email and phone number of a user identified by their email address.
+        /// </summary>
+        /// <remarks>
+        /// Allows partial updates and returns 404 if the user is not found.
+        /// </remarks>
         [HttpPatch("{email}")]
         public async Task<IActionResult> PatchUser(string email, [FromBody] UserPathDto updatedData)
         {
@@ -74,7 +90,7 @@ namespace Linkup_ms.Controllers.v1
                 if (user == null)
                     return NotFound(new { message = "User not found." });
 
-                // Actualiza solo los campos de email y phoneNumber si están presentes
+                // Update only the email and phoneNumber fields if they are present
                 if (!string.IsNullOrEmpty(updatedData.Email))
                 {
                     user.Email = updatedData.Email;
@@ -95,7 +111,12 @@ namespace Linkup_ms.Controllers.v1
             }
         }
 
-        // DELETE: api/User/{email} (Delete user by email)
+        /// <summary>
+        /// Deletes a user identified by their email address.
+        /// </summary>
+        /// <remarks>
+        /// Returns a success message or a 404 error if the user is not found.
+        /// </remarks>
         [HttpDelete("{email}")]
         public async Task<IActionResult> DeleteUser(string email)
         {
@@ -116,7 +137,13 @@ namespace Linkup_ms.Controllers.v1
             }
         }
 
-        // PATCH: api/User/reset-password/{email} (search user by enail and reset password)
+
+        /// <summary>
+        /// Resets the password for a user identified by their email address.
+        /// </summary>
+        /// <remarks>
+        /// Updates the password or returns errors for not found or mismatched passwords.
+        /// </remarks>
         [HttpPatch("reset-password/{email}")]
         public async Task<IActionResult> PatchPassword(string email, [FromBody] ResetPasswordDto resetPasswordDto)
         {
@@ -149,5 +176,6 @@ namespace Linkup_ms.Controllers.v1
                 return StatusCode(500, new { message = "An error occurred while resetting the password.", error = ex.Message });
             }
         }
+
     }
 }
