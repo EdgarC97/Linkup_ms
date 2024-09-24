@@ -6,11 +6,13 @@ using Backend_Riwi_LinkUp.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Riwi_LinkUp.Seeders
-{
+{   
+    // LanguageLevelSeeder class 
     public class LanguageLevelSeeder
     {
         public static void Seed(ModelBuilder modelBuilder)
-        {
+        {   
+            // Initialize the seed
             modelBuilder.Entity<LanguageLevel>().HasData(
                 new LanguageLevel { Id = 1, Name = "a1" },
                 new LanguageLevel { Id = 2, Name = "a2" },

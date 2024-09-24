@@ -7,10 +7,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Riwi_LinkUp.Seeders
 {
+    // ClanSeeder class
     public class ClanSeeder
     {
         public static void Seed(ModelBuilder modelBuilder)
         {
+            // Initialize the seed
             modelBuilder.Entity<Clan>().HasData(
                 new Clan { Id = 1, Name = "berners lee" },
                 new Clan { Id = 2, Name = "ritchie" },

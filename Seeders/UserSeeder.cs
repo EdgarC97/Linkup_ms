@@ -8,8 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Riwi_LinkUp.Seeders
 {
+    // UserSeeder class
     public class UserSeeder
     {
+        // Initialize the seed
         public static void Seed(ModelBuilder modelBuilder)
         {
             var users = new[]
@@ -33,9 +35,20 @@ namespace Backend_Riwi_LinkUp.Seeders
         new { Id = 17, Name = "oliver taylor", Email = "oliver.taylor@example.com", PhoneNumber = "7890123457", CreatedAt = new DateTime(2024, 8, 10, 1, 17, 51, DateTimeKind.Utc), SectorId = 5, RoleId = 2 },
         new { Id = 18, Name = "penelope anderson", Email = "penelope.anderson@example.com", PhoneNumber = "8901234568", CreatedAt = new DateTime(2024, 8, 20, 1, 17, 51, DateTimeKind.Utc), SectorId = 2, RoleId = 2 },
         new { Id = 19, Name = "quinn harris", Email = "quinn.harris@example.com", PhoneNumber = "9012345679", CreatedAt = new DateTime(2024, 8, 1, 1, 17, 51, DateTimeKind.Utc), SectorId = 3, RoleId = 2 },
-        new { Id = 20, Name = "rachel scott", Email = "rachel.scott@example.com", PhoneNumber = "0123456790", CreatedAt = new DateTime(2024, 9, 15, 1, 17, 51, DateTimeKind.Utc), SectorId = 4, RoleId = 2 }
+        new { Id = 20, Name = "rachel scott", Email = "rachel.scott@example.com", PhoneNumber = "0123456790", CreatedAt = new DateTime(2024, 9, 15, 1, 17, 51, DateTimeKind.Utc), SectorId = 4, RoleId = 2 },
+        new { Id = 21, Name = "hannah green", Email = "hannah.green@example.com", PhoneNumber = "0123456789", CreatedAt = new DateTime(2024, 5, 1, 1, 17, 51, DateTimeKind.Utc), SectorId = 3, RoleId = 2 },
+        new { Id = 22, Name = "isaac lewis", Email = "isaac.lewis@example.com", PhoneNumber = "1234567891", CreatedAt = new DateTime(2024, 5, 10, 1, 17, 51, DateTimeKind.Utc), SectorId = 2, RoleId = 2 },
+        new { Id = 23, Name = "julia martinez", Email = "julia.martinez@example.com", PhoneNumber = "2345678902", CreatedAt = new DateTime(2024, 9, 20, 1, 17, 51, DateTimeKind.Utc), SectorId = 4, RoleId = 2 },
+        new { Id = 24, Name = "kyle wilson", Email = "kyle.wilson@example.com", PhoneNumber = "3456789013", CreatedAt = new DateTime(2024, 9, 1, 1, 17, 51, DateTimeKind.Utc), SectorId = 5, RoleId = 2 },
+        new { Id = 25, Name = "laura johnson", Email = "laura.johnson@example.com", PhoneNumber = "4567890124", CreatedAt = new DateTime(2024, 9, 10, 1, 17, 51, DateTimeKind.Utc), SectorId = 1, RoleId = 2 },
+        new { Id = 26, Name = "michael brown", Email = "michael.brown@example.com", PhoneNumber = "5678901235", CreatedAt = new DateTime(2024, 9, 20, 1, 17, 51, DateTimeKind.Utc), SectorId = 3, RoleId = 2 },
+        new { Id = 27, Name = "natalie moore", Email = "natalie.moore@example.com", PhoneNumber = "6789012346", CreatedAt = new DateTime(2024, 5, 1, 1, 17, 51, DateTimeKind.Utc), SectorId = 4, RoleId = 2 },
+        new { Id = 28, Name = "oliver taylor", Email = "oliver.taylor@example.com", PhoneNumber = "7890123457", CreatedAt = new DateTime(2024, 8, 10, 1, 17, 51, DateTimeKind.Utc), SectorId = 5, RoleId = 2 },
+        new { Id = 29, Name = "penelope anderson", Email = "penelope.anderson@example.com", PhoneNumber = "8901234568", CreatedAt = new DateTime(2024, 8, 20, 1, 17, 51, DateTimeKind.Utc), SectorId = 2, RoleId = 2 },
+        new { Id = 30, Name = "quinn harris", Email = "quinn.harris@example.com", PhoneNumber = "9012345679", CreatedAt = new DateTime(2024, 8, 1, 1, 17, 51, DateTimeKind.Utc), SectorId = 3, RoleId = 2 }
     };
 
+            // Iterate over each user in the provided users collection
             foreach (var user in users)
             {
                 CreatePasswordHash("riwi123", out byte[] passwordHash, out byte[] passwordSalt);
@@ -56,6 +69,7 @@ namespace Backend_Riwi_LinkUp.Seeders
             }
         }
 
+        // Method to create a password hash and salt using HMACSHA512
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())

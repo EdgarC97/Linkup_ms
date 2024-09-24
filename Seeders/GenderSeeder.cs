@@ -6,11 +6,13 @@ using Backend_Riwi_LinkUp.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Riwi_LinkUp.Seeders
-{
+{   
+    // GenderSeeder class
     public class GenderSeeder
     {
         public static void Seed(ModelBuilder modelBuilder)
-        {
+        {   
+            // Initialize the seed
             modelBuilder.Entity<Gender>().HasData(
                 new Gender { Id = 1, Name = "masculino" },
                 new Gender { Id = 2, Name = "femenino" },

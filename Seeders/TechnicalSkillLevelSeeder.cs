@@ -6,11 +6,13 @@ using Backend_Riwi_LinkUp.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend_Riwi_LinkUp.Seeders
-{
+{   
+    // TechnicalSkillLevelSeeder class
     public class TechnicalSkillLevelSeeder
     {
         public static void Seed(ModelBuilder modelBuilder)
-        {
+        {   
+            // Initialize the seed
             modelBuilder.Entity<TechnicalSkillLevel>().HasData(
                 new TechnicalSkillLevel { Id = 1, Name = "junior" },
                 new TechnicalSkillLevel { Id = 2, Name = "semi-senior" },
